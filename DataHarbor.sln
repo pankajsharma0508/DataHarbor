@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Loaders", "DataHarbor.Loaders\DataHarbor.Loaders.csproj", "{2A3770CF-3F03-47AF-971F-DE34F0859598}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Transformers", "DataHarbor.Transformers\DataHarbor.Transformers.csproj", "{21FC4B12-440A-4B7B-BC95-F1353B6D2383}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A3770CF-3F03-47AF-971F-DE34F0859598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A3770CF-3F03-47AF-971F-DE34F0859598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A3770CF-3F03-47AF-971F-DE34F0859598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A3770CF-3F03-47AF-971F-DE34F0859598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {436EF6D8-F04B-4DF5-A269-C48D6B9BEA8E}
+	EndGlobalSection
+EndGlobal
