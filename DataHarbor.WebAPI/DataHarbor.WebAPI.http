@@ -1,0 +1,6 @@
+@DataHarbor.WebAPI_HostAddress = http://localhost:5237
+
+GET {{DataHarbor.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

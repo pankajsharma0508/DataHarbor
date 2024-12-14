@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Loaders", "DataHarbor.Loaders\DataHarbor.Loaders.csproj", "{2A3770CF-3F03-47AF-971F-DE34F0859598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHarbor.Loaders", "DataHarbor.Loaders\DataHarbor.Loaders.csproj", "{2A3770CF-3F03-47AF-971F-DE34F0859598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Transformers", "DataHarbor.Transformers\DataHarbor.Transformers.csproj", "{21FC4B12-440A-4B7B-BC95-F1353B6D2383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHarbor.Transformers", "DataHarbor.Transformers\DataHarbor.Transformers.csproj", "{21FC4B12-440A-4B7B-BC95-F1353B6D2383}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHarbor.Common", "DataHarbor.Common\DataHarbor.Common.csproj", "{1A781E58-0D16-4DF5-A18B-BF3527D18AF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.WebAPI", "DataHarbor.WebAPI\DataHarbor.WebAPI.csproj", "{6A7ADF06-8765-4735-BBCD-E88F41A8F616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Extractors", "DataHarbor.Extractors\DataHarbor.Extractors.csproj", "{25816E6C-AF50-4239-AF1D-D6F6536668BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21FC4B12-440A-4B7B-BC95-F1353B6D2383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A781E58-0D16-4DF5-A18B-BF3527D18AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A781E58-0D16-4DF5-A18B-BF3527D18AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A781E58-0D16-4DF5-A18B-BF3527D18AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A781E58-0D16-4DF5-A18B-BF3527D18AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A7ADF06-8765-4735-BBCD-E88F41A8F616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7ADF06-8765-4735-BBCD-E88F41A8F616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7ADF06-8765-4735-BBCD-E88F41A8F616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7ADF06-8765-4735-BBCD-E88F41A8F616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
