@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataHarbor.Extractors.Processors;
 
-namespace DataHarbor.Extractors.Processors
+namespace DataHarbor.Extractors.Commands
 {
     public class FileProcessorResolver
     {

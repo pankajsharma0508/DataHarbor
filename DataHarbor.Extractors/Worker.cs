@@ -1,18 +1,19 @@
-using DataHarbor.Extractors.Processors;
+using DataHarbor.Extractors.Commands;
+using DataHarbor.Extractors.Handlers;
+using MassTransit.Mediator;
 
 namespace DataHarbor.Extractors
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private readonly IMediator _mediator;
 
-        public Worker(ILogger<Worker> logger, FileProcessorResolver resolver)
+        public Worker(ILogger<Worker> logger, IMediator mediator)
         {
             _logger = logger;
-            Resolver = resolver;
+            _mediator = mediator;
         }
-
-        public FileProcessorResolver Resolver { get; }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -26,13 +27,7 @@ namespace DataHarbor.Extractors
                 FileInfo fileInfo = new FileInfo("C:\\TestFiles\\sample.txt");
                 if (fileInfo.Exists)
                 {
-                    var lines = await File.ReadAllLinesAsync(fileInfo.FullName, stoppingToken)
-                        .ConfigureAwait(false);
-                    if (lines != null)
-                    {
-                        var processor = Resolver.GetProcessor(fileInfo.Extension);
-                        processor.ProcessFile(fileInfo.FullName);
-                    }
+                    await _mediator.Send(new ProcessFileCommand(fileInfo.Extension, fileInfo.FullName));
                 }
 
                 //await Task.Delay(1000, stoppingToken);
