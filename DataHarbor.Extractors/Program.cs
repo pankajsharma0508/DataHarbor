@@ -1,6 +1,7 @@
 using DataHarbor.Extractors.Commands;
+using DataHarbor.Extractors.Handlers;
 using DataHarbor.Extractors.Processors;
-using System.Reflection;
+using DataHarbor.Extractors.Readers;
 
 namespace DataHarbor.Extractors
 {
@@ -17,7 +18,13 @@ namespace DataHarbor.Extractors
             builder.Services.AddSingleton<IFileProcessor, TxtFileProcessor>();
             builder.Services.AddSingleton<FileProcessorResolver>();
 
-            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+            builder.Services.AddSingleton<IFileReader, CsvFileReader>();
+            builder.Services.AddSingleton<IFileReader, XmlFileReader>();
+            builder.Services.AddSingleton<IFileReader, DatFileReader>();
+            builder.Services.AddSingleton<IFileReader, TxtFileReader>();
+            builder.Services.AddSingleton<FileReaderResolver>();
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
             var host = builder.Build();
             host.Run();

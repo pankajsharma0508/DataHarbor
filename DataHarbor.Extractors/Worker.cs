@@ -1,6 +1,5 @@
 using DataHarbor.Extractors.Commands;
-using DataHarbor.Extractors.Handlers;
-using MassTransit.Mediator;
+using MediatR;
 
 namespace DataHarbor.Extractors
 {
@@ -27,10 +26,11 @@ namespace DataHarbor.Extractors
                 FileInfo fileInfo = new FileInfo("C:\\TestFiles\\sample.txt");
                 if (fileInfo.Exists)
                 {
+                    await _mediator.Send(new ReadFileCommand(fileInfo.Extension, fileInfo.FullName));
                     await _mediator.Send(new ProcessFileCommand(fileInfo.Extension, fileInfo.FullName));
                 }
 
-                //await Task.Delay(1000, stoppingToken);
+                await Task.Delay(1000, stoppingToken);
             }
         }
     }
