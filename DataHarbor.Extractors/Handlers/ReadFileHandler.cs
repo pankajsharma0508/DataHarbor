@@ -1,9 +1,12 @@
 ﻿using DataHarbor.Extractors.Commands;
 using MediatR;
+using System.Data;
+using System.Dynamic;
+using static MassTransit.ValidationResultExtensions;
 
 namespace DataHarbor.Extractors.Handlers
 {
-    public class ReadFileHandler : IRequestHandler<ReadFileCommand>
+    public class ReadFileHandler : IRequestHandler<ReadFileQuery, List<ExpandoObject>>
     {
         private readonly FileReaderResolver _resolver;
 
@@ -12,18 +15,11 @@ namespace DataHarbor.Extractors.Handlers
             _resolver = resolver;
         }
 
-        public Task Handle(ReadFileCommand request, CancellationToken cancellationToken)
+        public Task<List<ExpandoObject>> Handle(ReadFileQuery request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var processor = _resolver.GetProcessor(request.FileExtension);
-                processor.ReadFile(request.FilePath);
-            }
-            catch (NotSupportedException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return Task.CompletedTask;
+            var processor = _resolver.GetProcessor(request.FileExtension);
+            var result = processor.ReadFile(request.FilePath);
+            return Task.FromResult(result);
         }
     }
 }

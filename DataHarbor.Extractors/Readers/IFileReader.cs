@@ -1,8 +1,10 @@
-﻿namespace DataHarbor.Extractors.Readers
+﻿using System.Dynamic;
+
+namespace DataHarbor.Extractors.Readers
 {
     public interface IFileReader
     {
-        void ReadFile(string filePath);
+        List<ExpandoObject> ReadFile(string filePath);
         bool CanRead(string fileExtension);
     }
 }

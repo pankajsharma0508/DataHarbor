@@ -1,4 +1,5 @@
 ﻿using DataHarbor.Extractors.Constants;
+using System.Dynamic;
 
 namespace DataHarbor.Extractors.Readers
 {
@@ -6,8 +7,9 @@ namespace DataHarbor.Extractors.Readers
     {
         public bool CanRead(string fileExtension) => fileExtension.Equals(FileExtensions.CSV);
 
-        public void ReadFile(string filePath)
+        public List<ExpandoObject> ReadFile(string filePath)
         {
+            return [];
         }
     }
 }

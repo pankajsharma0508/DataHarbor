@@ -26,8 +26,8 @@ namespace DataHarbor.Extractors
                 FileInfo fileInfo = new FileInfo("C:\\TestFiles\\sample.txt");
                 if (fileInfo.Exists)
                 {
-                    await _mediator.Send(new ReadFileCommand(fileInfo.Extension, fileInfo.FullName));
-                    await _mediator.Send(new ProcessFileCommand(fileInfo.Extension, fileInfo.FullName));
+                    var inputData = await _mediator.Send(new ReadFileQuery(fileInfo.FullName, fileInfo.Extension));
+                    // await _mediator.Send(new ProcessFileCommand(fileInfo.Extension, fileInfo.FullName));
                 }
 
                 await Task.Delay(1000, stoppingToken);
