@@ -1,10 +1,4 @@
-﻿using DataHarbor.Extractors.Processors;
-using DataHarbor.Extractors.Readers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataHarbor.Extractors.Readers;
 
 namespace DataHarbor.Extractors.Handlers
 {

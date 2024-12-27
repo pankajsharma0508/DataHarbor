@@ -17,9 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataHarbor.Common\DataHarbor.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestFiles\" />
+    <ProjectReference Include="..\DataHarbor.Repository\DataHarbor.Repository.csproj" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,4 @@
-using DataHarbor.Extractors.Commands;
 using DataHarbor.Extractors.Handlers;
-using DataHarbor.Extractors.Processors;
 using DataHarbor.Extractors.Readers;
 
 namespace DataHarbor.Extractors
@@ -11,13 +9,7 @@ namespace DataHarbor.Extractors
         {
             var builder = Host.CreateApplicationBuilder(args);
             builder.Services.AddHostedService<Worker>();
-
-            builder.Services.AddSingleton<IFileProcessor, CsvFileProcessor>();
-            builder.Services.AddSingleton<IFileProcessor, XmlFileProcessor>();
-            builder.Services.AddSingleton<IFileProcessor, DatFileProcessor>();
-            builder.Services.AddSingleton<IFileProcessor, TxtFileProcessor>();
-            builder.Services.AddSingleton<FileProcessorResolver>();
-
+         
             builder.Services.AddSingleton<IFileReader, CsvFileReader>();
             builder.Services.AddSingleton<IFileReader, XmlFileReader>();
             builder.Services.AddSingleton<IFileReader, DatFileReader>();

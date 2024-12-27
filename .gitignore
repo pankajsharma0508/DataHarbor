@@ -6,8 +6,12 @@
 /DataHarbor.Loaders/obj
 /DataHarbor.Transformers/obj
 /DataHarbor.Extractors/obj
-/DataHarbor.Common/bin/Debug/net8.0
-/DataHarbor.WebAPI/bin/Debug/net8.0
-/DataHarbor.Loaders/bin/Debug/net8.0/runtimes/win/lib/net8.0
+/DataHarbor.Common/bin
+/DataHarbor.WebAPI/bin
+/DataHarbor.Loaders/bin/Debug/net8.0
 /DataHarbor.Common/obj
 /DataHarbor.WebAPI/obj
+/DataHarbor.Extractors/bin
+/DataHarbor.Common/bin/Debug/net8.0
+/DataHarbor.Repository
+/DataHarbor.Transformers/bin/Debug/net8.0
