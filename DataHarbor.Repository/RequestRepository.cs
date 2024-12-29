@@ -42,7 +42,7 @@ namespace DataHarbor.Repository
         }
     }
 
-    interface IRepository<T>
+    public interface IRepository<T>
     {
         Task<bool> Add(T request);
         Task<T> GetByID(string id);

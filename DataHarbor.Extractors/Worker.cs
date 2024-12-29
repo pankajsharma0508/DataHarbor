@@ -38,7 +38,7 @@ namespace DataHarbor.Extractors
                     await _mediator.Send(new ProcessRequestCommand(request));
                 }
 
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(1000000, stoppingToken);
             }
         }
     }
