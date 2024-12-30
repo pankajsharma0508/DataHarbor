@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataHarbor.Common\DataHarbor.Common.csproj" />
-    <ProjectReference Include="..\DataHarbor.Repository\DataHarbor.Repository.csproj" />
   </ItemGroup>
 
 </Project>
