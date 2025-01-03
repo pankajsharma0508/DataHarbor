@@ -1,4 +1,5 @@
 using DataHarbor.Common.Models;
+using DataHarbor.Common.Repository;
 using DataHarbor.Repository;
 
 namespace DataHarbor.Transformers
@@ -12,6 +13,7 @@ namespace DataHarbor.Transformers
 
             builder.Services.AddSingleton<ITransformationService, TransformationService>();
             builder.Services.AddTransient<IRepository<ProcessRequest>, RequestRepository>();
+            builder.Services.AddTransient<IRepository<ProcessResult>, ProcessResultRepository>();
 
             var host = builder.Build();
             host.Run();

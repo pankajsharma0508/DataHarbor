@@ -7,11 +7,14 @@ namespace DataHarbor.Transformers
 {
     public class TransformationService : ITransformationService
     {
-        public IRepository<ProcessRequest> _requestRepository { get; set; }
+        public IRepository<ProcessRequest> _requestRepository;
+        public IRepository<ProcessResult> _resultRepository;
 
-        public TransformationService(IRepository<ProcessRequest> repository)
+
+        public TransformationService(IRepository<ProcessRequest> repository, IRepository<ProcessResult> resultRepository)
         {
             _requestRepository = repository;
+            _resultRepository = resultRepository;
         }
 
         public void Transform()
@@ -23,7 +26,12 @@ namespace DataHarbor.Transformers
 
             // Map Data
             var mainBlock = MappingService.MainBlock;
-            var processResult = mainBlock.Post(rawData);
+            
+            var storageBlock = new ResultStorageService(_resultRepository).MainBlock;
+            mainBlock.LinkTo(storageBlock);
+
+            mainBlock.Post(rawData);
+
         }
     }
 }

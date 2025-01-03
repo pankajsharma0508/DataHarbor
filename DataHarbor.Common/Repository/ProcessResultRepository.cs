@@ -13,11 +13,16 @@ namespace DataHarbor.Common.Repository
     {
         public async Task<bool> Add(ProcessResult request)
         {
-            using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
+            try
             {
-                await session.StoreAsync(request);
-                await session.SaveChangesAsync();
+                using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
+                {
+                    await session.StoreAsync(request);
+                    await session.SaveChangesAsync();
+                }
+
             }
+            catch (Exception) { return false; }
             return true;
         }
 

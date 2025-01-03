@@ -11,6 +11,9 @@ namespace DataHarbor.Transformers.Services
         public static ProcessResult MapData(ProcessRequest request)
         {
             var result = new ProcessResult();
+            result.UniqueId = request.UniqueId;
+            result.Name = request.Name;
+            result.Description = request.Description;
             var mappings = GetPropertyMapping();
             foreach (var entry in request.Entries)
             {
