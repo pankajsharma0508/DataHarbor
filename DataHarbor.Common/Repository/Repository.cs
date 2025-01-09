@@ -1,17 +1,12 @@
 ﻿using DataHarbor.Common.Models;
 using DataHarbor.Repository;
 using Raven.Client.Documents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataHarbor.Common.Repository
 {
-    public class ProcessResultRepository : IRepository<ProcessResult>
+    public class BaseRepository<T> : IRepository<T> where T : BaseDocument
     {
-        public async Task<bool> Add(ProcessResult request)
+        public async Task<bool> Add(T request)
         {
             try
             {
@@ -39,16 +34,16 @@ namespace DataHarbor.Common.Repository
             }
         }
 
-        public async Task<List<ProcessResult>> GetAll()
+        public async Task<List<T>> GetAll()
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
-            return await session.Query<ProcessResult>().ToListAsync();
+            return await session.Query<T>().ToListAsync();
         }
 
-        public async Task<ProcessResult> GetByID(string id)
+        public async Task<T> GetByID(string id)
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
-            return await session.LoadAsync<ProcessResult>(id);
+            return await session.LoadAsync<T>(id);
         }
     }
 }
