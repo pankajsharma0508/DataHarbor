@@ -12,8 +12,8 @@ namespace DataHarbor.Transformers
             builder.Services.AddHostedService<Worker>();
 
             builder.Services.AddSingleton<ITransformationService, TransformationService>();
-            builder.Services.AddTransient<IRepository<ProcessRequest>, RequestRepository>();
-            builder.Services.AddTransient<IRepository<ProcessResult>, ProcessResultRepository>();
+            builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
+
 
             var host = builder.Build();
             host.Run();

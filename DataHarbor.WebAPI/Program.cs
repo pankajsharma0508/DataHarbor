@@ -1,4 +1,7 @@
 
+using DataHarbor.Common.Repository;
+using DataHarbor.Repository;
+
 namespace DataHarbor.WebAPI
 {
     public class Program
@@ -10,7 +13,11 @@ namespace DataHarbor.WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

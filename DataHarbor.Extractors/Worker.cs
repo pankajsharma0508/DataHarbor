@@ -29,7 +29,7 @@ namespace DataHarbor.Extractors
                     var inputData = await _mediator.Send(new ReadFileQuery(fileInfo.FullName, fileInfo.Extension));
                     var request = new Common.Models.ProcessRequest
                     {
-                        UniqueId = Guid.NewGuid(),
+                        Id = Guid.NewGuid().ToString(),
                         Name = fileInfo.Name,
                         Description = fileInfo.Name,
                         Entries = inputData,
