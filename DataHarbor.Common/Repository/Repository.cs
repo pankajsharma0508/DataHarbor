@@ -4,7 +4,7 @@ using Raven.Client.Documents;
 
 namespace DataHarbor.Common.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseDocument
+    public class DocumentRepository<T> : IRepository<T> where T : BaseDocument
     {
         public async Task<bool> Add(T request)
         {
@@ -37,7 +37,9 @@ namespace DataHarbor.Common.Repository
         public async Task<List<T>> GetAll()
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
-            return await session.Query<T>().ToListAsync();
+            var results = await session.Query<T>().ToListAsync();
+
+            return results;
         }
 
         public async Task<T> GetByID(string id)

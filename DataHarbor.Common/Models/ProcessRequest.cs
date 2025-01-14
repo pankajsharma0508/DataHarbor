@@ -1,8 +1,9 @@
-﻿using System.Dynamic;
+﻿using DataHarbor.Common.Repository;
+using System.Dynamic;
 
 namespace DataHarbor.Common.Models
 {
-    public class ProcessRequest
+    public class ProcessRequest : BaseDocument
     {
         public Guid UniqueId { get; set; }
         public string Name { get; set; }

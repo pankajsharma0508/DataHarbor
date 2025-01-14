@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataHarbor.Common.Repository;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataHarbor.Common.Models
 {
-    public class ProcessResult
+    public class ProcessResult : BaseDocument
     {
         public Guid UniqueId { get; set; }
         public string Name { get; set; }
