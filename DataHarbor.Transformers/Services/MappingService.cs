@@ -12,17 +12,20 @@ namespace DataHarbor.Transformers.Services
         {
             var result = new ProcessResult
             {
-                Id = request.Id,
-                UniqueId = request.UniqueId,
+                Id = Guid.NewGuid().ToString(),
+                UniqueId = new Guid(request.Id),
+                RecieveDate = request.RecieveDate,
                 Name = request.Name,
                 Description = request.Description
             };
             var mappings = GetPropertyMapping();
+            var index = 0;
             foreach (var entry in request.Entries)
             {
                 if (entry != request.Entries.First())
                 {
                     var transaction = MappingHelper.MapProperties<Transaction>(entry, mappings);
+                    transaction.Id = ++index;
                     result.Entries.Add(transaction);
                 }
             }

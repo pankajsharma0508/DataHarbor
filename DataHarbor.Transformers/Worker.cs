@@ -20,7 +20,7 @@ namespace DataHarbor.Transformers
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 }
                 _transformationService.Transform();
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(100000, stoppingToken);
             }
         }
     }

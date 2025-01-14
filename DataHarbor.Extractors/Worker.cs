@@ -1,5 +1,6 @@
 using DataHarbor.Extractors.Commands;
 using MediatR;
+using System.Xml;
 
 namespace DataHarbor.Extractors
 {
@@ -26,10 +27,12 @@ namespace DataHarbor.Extractors
                 FileInfo fileInfo = new FileInfo("C:\\TestFiles\\sample.csv");
                 if (fileInfo.Exists)
                 {
+                    var uniqueId = Guid.NewGuid();
                     var inputData = await _mediator.Send(new ReadFileQuery(fileInfo.FullName, fileInfo.Extension));
                     var request = new Common.Models.ProcessRequest
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        UniqueId = uniqueId,
+                        Id = uniqueId.ToString(),
                         Name = fileInfo.Name,
                         Description = fileInfo.Name,
                         Entries = inputData,

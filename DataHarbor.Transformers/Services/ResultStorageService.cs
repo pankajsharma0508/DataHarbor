@@ -16,7 +16,15 @@ namespace DataHarbor.Transformers.Services
         public ActionBlock<ProcessResult> MainBlock => new(StoreResults);
         async void StoreResults(ProcessResult request)
         {
-            await _processResultRepository.Add(request);
+            try
+            {
+                await _processResultRepository.Add(request);
+
+            } 
+            catch (Exception ex)
+            {
+               Console.WriteLine(ex);
+            }
         }
     }
 }
