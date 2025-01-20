@@ -1,6 +1,8 @@
 ﻿using DataHarbor.Common.Models;
 using DataHarbor.Repository;
 using Raven.Client.Documents;
+using System.Linq.Expressions;
+using System;
 
 namespace DataHarbor.Common.Repository
 {
@@ -46,6 +48,18 @@ namespace DataHarbor.Common.Repository
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
             return await session.LoadAsync<T>(id);
+        }
+
+        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
+        {
+            using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
+            return await session.Query<T>().FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<List<T>> Where(Expression<Func<T, bool>> predicate)
+        {
+            using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
+            return await session.Query<T>().Where(predicate).ToListAsync();
         }
     }
 }

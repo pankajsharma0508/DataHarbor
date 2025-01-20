@@ -1,0 +1,1 @@
+docker run -d --name ravendb -p 8080:8080 -p 38888:38888 -v C:\RavenDB\Server\RavenData\Databases:/ravendb/data  -v C:\RavenDB\Server\Logs:/ravendb/logs -v C:\RavenDB\Server:/ravendb/settings  ravendb/ravendb
