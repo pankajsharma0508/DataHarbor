@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHarbor.WebAPI", "DataHa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHarbor.Extractors", "DataHarbor.Extractors\DataHarbor.Extractors.csproj", "{25816E6C-AF50-4239-AF1D-D6F6536668BD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{2266A6CE-41CB-401F-96F2-C8E9383A6E0D}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\api.yaml = Deployment\api.yaml
+		Deployment\extractors.yaml = Deployment\extractors.yaml
+		Deployment\loaders.yaml = Deployment\loaders.yaml
+		Deployment\transformers.yaml = Deployment\transformers.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

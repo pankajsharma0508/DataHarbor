@@ -7,10 +7,10 @@ namespace DataHarbor.Extractors
 {
     public class DataExtractionConsumer : IConsumer<ProcessMessage>
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<DataExtractionConsumer> _logger;
         private readonly IMediator _mediator;
 
-        public DataExtractionConsumer(ILogger<Worker> logger, IMediator mediator)
+        public DataExtractionConsumer(ILogger<DataExtractionConsumer> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;

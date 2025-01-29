@@ -1,0 +1,16 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataharbor-extractors
+spec:
+  selector:
+    matchLabels:
+      app: dataharbor-extractors
+  template:
+     metadata:
+       labels:
+         app: dataharbor-extractors
+     spec:
+       containers:
+         - name: dataharbor-extractors
+           image: pank05081985/dataharbor-extractors
