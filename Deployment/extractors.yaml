@@ -11,6 +11,7 @@ spec:
        labels:
          app: dataharbor-extractors
      spec:
+       hostNetwork: true
        containers:
          - name: dataharbor-extractors
            image: pank05081985/dataharbor-extractors

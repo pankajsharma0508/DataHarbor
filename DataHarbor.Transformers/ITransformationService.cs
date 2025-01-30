@@ -2,6 +2,6 @@
 {
     public interface ITransformationService
     {
-        public void Transform();
+        public Task Transform(string id);
     }
 }

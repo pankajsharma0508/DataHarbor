@@ -11,6 +11,7 @@ spec:
        labels:
          app: dataharbor-transformers
      spec:
+       hostNetwork: true
        containers:
          - name: dataharbor-transformers
            image: pank05081985/dataharbor-transformers

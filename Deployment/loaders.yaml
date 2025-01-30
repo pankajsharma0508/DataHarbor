@@ -11,6 +11,7 @@ spec:
        labels:
          app: dataharbor-loaders
      spec:
+       hostNetwork: true
        containers:
          - name: dataharbor-loaders
            image: pank05081985/dataharbor-loaders

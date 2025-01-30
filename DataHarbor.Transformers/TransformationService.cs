@@ -17,10 +17,10 @@ namespace DataHarbor.Transformers
             _resultRepository = resultRepository;
         }
 
-        public void Transform()
+        public async Task Transform(string id)
         {
             // Read Raw Data
-            var rawData = _requestRepository.GetAll().Result.First();
+            var rawData = await _requestRepository.GetByID(id);
             
             // Validate Data
 
@@ -31,7 +31,6 @@ namespace DataHarbor.Transformers
             mainBlock.LinkTo(storageBlock);
 
             mainBlock.Post(rawData);
-
         }
     }
 }
