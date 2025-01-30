@@ -6,7 +6,7 @@ using MediatR;
 namespace DataHarbor.Extractors
 {
     /// <summary>
-    ///  Data Extraction Message consumer class.
+    ///  Data Extraction Message consumer.
     /// </summary>
     public class DataExtractionConsumer : IConsumer<ProcessMessage>
     {
