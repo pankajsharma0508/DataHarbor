@@ -3,10 +3,10 @@ name: Build and Publish - Extractor
 on:
   push:
     paths:
-      - src/Dataharbor.Extractors/**
+      - '**/Dataharbor.Extractors/**'
   pull_request:
     paths:
-      - src/Dataharbor.Extractors/**
+      - '**/Dataharbor.Extractors/**'
 
 jobs:
 
