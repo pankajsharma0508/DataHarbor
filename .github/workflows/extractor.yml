@@ -2,13 +2,11 @@ name: Build and Publish - Extractor
 
 on:
   push:
-    branches: [ "main" ]
     paths:
-    - Dataharbor.Extractors/**
+      - Dataharbor.Extractors/**
   pull_request:
-    branches: [ "main" ]
     paths:
-    - Dataharbor.Extractors/**
+      - Dataharbor.Extractors/**
 
 jobs:
 
