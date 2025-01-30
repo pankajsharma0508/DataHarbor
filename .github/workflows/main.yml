@@ -3,9 +3,13 @@ name: Build and Publish - Web API
 on:
   push:
     branches: [ "main" ]
+    paths:
+    - Dataharbor.WebAPI/**
+
   pull_request:
     branches: [ "main" ]
-
+    paths:
+    - Dataharbor.WebAPI/**
 jobs:
 
   build:
