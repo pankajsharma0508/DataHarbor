@@ -9,11 +9,13 @@ namespace DataHarbor.Extractors
     {
         private readonly ILogger<DataExtractionConsumer> _logger;
         private readonly IMediator _mediator;
+        private readonly IBus _messageBus;
 
-        public DataExtractionConsumer(ILogger<DataExtractionConsumer> logger, IMediator mediator)
+        public DataExtractionConsumer(ILogger<DataExtractionConsumer> logger, IMediator mediator, IBus messageBus)
         {
             _logger = logger;
             _mediator = mediator;
+            _messageBus = messageBus;
         }
         public async Task Consume(ConsumeContext<ProcessMessage> context)
         {
@@ -34,6 +36,11 @@ namespace DataHarbor.Extractors
                     RecieveDate = fileInfo.CreationTime
                 };
                 await _mediator.Send(new ProcessRequestCommand(request));
+
+                var message = context.Message;
+                message.UniqueId = request.UniqueId;
+                message.Status = ProcessMessageStatus.TransferDispath;
+                await _messageBus.Publish(message);
             }
         }
     }
