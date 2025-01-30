@@ -3,8 +3,12 @@ name: Build and Package - Common
 on:
   push:
     branches: [ "main" ]
+    paths:
+    - Dataharbor.Common/**
   pull_request:
     branches: [ "main" ]
+    paths:
+    - Dataharbor.Common/**
 
 jobs:
 
