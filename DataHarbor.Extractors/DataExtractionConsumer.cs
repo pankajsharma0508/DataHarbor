@@ -5,6 +5,9 @@ using MediatR;
 
 namespace DataHarbor.Extractors
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DataExtractionConsumer : IConsumer<ProcessMessage>
     {
         private readonly ILogger<DataExtractionConsumer> _logger;
