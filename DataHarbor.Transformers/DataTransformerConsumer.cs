@@ -13,7 +13,6 @@ namespace DataHarbor.Transformers
             ITransformationService transmissionService)
         {
             _logger = logger;
-            _mediator = mediator;
             _messageBus = messageBus;
             _transmissionService = transmissionService;
         }
