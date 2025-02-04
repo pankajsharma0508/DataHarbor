@@ -3,12 +3,9 @@ name: Build and Publish - Transformers
 on:
   push:
     branches: [ "main" ]
-    paths:
-    - Dataharbor.Transformers/**
   pull_request:
     branches: [ "main" ]
-    paths:
-    - Dataharbor.Transformers/**
+
 jobs:
 
   build:

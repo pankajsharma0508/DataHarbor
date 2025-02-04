@@ -3,12 +3,8 @@ name: Build and Publish - Loaders
 on:
   push:
     branches: [ "main" ]
-    paths:
-    - Dataharbor.Loaders/**
   pull_request:
     branches: [ "main" ]
-    paths:
-    - Dataharbor.Loaders/**
 
 jobs:
 
