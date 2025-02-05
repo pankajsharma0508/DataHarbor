@@ -1,4 +1,5 @@
 ﻿using DataHarbor.Common.Models;
+using DataHarbor.WebAPI.Commands;
 using DataHarbor.WebAPI.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,33 +19,19 @@ namespace DataHarbor.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<ProcessRequestController>
         [HttpGet]
         public Task<List<ProcessRequest>> Get() => _mediator.Send(new GetProcessRequestsQuery());
 
-        // GET api/<ProcessRequestController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        public Task<ProcessRequest> Get(string id) => _mediator.Send(new GetProcessRequestQuery(id));
 
-        // POST api/<ProcessRequestController>
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public Task Post([FromBody] ProcessRequest request) => _mediator.Send(new CreateRequestCommand(request));
 
-        // PUT api/<ProcessRequestController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        [HttpPut]
+        public Task Put([FromBody] ProcessRequest request) => _mediator.Send(new UpdateRequestCommand(request));
 
-        // DELETE api/<ProcessRequestController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        public Task Delete(string id) => _mediator.Send(new DeleteRequestCommand(id));
     }
 }

@@ -1,6 +1,5 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Configuration;
 using DataHarbor.WebAPI.Commands;
-using DataHarbor.WebAPI.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static DataHarbor.WebAPI.Query.ConfigurationQueries;
@@ -19,24 +18,23 @@ namespace DataHarbor.WebAPI.Controllers
         }
 
         [HttpGet("configuration/latest")]
-        public Task<DataConfiguration> GetLatestConfiguration(string name) => _mediator.Send(new GetLatestConfigurationQuery(name));
+        public Task<ProcessingConfiguration> GetLatestConfiguration(string name)
+            => _mediator.Send(new GetLatestConfigurationQuery(name));
 
         [HttpGet("configuration/all")]
-        public Task<List<DataConfiguration>> GetConfigurations(string name) => _mediator.Send(new GetConfigurationQuery(name));
+        public Task<List<ProcessingConfiguration>> GetConfigurations(string name)
+            => _mediator.Send(new GetConfigurationQuery(name));
 
         [HttpPost]
-        public Task<bool> Post([FromBody] DataConfiguration configuration) => _mediator.Send(new CreateConfigurationCommand(configuration));
+        public Task<bool> Post([FromBody] ProcessingConfiguration configuration)
+            => _mediator.Send(new CreateConfigurationCommand(configuration));
 
+        [HttpPut]
+        public Task Put([FromBody] ProcessingConfiguration configuration)
+            => _mediator.Send(new UpdateConfigurationCommand(configuration));
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ConfigurationController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        public Task Delete(string id)
+            => _mediator.Send(new DeleteConfigurationCommand(id));
     }
 }

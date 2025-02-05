@@ -1,4 +1,4 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Configuration;
 using DataHarbor.Repository;
 using DataHarbor.WebAPI.Commands;
 using MediatR;
@@ -7,9 +7,9 @@ namespace DataHarbor.WebAPI.Handlers
 {
     public class CreateConfigurationHandler : IRequestHandler<CreateConfigurationCommand, bool>
     {
-        private readonly IRepository<DataConfiguration> repository;
+        private readonly IRepository<ProcessingConfiguration> repository;
 
-        public CreateConfigurationHandler(IRepository<DataConfiguration> repository)
+        public CreateConfigurationHandler(IRepository<ProcessingConfiguration> repository)
         {
             this.repository = repository;
         }
@@ -19,13 +19,23 @@ namespace DataHarbor.WebAPI.Handlers
         }
     }
 
-    public class UpdateConfigurationHandler(IRepository<DataConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand, bool>
+    public class UpdateConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand, bool>
     {
-        private readonly IRepository<DataConfiguration> repository = repository;
+        private readonly IRepository<ProcessingConfiguration> repository = repository;
 
         public Task<bool> Handle(UpdateConfigurationCommand command, CancellationToken cancellationToken)
         {
             return repository.Add(command.configuration);
+        }
+    }
+
+    public class DeleteConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<DeleteConfigurationCommand>
+    {
+        private readonly IRepository<ProcessingConfiguration> repository = repository;
+
+        public Task Handle(DeleteConfigurationCommand request, CancellationToken cancellationToken)
+        {
+            return repository.Delete(request.configurationId);
         }
     }
 

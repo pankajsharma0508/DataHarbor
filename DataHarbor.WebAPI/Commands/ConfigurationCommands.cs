@@ -1,11 +1,11 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Configuration;
 using MediatR;
 
 namespace DataHarbor.WebAPI.Commands
 {
-    public record CreateConfigurationCommand(DataConfiguration configuration) : IRequest<bool>;
+    public record CreateConfigurationCommand(ProcessingConfiguration configuration) : IRequest<bool>;
 
-    public record UpdateConfigurationCommand(DataConfiguration configuration) : IRequest<bool>;
+    public record UpdateConfigurationCommand(ProcessingConfiguration configuration) : IRequest<bool>;
 
-    public record DeleteConfigurationCommand(DataConfiguration configuration) : IRequest<bool>;
+    public record DeleteConfigurationCommand(string configurationId) : IRequest;
 }
