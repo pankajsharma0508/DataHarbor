@@ -10,5 +10,6 @@ namespace DataHarbor.Repository
         Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
         Task Delete(string id);
         Task<List<T>> GetAll();
+        Task Update(T document);
     }
 }

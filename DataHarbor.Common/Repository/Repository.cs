@@ -3,18 +3,19 @@ using DataHarbor.Repository;
 using Raven.Client.Documents;
 using System.Linq.Expressions;
 using System;
+using System.Xml;
 
 namespace DataHarbor.Common.Repository
 {
     public class DocumentRepository<T> : IRepository<T> where T : BaseDocument
     {
-        public async Task<bool> Add(T request)
+        public async Task<bool> Add(T document)
         {
             try
             {
                 using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
                 {
-                    await session.StoreAsync(request);
+                    await session.StoreAsync(document);
                     await session.SaveChangesAsync();
                 }
 
@@ -60,6 +61,36 @@ namespace DataHarbor.Common.Repository
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
             return await session.Query<T>().Where(predicate).ToListAsync();
+        }
+
+        public async Task Update(T document)
+        {
+            using (var session = DocumentDBContext.DocumentStore.OpenSession())
+            {
+                var entity = session.Load<T>(document?.Id);
+                if (entity == null)
+                    throw new Exception($"Unable to find {nameof(T)}, with id: {document?.Id}");
+
+                DocumentRepository<T>.CopyProperties(document, entity);
+                session.SaveChanges(); 
+            }
+
+        }
+
+        private static void CopyProperties(T source, T destination)
+        {
+            if (source == null || destination == null)
+                throw new ArgumentNullException("Source or Destination cannot be null");
+
+            var properties = typeof(T).GetProperties();
+            foreach (var prop in properties)
+            {
+                if (prop.CanRead && prop.CanWrite)
+                {
+                    var value = prop.GetValue(source);
+                    prop.SetValue(destination, value);
+                }
+            }
         }
     }
 }
