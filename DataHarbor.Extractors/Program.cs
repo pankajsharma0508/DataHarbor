@@ -11,12 +11,11 @@ namespace DataHarbor.Extractors
         public static void Main(string[] args)
         {
             var builder = Host.CreateApplicationBuilder(args);
-            builder.Services.AddSingleton<IFileReader, CsvFileReader>();
-            builder.Services.AddSingleton<IFileReader, XmlFileReader>();
-            builder.Services.AddSingleton<IFileReader, DatFileReader>();
-            builder.Services.AddSingleton<IFileReader, TxtFileReader>();
+
+            // Supported file types can be added here.
+            builder.Services.AddSingleton<IFileReader, TextFileReader>();
             builder.Services.AddSingleton<FileReaderResolver>();
-         
+
             builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
@@ -36,6 +35,8 @@ namespace DataHarbor.Extractors
                     });
                 });
             });
+
+            builder.Services.AddHostedService<Worker>();
 
             var host = builder.Build();
             host.Run();

@@ -1,8 +1,8 @@
 ﻿using DataHarbor.Extractors.Commands;
 using MediatR;
-using System.Data;
 using System.Dynamic;
-using static MassTransit.ValidationResultExtensions;
+using DataHarbor.Common.Configuration;
+using DataHarbor.Repository;
 
 namespace DataHarbor.Extractors.Handlers
 {
@@ -10,15 +10,15 @@ namespace DataHarbor.Extractors.Handlers
     {
         private readonly FileReaderResolver _resolver;
 
-        public ReadFileHandler(FileReaderResolver resolver)
+        public ReadFileHandler(FileReaderResolver resolver, IRepository<ProcessingConfiguration> configurationRepository)
         {
             _resolver = resolver;
         }
 
         public Task<List<ExpandoObject>> Handle(ReadFileQuery request, CancellationToken cancellationToken)
         {
-            var processor = _resolver.GetProcessor(request.FileExtension);
-            var result = processor.ReadFile(request.FilePath);
+            var processor = _resolver.GetProcessor(request.fileConfigurations.FileFormat);
+            var result = processor.ReadFile(request.fileConfigurations, request.FilePath);
             return Task.FromResult(result);
         }
     }
