@@ -1,4 +1,6 @@
-﻿using DataHarbor.Common.Repository;
+﻿using DataHarbor.Common.Messaging;
+using DataHarbor.Common.Repository;
+using System.Data;
 using System.Dynamic;
 
 namespace DataHarbor.Common.Models
@@ -10,10 +12,19 @@ namespace DataHarbor.Common.Models
 
         public string Description { get; set; }
 
+        public ProcessStatus Status { get; set; }
+
         public DateTime RecieveDate { get; set; }
 
-        public List<ExpandoObject> Entries { get; set; }
+        public DataTable Data { get; set; }
+    }
 
-        public ProcessRequest() => Entries = [];
+    public enum ProcessStatus
+    {
+        New,
+        Extraction,
+        Transformation,
+        Loaded,
+        Completed
     }
 }
