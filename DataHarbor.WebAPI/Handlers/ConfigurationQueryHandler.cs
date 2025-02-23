@@ -6,7 +6,7 @@ using static DataHarbor.WebAPI.Query.ConfigurationQueries;
 
 namespace DataHarbor.WebAPI.Handlers
 {
-    public class GetConfigurationHandler : IRequestHandler<GetLatestConfigurationQuery, ProcessingConfiguration>
+    public class GetConfigurationHandler : IRequestHandler<GetConfigurationQueryById, ProcessingConfiguration>
     {
         private readonly IRepository<ProcessingConfiguration> repository;
         
@@ -14,9 +14,9 @@ namespace DataHarbor.WebAPI.Handlers
         {
             this.repository = repository;
         }
-        public Task<ProcessingConfiguration> Handle(GetLatestConfigurationQuery request, CancellationToken cancellationToken)
+        public Task<ProcessingConfiguration> Handle(GetConfigurationQueryById request, CancellationToken cancellationToken)
         {
-            return repository.FirstOrDefault(x => x.Name == request.name);
+            return repository.FirstOrDefault(x => x.Id == request.uniqueId.ToString());
         }
     }
 

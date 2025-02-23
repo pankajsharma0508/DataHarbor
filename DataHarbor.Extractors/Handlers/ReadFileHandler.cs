@@ -1,25 +1,37 @@
 ﻿using DataHarbor.Extractors.Commands;
 using MediatR;
-using System.Dynamic;
 using DataHarbor.Common.Configuration;
-using DataHarbor.Repository;
+using DataHarbor.Common.Process;
+using DataHarbor.Common.Constants;
 
 namespace DataHarbor.Extractors.Handlers
 {
-    public class ReadFileHandler : IRequestHandler<ReadFileQuery, List<ExpandoObject>>
+    public class ReadFileHandler : IRequestHandler<ReadFileQuery, ProcessContext>
     {
         private readonly FileReaderResolver _resolver;
 
-        public ReadFileHandler(FileReaderResolver resolver, IRepository<ProcessingConfiguration> configurationRepository)
+        public ReadFileHandler(FileReaderResolver resolver)
         {
             _resolver = resolver;
         }
 
-        public Task<List<ExpandoObject>> Handle(ReadFileQuery request, CancellationToken cancellationToken)
+        public Task<ProcessContext> Handle(ReadFileQuery request, CancellationToken cancellationToken)
         {
-            var processor = _resolver.GetProcessor(request.fileConfigurations.FileFormat);
-            var result = processor.ReadFile(request.fileConfigurations, request.FilePath);
-            return Task.FromResult(result);
+            var configuration = request.context
+                .GetProcessingParameter(nameof(ProcessingConfiguration));
+
+            if (configuration == null)
+            {
+                request.context.LogMessage("Unable to find configuration.");
+                return Task.FromResult(request.context);
+            }
+            var fileConfiguration = ((ProcessingConfiguration)configuration).OperatorFilesConfigurations;
+            var processor = _resolver.GetProcessor(fileConfiguration.FileFormat);
+            var result = processor.ReadFile(fileConfiguration, request.context.FilePath);
+
+            request.context.ProcessingResults.Add(ProcessingResultNames.LoadSourceData, result);
+
+            return Task.FromResult(request.context);
         }
     }
 }

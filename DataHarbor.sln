@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		Deployment\transformers.yaml = Deployment\transformers.yaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHarbor.Test", "DataHarbor.Test\DataHarbor.Test.csproj", "{71CE4D21-2A44-4478-9E26-992F1CE4328D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25816E6C-AF50-4239-AF1D-D6F6536668BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CE4D21-2A44-4478-9E26-992F1CE4328D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CE4D21-2A44-4478-9E26-992F1CE4328D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CE4D21-2A44-4478-9E26-992F1CE4328D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CE4D21-2A44-4478-9E26-992F1CE4328D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

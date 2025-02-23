@@ -17,9 +17,9 @@ namespace DataHarbor.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("configuration/latest")]
-        public Task<ProcessingConfiguration> GetLatestConfiguration(string name)
-            => _mediator.Send(new GetLatestConfigurationQuery(name));
+        [HttpGet("configuration/{uniqueId}")]
+        public Task<ProcessingConfiguration> GetLatestConfiguration(Guid uniqueId)
+            => _mediator.Send(new GetConfigurationQueryById(uniqueId));
 
         [HttpGet("configuration/all")]
         public Task<List<ProcessingConfiguration>> GetConfigurations(string name)

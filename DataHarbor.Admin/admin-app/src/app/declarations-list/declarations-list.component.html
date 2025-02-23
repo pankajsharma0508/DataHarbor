@@ -1,0 +1,9 @@
+<dx-data-grid [dataSource]="requests" [showBorders]="true" [rowAlternationEnabled]="true">
+    <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
+    <dxi-column dataField="description"></dxi-column>
+    <dxi-column dataField="recieveDate" dataType="datetime"></dxi-column>
+    <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+    <div *dxTemplate="let d of 'cellTemplate'">
+        <a [routerLink]="['/declarations', d.data.id]">{{d.data.name}}</a>
+    </div>
+</dx-data-grid>

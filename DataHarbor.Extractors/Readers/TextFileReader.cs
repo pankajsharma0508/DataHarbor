@@ -1,5 +1,8 @@
 ﻿using DataHarbor.Common.Configuration;
+using DataHarbor.Common.Constants;
+using DataHarbor.Common.Helpers;
 using DataHarbor.Extractors.Constants;
+using System.Data;
 using System.Dynamic;
 
 namespace DataHarbor.Extractors.Readers
@@ -9,29 +12,36 @@ namespace DataHarbor.Extractors.Readers
         private readonly string[] supportedFileTypes = [FileExtensions.CSV, FileExtensions.TXT, FileExtensions.DAT];
         public bool CanRead(string fileExtension) => supportedFileTypes.Contains(fileExtension);
 
-        public List<ExpandoObject> ReadFile(FilesConfigurations configuration, string filePath)
+        public DataTable ReadFile(FilesConfigurations configuration, string filePath)
         {
-            var result = new List<ExpandoObject>();
+            var table = new DataTable();
             var lines = GetFilteredLine(configuration, filePath);
             if (lines?.Count() > 0)
             {
                 var columnNames = GetColumnNames(configuration, lines);
+                table.AssureColumns(columnNames);
+                table.AssureColumn(MetadataHeader.RecordId);
+
                 var linesWithoutHeaders = configuration.FirstRowHasHeaders ? lines.Skip(1) : lines;
+                var rowIndex = 0;
                 foreach (var line in linesWithoutHeaders)
                 {
                     var values = line.Split(configuration.ColumnSeparator);
-                    var entry = new ExpandoObject();
+                    var row = table.NewRow();
+                    row[MetadataHeader.RecordId] = ++rowIndex;
+
                     int columnIndex = 0;
                     foreach (var value in values)
                     {
                         var columnName = columnNames.ElementAt(columnIndex);
-                        (entry as IDictionary<string, object>)[columnName] = value;
+                        row[columnName] = value;
                         columnIndex++;
                     }
-                    result.Add(entry);
+                    table.Rows.Add(row);
+                    table.AcceptChanges();
                 }
             }
-            return result;
+            return table;
         }
 
         private List<string> GetFilteredLine(FilesConfigurations configuration, string filePath)
@@ -68,5 +78,6 @@ namespace DataHarbor.Extractors.Readers
             }
             return columnNames;
         }
+
     }
 }

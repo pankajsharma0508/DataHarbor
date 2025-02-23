@@ -1,4 +1,5 @@
 ﻿using DataHarbor.Common.Models;
+using DataHarbor.Common.Process;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,5 +10,5 @@ using System.Threading.Tasks;
 
 namespace DataHarbor.Extractors.Commands
 {
-    public record ProcessRequestCommand(ProcessRequest ProcessRequest) : IRequest<bool>;
+    public record ProcessRequestCommand(ProcessContext Context) : IRequest;
 }
