@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { Tab, TabsComponent } from '../tabs/tabs.component';
 import { CommonModule } from '@angular/common';
 import { ProcessingConfiguration } from '../../model/processingConfiguration';
-import { ConfigurationApi } from '../configuration.service';
 import { ActivatedRoute } from '@angular/router';
+import { ConfigurationStore } from '../configuration.service';
+import { FileConfigurationComponent } from '../file-configuration/file-configuration.component';
+import { MappingConfigurationComponent } from '../mapping-configuration/mapping-configuration.component';
 
 @Component({
   selector: 'app-configuration',
-  imports: [CommonModule, TabsComponent],
+  imports: [CommonModule, TabsComponent, FileConfigurationComponent, MappingConfigurationComponent],
   templateUrl: './configuration.component.html',
   styleUrl: './configuration.component.scss',
   standalone: true
 })
 export class ConfigurationComponent {
   protected tabs: Tab[] = [
-    new Tab('Details'),
     new Tab('File Settings'),
     new Tab('Mapping')
   ]
@@ -24,7 +25,7 @@ export class ConfigurationComponent {
   protected configuration: ProcessingConfiguration | undefined;
 
 
-  constructor(private api: ConfigurationApi,
+  constructor(private store: ConfigurationStore,
     private route: ActivatedRoute) {
   }
 
@@ -38,7 +39,7 @@ export class ConfigurationComponent {
 
   async loadConfiguration(id: string) {
     try {
-      this.configuration = await this.api.get(id)
+      this.configuration = await this.store.get(id)
     } catch (ex) {
     }
   }

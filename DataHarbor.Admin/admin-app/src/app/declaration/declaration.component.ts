@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab, TabsComponent } from '../tabs/tabs.component';
 import { CommonModule } from '@angular/common';
-import { ConfigurationApi } from '../configuration.service';
 import { ProcessingConfiguration } from '../../model/processingConfiguration';
 import { ActivatedRoute } from '@angular/router';
 

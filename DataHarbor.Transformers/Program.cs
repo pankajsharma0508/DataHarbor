@@ -1,4 +1,3 @@
-using DataHarbor.Common.Models;
 using DataHarbor.Common.Repository;
 using DataHarbor.Repository;
 using MassTransit;

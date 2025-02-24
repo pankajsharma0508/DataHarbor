@@ -6,7 +6,7 @@ import { ProcessingConfiguration } from '../model/processingConfiguration';
 @Injectable({
   providedIn: 'root'
 })
-export class ConfigurationApi {
+export class ConfigurationStore {
 
   constructor(private service: ConfigurationService) { }
 

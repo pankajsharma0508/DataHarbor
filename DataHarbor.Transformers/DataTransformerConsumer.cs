@@ -3,7 +3,7 @@ using MassTransit;
 
 namespace DataHarbor.Transformers
 {
-    public class DataTransformerConsumer : IConsumer<ProcessMessage>
+    public class DataTransformerConsumer : IConsumer<Docked>
     {
         private readonly ILogger<DataTransformerConsumer> _logger;
         private readonly IBus _messageBus;
@@ -17,12 +17,15 @@ namespace DataHarbor.Transformers
             _transmissionService = transmissionService;
         }
 
-        public async Task Consume(ConsumeContext<ProcessMessage> context)
+        public async Task Consume(ConsumeContext<Docked> messageContext)
         {
-            await _transmissionService.Transform(context.Message.UniqueId.ToString());
+            _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
 
-            context.Message.Status = ProcessMessageStatus.LoadSignal;
-            await _messageBus.Publish(context.Message);
+            //await _transmissionService.Transform(context.Message.UniqueId.ToString());
+
+            var msg = messageContext.Message;
+            var message = new Adrifted(msg.UniqueId, msg.Name, msg.FilePath, msg.RecievedOn);
+            await _messageBus.Publish(message);
         }
     }
 }

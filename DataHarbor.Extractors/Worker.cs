@@ -21,15 +21,7 @@ namespace DataHarbor.Extractors
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-                    await _bus.Publish(new ProcessMessage
-                    {
-                        Name = $"W644",
-                        Description ="Testing process request",
-                        RecievedOn = DateTime.UtcNow,
-                        FilePath = "C:\\TestFiles\\sample.csv",
-                        Status = ProcessMessageStatus.Ingest
-                    });
+                    await _bus.Publish(new Anchored(Guid.NewGuid(), "W644", "C:\\TestFiles\\sample.csv", DateTime.UtcNow));
                 }
                 await Task.Delay(100000, stoppingToken);
             }

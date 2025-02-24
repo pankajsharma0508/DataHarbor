@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tabs',
@@ -11,10 +11,14 @@ import { Component, Input } from '@angular/core';
 export class TabsComponent {
   @Input() tabs: Tab[] = [];
   @Input() selectedTab: Tab | undefined;
+  @Output() selectedTabChange = new EventEmitter<Tab>();
+
+  onClick(tab: Tab) {
+    this.selectedTab = tab;
+    this.selectedTabChange.next(this.selectedTab);
+  }
 }
 
 export class Tab {
-  constructor(public name: string) {
-
-  }
+  constructor(public name: string) { }
 }

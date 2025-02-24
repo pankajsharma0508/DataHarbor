@@ -3,18 +3,15 @@ using DataHarbor.Common.Messaging;
 using DataHarbor.Common.Process;
 using DataHarbor.Extractors.Commands;
 using DataHarbor.Repository;
-using System.Security.Cryptography;
 using MassTransit;
 using MediatR;
-using System.Text;
-using System.Runtime.Intrinsics.Arm;
 
 namespace DataHarbor.Extractors
 {
     /// <summary>
     ///  Data Extraction Message consumer.
     /// </summary>
-    public class DataExtractionConsumer : IConsumer<ProcessMessage>
+    public class DataExtractionConsumer : IConsumer<Anchored>
     {
         private readonly ILogger<DataExtractionConsumer> _logger;
         private readonly IMediator _mediator;
@@ -32,31 +29,26 @@ namespace DataHarbor.Extractors
             _configurationRepository = configurationRepository;
         }
 
-        public async Task Consume(ConsumeContext<ProcessMessage> messageContext)
+        public async Task Consume(ConsumeContext<Anchored> messageContext)
         {
-            _logger.LogInformation($"Received message: {messageContext.Message.FilePath} => {messageContext.Message.Status}");
-            if (messageContext.Message.Status == ProcessMessageStatus.Ingest)
-            {
-                var processContext = InitializeProcessor(messageContext);
+            _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+            var processContext = InitializeProcessor(messageContext);
 
-                // Read file.
-                await _mediator.Send(new ReadFileQuery(processContext));
+            // Read file.
+            await _mediator.Send(new ReadFileQuery(processContext));
 
-                // Map to the correct format.
+            // Map to the correct format.
 
 
-                // publish final results
-                await _mediator.Send(new ProcessRequestCommand(processContext));
+            // publish final results
+            await _mediator.Send(new ProcessRequestCommand(processContext));
 
-             
-                //var message = context.Message;
-                //message.UniqueId = request.UniqueId;
-                //message.Status = ProcessMessageStatus.TransferDispath;
-                //await _messageBus.Publish(message);
-            }
+            var input = messageContext.Message;
+            var message = new Docked(input.UniqueId, input.Name, input.FilePath, input.RecievedOn);
+            await _messageBus.Publish(message);
         }
 
-        private ProcessContext InitializeProcessor(ConsumeContext<ProcessMessage> messageContext)
+        private ProcessContext InitializeProcessor(ConsumeContext<Anchored> messageContext)
         {
             var filePath = messageContext.Message.FilePath;
             var processContext = new ProcessContext();
@@ -72,7 +64,7 @@ namespace DataHarbor.Extractors
             }
             return processContext;
         }
-        
+
         private ProcessingConfiguration GetProcessingConfiguration(string configurationName)
         {
             return _configurationRepository.FirstOrDefault(x => x.Name == configurationName).Result;

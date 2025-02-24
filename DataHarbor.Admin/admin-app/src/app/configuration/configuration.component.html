@@ -1,7 +1,16 @@
 <div class="p-2">
-    <div class="d-flex gap-3 pb-4">
+    <div class="d-flex gap-3">
         <i class="fa fa-2x fa-solid fa-toolbox"></i>
-        <h4>Configuration</h4>
+        <h4>Configuration - {{ configuration?.name }}</h4>
     </div>
-    <app-tabs [tabs]="tabs" [selectedTab]="selectedTab"></app-tabs>
+    <div> {{configuration?.description}}</div>
+    <div class="pt-4">
+        <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab"></app-tabs>
+    </div>
 </div>
+@if (selectedTab.name === this.tabs[0].name) {
+<app-file-configuration [fileConfiguration]="configuration?.operatorFilesConfigurations"></app-file-configuration>
+}
+@else if (selectedTab.name === this.tabs[1].name) {
+<app-mapping-configuration [configuration]="configuration"></app-mapping-configuration>
+}

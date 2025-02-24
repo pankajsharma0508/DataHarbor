@@ -20,15 +20,15 @@ namespace DataHarbor.Transformers.Services
             };
             var mappings = GetPropertyMapping();
             var index = 0;
-            foreach (var entry in request.Entries)
-            {
-                if (entry != request.Entries.First())
-                {
-                    var transaction = MappingHelper.MapProperties<Transaction>(entry, mappings);
-                    transaction.Id = ++index;
-                    result.Entries.Add(transaction);
-                }
-            }
+            //foreach (var entry in request.Data.Rows)
+            //{
+            //    if (entry != request.Data.Rows.First())
+            //    {
+            //        var transaction = MappingHelper.MapProperties<Transaction>(entry, mappings);
+            //        transaction.Id = ++index;
+            //        result.Entries.Add(transaction);
+            //    }
+            //}
             return result;
         }
         public static Dictionary<string, string> GetPropertyMapping()
