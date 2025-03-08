@@ -1,12 +1,15 @@
-﻿using DataHarbor.Common.Messaging;
-using DataHarbor.Common.Repository;
+﻿using DataHarbor.Common.Repository;
 using System.Data;
-using System.Dynamic;
 
 namespace DataHarbor.Common.Models
 {
     public class ProcessRequest : BaseDocument
     {
+        public ProcessRequest(Guid id) : base(id.ToString())
+        {
+            UniqueId = id;
+        }
+
         public Guid UniqueId { get; set; }
         public string Name { get; set; }
 

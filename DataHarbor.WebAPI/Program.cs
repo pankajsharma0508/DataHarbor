@@ -17,11 +17,22 @@ namespace DataHarbor.WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddCors();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder
+                        .WithOrigins("http://localhost:4200")  // Add your frontend URL here
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()  // Allow any headers
+                        .AllowCredentials();
+                });
+            });
 
             var app = builder.Build();
 
@@ -32,7 +43,7 @@ namespace DataHarbor.WebAPI
             app.UseSwaggerUI();
             //}
 
-            app.UseCors(x => x.AllowAnyOrigin()); // Allow any header
+            app.UseCors("AllowAll");
 
 
             app.UseHttpsRedirection();

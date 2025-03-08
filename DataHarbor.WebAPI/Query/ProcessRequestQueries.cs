@@ -1,10 +1,11 @@
 ﻿using DataHarbor.Common.Models;
+using DataHarbor.WebAPI.Models;
 using MediatR;
 
 namespace DataHarbor.WebAPI.Query
 {
-    public record GetProcessRequestsQuery() : IRequest<List<ProcessRequest>>;
+    public record GetProcessRequestsQuery() : IRequest<List<Declaration>>;
 
-    public record GetProcessRequestQuery(string id) : IRequest<ProcessRequest>;
+    public record GetProcessRequestQuery(string id) : IRequest<Declaration>;
 
 }

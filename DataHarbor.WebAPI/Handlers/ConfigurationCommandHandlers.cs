@@ -19,13 +19,13 @@ namespace DataHarbor.WebAPI.Handlers
         }
     }
 
-    public class UpdateConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand, bool>
+    public class UpdateConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand>
     {
         private readonly IRepository<ProcessingConfiguration> repository = repository;
 
-        public Task<bool> Handle(UpdateConfigurationCommand command, CancellationToken cancellationToken)
+        public Task Handle(UpdateConfigurationCommand command, CancellationToken cancellationToken)
         {
-            return repository.Add(command.configuration);
+            return repository.Update(command.configuration);
         }
     }
 

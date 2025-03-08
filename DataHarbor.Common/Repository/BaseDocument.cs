@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataHarbor.Common.Repository
+﻿namespace DataHarbor.Common.Repository
 {
-    public class BaseDocument
+    public class BaseDocument(string id)
     {
-        public required string Id { get; set; }
+        public string Id { get; set; } = id;
     }
 }

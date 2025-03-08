@@ -9,15 +9,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CategoryLayoutMapping } from './categoryLayoutMapping';
-import { FilesConfigurations } from './filesConfigurations';
+import { ProcessStatus } from './processStatus';
 
-export interface ProcessingConfiguration { 
-    id?: string;
+export interface Declaration { 
     uniqueId?: string;
     name?: string;
     description?: string;
-    modifiedOn?: Date;
-    operatorFilesConfigurations?: FilesConfigurations;
-    layoutMappings?: Array<CategoryLayoutMapping>;
+    status?: ProcessStatus;
+    recieveDate?: Date;
+    data?: Array<{ [key: string]: string; }>;
 }

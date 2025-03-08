@@ -10,10 +10,10 @@ import { DxDataGridModule } from 'devextreme-angular';
   styleUrl: './mapping-configuration.component.scss'
 })
 export class MappingConfigurationComponent {
-  @Input() configuration: ProcessingConfiguration | undefined;
+  @Input() configuration?: ProcessingConfiguration;
 
 
   get mappings() {
-    return this.configuration?.layoutMappings?.find(x=>x.category === 'string')?.layoutMappings;
+    return this.configuration?.layoutMappings?.find(x=>x.category === 'Transactions File')?.layoutMappings || [];
   }
 }

@@ -1,5 +1,7 @@
 using DataHarbor.Common.Repository;
 using DataHarbor.Repository;
+using DataHarbor.Transformers.Interfaces;
+using DataHarbor.Transformers.Services;
 using MassTransit;
 
 namespace DataHarbor.Transformers
@@ -9,7 +11,7 @@ namespace DataHarbor.Transformers
         public static void Main(string[] args)
         {
             var builder = Host.CreateApplicationBuilder(args);
-            builder.Services.AddSingleton<ITransformationService, TransformationService>();
+            builder.Services.AddTransient<IStorageService, StorageService>();
             builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
 
             builder.Services.AddMassTransit(x =>
@@ -28,9 +30,10 @@ namespace DataHarbor.Transformers
                     });
                 });
             });
-
+            builder.Services.AddHostedService<Worker>();
 
             var host = builder.Build();
+
             host.Run();
         }
     }

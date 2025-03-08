@@ -1,13 +1,21 @@
 <div class="p-2">
-    <div class="d-flex gap-3">
-        <i class="fa fa-2x fa-solid fa-toolbox"></i>
-        <h4>Configuration - {{ configuration?.name }}</h4>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex gap-3">
+            <i class="fa fa-2x fa-solid fa-toolbox"></i>
+            <h4 class="mb-0">Configuration - {{ configuration?.name }}</h4>
+        </div>
     </div>
-    <div> {{configuration?.description}}</div>
-    <div class="pt-4">
-        <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab"></app-tabs>
+    <div class="mb-4 d-flex">
+        {{ configuration?.description }}
+        <div class="ms-auto">
+            <dx-file-uploader class="ms-auto d-inline-block" [multiple]="true" [accept]="'.json'"
+                selectButtonText="Import" (onValueChanged)="onFileSelected($event)">
+            </dx-file-uploader>
+        </div>
     </div>
+    <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab"></app-tabs>
 </div>
+
 @if (selectedTab.name === this.tabs[0].name) {
 <app-file-configuration [fileConfiguration]="configuration?.operatorFilesConfigurations"></app-file-configuration>
 }

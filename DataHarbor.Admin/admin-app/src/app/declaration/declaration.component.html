@@ -1,1 +1,21 @@
-<app-tabs [tabs]="tabs" [selectedTab]="selectedTab"></app-tabs>
+<div class="p-2">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex gap-3">
+            <i class="fa fa-2x fas fa-file-contract"></i>
+            <h4 class="mb-0">Declaration From {{ declaration.name }}</h4>
+        </div>
+    </div>
+    <div class="mb-4 d-flex">
+        {{ declaration.recieveDate | date:'medium' }}
+    </div>
+    <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab"></app-tabs>
+</div>
+@if(declaration) {
+<div class="p-2">
+    <dx-data-grid [dataSource]="entries" [showBorders]="true" [rowAlternationEnabled]="true"
+        [showRowLines]="true" [showColumnLines]="true">
+        <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+    </dx-data-grid>
+</div>
+}

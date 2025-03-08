@@ -191,10 +191,10 @@
         }
       }
     },
-    "/api/ProcessRequest": {
+    "/api/Declaration": {
       "get": {
         "tags": [
-          "ProcessRequest"
+          "Declaration"
         ],
         "responses": {
           "200": {
@@ -204,7 +204,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProcessRequest"
+                    "$ref": "#/components/schemas/Declaration"
                   }
                 }
               },
@@ -212,7 +212,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProcessRequest"
+                    "$ref": "#/components/schemas/Declaration"
                   }
                 }
               },
@@ -220,7 +220,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProcessRequest"
+                    "$ref": "#/components/schemas/Declaration"
                   }
                 }
               }
@@ -230,23 +230,23 @@
       },
       "post": {
         "tags": [
-          "ProcessRequest"
+          "Declaration"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             }
           }
@@ -259,23 +259,23 @@
       },
       "put": {
         "tags": [
-          "ProcessRequest"
+          "Declaration"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessRequest"
+                "$ref": "#/components/schemas/Declaration"
               }
             }
           }
@@ -287,10 +287,10 @@
         }
       }
     },
-    "/api/ProcessRequest/{id}": {
+    "/api/Declaration/{id}": {
       "get": {
         "tags": [
-          "ProcessRequest"
+          "Declaration"
         ],
         "parameters": [
           {
@@ -308,17 +308,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProcessRequest"
+                  "$ref": "#/components/schemas/Declaration"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProcessRequest"
+                  "$ref": "#/components/schemas/Declaration"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProcessRequest"
+                  "$ref": "#/components/schemas/Declaration"
                 }
               }
             }
@@ -327,7 +327,7 @@
       },
       "delete": {
         "tags": [
-          "ProcessRequest"
+          "Declaration"
         ],
         "parameters": [
           {
@@ -360,6 +360,41 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/LayoutMapping"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Declaration": {
+        "type": "object",
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProcessStatus"
+          },
+          "recieveDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             },
             "nullable": true
           }
@@ -452,7 +487,18 @@
         },
         "additionalProperties": false
       },
-      "ProcessRequest": {
+      "ProcessStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ProcessingConfiguration": {
         "type": "object",
         "properties": {
           "id": {
@@ -462,36 +508,6 @@
           "uniqueId": {
             "type": "string",
             "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "recieveDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "entries": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": { }
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProcessingConfiguration": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
           },
           "name": {
             "type": "string",

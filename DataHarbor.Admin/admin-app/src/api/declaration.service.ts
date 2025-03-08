@@ -17,14 +17,14 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { ProcessRequest } from '../model/processRequest';
+import { Declaration } from '../model/declaration';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class ProcessRequestService {
+export class DeclarationService {
 
     protected basePath = '/';
     public defaultHeaders = new HttpHeaders();
@@ -61,10 +61,10 @@ export class ProcessRequestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProcessRequestGet(observe?: 'body', reportProgress?: boolean): Observable<Array<ProcessRequest>>;
-    public apiProcessRequestGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProcessRequest>>>;
-    public apiProcessRequestGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProcessRequest>>>;
-    public apiProcessRequestGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationGet(observe?: 'body', reportProgress?: boolean): Observable<Array<Declaration>>;
+    public apiDeclarationGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Declaration>>>;
+    public apiDeclarationGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Declaration>>>;
+    public apiDeclarationGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -83,7 +83,7 @@ export class ProcessRequestService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<ProcessRequest>>('get',`${this.basePath}/api/ProcessRequest`,
+        return this.httpClient.request<Array<Declaration>>('get',`${this.basePath}/api/Declaration`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -100,13 +100,13 @@ export class ProcessRequestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProcessRequestIdDelete(id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiProcessRequestIdDelete(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiProcessRequestIdDelete(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiProcessRequestIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationIdDelete(id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiDeclarationIdDelete(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiDeclarationIdDelete(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiDeclarationIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiProcessRequestIdDelete.');
+            throw new Error('Required parameter id was null or undefined when calling apiDeclarationIdDelete.');
         }
 
         let headers = this.defaultHeaders;
@@ -123,7 +123,7 @@ export class ProcessRequestService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/ProcessRequest/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/Declaration/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -140,13 +140,13 @@ export class ProcessRequestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProcessRequestIdGet(id: string, observe?: 'body', reportProgress?: boolean): Observable<ProcessRequest>;
-    public apiProcessRequestIdGet(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProcessRequest>>;
-    public apiProcessRequestIdGet(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProcessRequest>>;
-    public apiProcessRequestIdGet(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationIdGet(id: string, observe?: 'body', reportProgress?: boolean): Observable<Declaration>;
+    public apiDeclarationIdGet(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Declaration>>;
+    public apiDeclarationIdGet(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Declaration>>;
+    public apiDeclarationIdGet(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiProcessRequestIdGet.');
+            throw new Error('Required parameter id was null or undefined when calling apiDeclarationIdGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -166,7 +166,7 @@ export class ProcessRequestService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<ProcessRequest>('get',`${this.basePath}/api/ProcessRequest/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<Declaration>('get',`${this.basePath}/api/Declaration/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -183,10 +183,10 @@ export class ProcessRequestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProcessRequestPost(body?: ProcessRequest, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiProcessRequestPost(body?: ProcessRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiProcessRequestPost(body?: ProcessRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiProcessRequestPost(body?: ProcessRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationPost(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiDeclarationPost(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiDeclarationPost(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiDeclarationPost(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
@@ -210,7 +210,7 @@ export class ProcessRequestService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/api/ProcessRequest`,
+        return this.httpClient.request<any>('post',`${this.basePath}/api/Declaration`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -228,10 +228,10 @@ export class ProcessRequestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProcessRequestPut(body?: ProcessRequest, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiProcessRequestPut(body?: ProcessRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiProcessRequestPut(body?: ProcessRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiProcessRequestPut(body?: ProcessRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationPut(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiDeclarationPut(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiDeclarationPut(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiDeclarationPut(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
@@ -255,7 +255,7 @@ export class ProcessRequestService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/ProcessRequest`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/Declaration`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

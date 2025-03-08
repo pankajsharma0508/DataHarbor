@@ -16,7 +16,8 @@ namespace DataHarbor.WebAPI.Handlers
         }
         public Task Handle(CreateRequestCommand command, CancellationToken cancellationToken)
         {
-            return repository.Add(command.request);
+            return Task.CompletedTask;
+            //return repository.Add(command.request);
         }
     }
 
@@ -30,7 +31,7 @@ namespace DataHarbor.WebAPI.Handlers
         }
         public Task Handle(UpdateRequestCommand command, CancellationToken cancellationToken)
         {
-            return repository.Update(command.request);
+            return Task.CompletedTask; //repository.Update(command.request);
         }
     }
 
@@ -44,7 +45,8 @@ namespace DataHarbor.WebAPI.Handlers
         }
         public Task Handle(DeleteRequestCommand command, CancellationToken cancellationToken)
         {
-            return repository.Delete(command.id);
+            return Task.CompletedTask;
+            //return repository.Delete(command.id);
         }
     }
 

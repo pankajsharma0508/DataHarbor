@@ -1,2 +1,13 @@
-<p>mapping-configuration works!</p>
-{{ configuration | json}}
+<div class="p-2">
+    <dx-data-grid [dataSource]="mappings" [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true"
+        [showColumnLines]="true">
+        <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+        <dxi-column dataField="fieldOrder"></dxi-column>
+        <dxi-column dataField="sourceColumn"></dxi-column>
+        <dxi-column dataField="fieldName"></dxi-column>
+        <dxi-column dataField="fieldType"></dxi-column>
+        <dxi-column dataField="formatPattern"></dxi-column>
+        <dxi-column dataField="isUnique"></dxi-column>
+    </dx-data-grid>
+</div>

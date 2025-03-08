@@ -19,10 +19,8 @@ namespace DataHarbor.Extractors.Handlers
         {
             var context = command.Context;
             var data = context.ProcessingResults.FirstOrDefault(x => x.Key == ProcessingResultNames.LoadSourceData).Value;
-            var request = new ProcessRequest
+            var request = new ProcessRequest(context.Id)
             {
-                UniqueId = context.Id,
-                Id = context.Id.ToString(),
                 Name = context.Name,
                 Description = context.Name,
                 Data = data,

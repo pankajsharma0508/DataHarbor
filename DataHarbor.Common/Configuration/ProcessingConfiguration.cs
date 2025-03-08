@@ -4,11 +4,14 @@ namespace DataHarbor.Common.Configuration
 {
     public class ProcessingConfiguration : BaseDocument
     {
-        public ProcessingConfiguration()
+        public ProcessingConfiguration(Guid id): base(id.ToString())
         {
+            UniqueId = id;
             OperatorFilesConfigurations = new FilesConfigurations();
             LayoutMappings = [];
         }
+
+        public Guid UniqueId { get; set; }
 
         public string Name { get; set; }
 

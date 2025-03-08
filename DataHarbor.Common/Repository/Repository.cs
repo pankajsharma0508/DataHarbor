@@ -63,7 +63,7 @@ namespace DataHarbor.Common.Repository
             return await session.Query<T>().Where(predicate).ToListAsync();
         }
 
-        public async Task Update(T document)
+        public Task Update(T document)
         {
             using (var session = DocumentDBContext.DocumentStore.OpenSession())
             {
@@ -75,6 +75,7 @@ namespace DataHarbor.Common.Repository
                 session.SaveChanges(); 
             }
 
+            return Task.CompletedTask;
         }
 
         private static void CopyProperties(T source, T destination)
