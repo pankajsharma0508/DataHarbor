@@ -10,7 +10,7 @@ namespace DataHarbor.WebAPI
         public MappingProfile()
         {
             CreateMap<ProcessRequest, Declaration>()
-                .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Data.ToDictionaryList()));
+                .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.RawData.ToDictionaryList()));
 
             CreateMap<Declaration, ProcessRequest>();
         }

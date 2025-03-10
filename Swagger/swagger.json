@@ -50,15 +50,6 @@
         "tags": [
           "Configuration"
         ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -236,17 +227,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Declaration"
+                "$ref": "#/components/schemas/Anchored"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Declaration"
+                "$ref": "#/components/schemas/Anchored"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Declaration"
+                "$ref": "#/components/schemas/Anchored"
               }
             }
           }
@@ -349,6 +340,28 @@
   },
   "components": {
     "schemas": {
+      "Anchored": {
+        "type": "object",
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "recievedOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "CategoryLayoutMapping": {
         "type": "object",
         "properties": {

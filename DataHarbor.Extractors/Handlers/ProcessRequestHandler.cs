@@ -23,7 +23,7 @@ namespace DataHarbor.Extractors.Handlers
             {
                 Name = context.Name,
                 Description = context.Name,
-                Data = data,
+                RawData = data,
                 RecieveDate = DateTime.UtcNow
             };
             repository.Add(request);

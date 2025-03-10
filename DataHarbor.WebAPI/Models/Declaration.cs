@@ -13,6 +13,8 @@ namespace DataHarbor.WebAPI.Models
 
         public DateTime RecieveDate { get; set; }
 
-        public List<Dictionary<string, string>> Data { get; set; } = [];
+        public List<Dictionary<string, string>> RawData { get; set; } = [];
+
+        public List<Dictionary<string, string>> Transactions { get; set; } = [];
     }
 }

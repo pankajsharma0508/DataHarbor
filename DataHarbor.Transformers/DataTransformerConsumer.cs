@@ -23,23 +23,35 @@ namespace DataHarbor.Transformers
 
         public async Task Consume(ConsumeContext<Docked> messageContext)
         {
-            _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+            try
+            {
+                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
 
-            // Fetch process request.
-            var context = await PrepareProcessContext(messageContext.Message.UniqueId);
+                // Fetch process request.
+                var context = await PrepareProcessContext(messageContext.Message.UniqueId);
 
-            // Feed it to the pipeline.
-            var pipeline = MailboxPipeline.GetPipeline();
+                // Feed it to the pipeline.
+                var pipeline = MailboxPipeline.GetPipeline();
 
-            await pipeline.ExecuteAsync(context);
+                await pipeline.ExecuteAsync(context);
 
-            // Store the result.
-            //await _storageService.SaveResults(result);
+                // Store the result.
+                var result = context.GetProcessingParameter(ProcessingResultNames.ProcessedResult) as ProcessRequest;
+                await _storageService.SaveResults(result);
 
-            // trigger the message for next step.
-            var msg = messageContext.Message;
-            var message = new Adrifted(msg.UniqueId, msg.Name, msg.FilePath, msg.RecievedOn);
-            await _messageBus.Publish(message);
+                // trigger the message for next step.
+                var msg = messageContext.Message;
+                var message = new Adrifted(msg.UniqueId, msg.Name, msg.FilePath, msg.RecievedOn);
+                await _messageBus.Publish(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            finally
+            {
+                await messageContext.ConsumeCompleted;
+            }
         }
 
         private async Task<ProcessContext> PrepareProcessContext(Guid requestId)

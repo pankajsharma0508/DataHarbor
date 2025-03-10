@@ -2,11 +2,11 @@
     <div class="d-flex align-items-center justify-content-between mb-3">
         <div class="d-flex gap-3">
             <i class="fa fa-2x fa-solid fa-toolbox"></i>
-            <h4 class="mb-0">Configuration - {{ configuration?.name }}</h4>
+            <h4 class="mb-0">Configuration - {{ configuration.name }}</h4>
         </div>
     </div>
     <div class="mb-4 d-flex">
-        {{ configuration?.description }}
+        {{ configuration.description }}
         <div class="ms-auto">
             <dx-file-uploader class="ms-auto d-inline-block" [multiple]="true" [accept]="'.json'"
                 selectButtonText="Import" (onValueChanged)="onFileSelected($event)">
@@ -17,7 +17,7 @@
 </div>
 
 @if (selectedTab.name === this.tabs[0].name) {
-<app-file-configuration [fileConfiguration]="configuration?.operatorFilesConfigurations"></app-file-configuration>
+<app-file-configuration [fileConfiguration]="configuration.operatorFilesConfigurations"></app-file-configuration>
 }
 @else if (selectedTab.name === this.tabs[1].name) {
 <app-mapping-configuration [configuration]="configuration"></app-mapping-configuration>

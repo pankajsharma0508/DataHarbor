@@ -31,21 +31,32 @@ namespace DataHarbor.Extractors
 
         public async Task Consume(ConsumeContext<Anchored> messageContext)
         {
-            _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
-            var processContext = InitializeProcessor(messageContext);
+            try
+            {
+                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+                var processContext = InitializeProcessor(messageContext);
 
-            // Read file.
-            await _mediator.Send(new ReadFileQuery(processContext));
+                // Read file.
+                await _mediator.Send(new ReadFileQuery(processContext));
 
-            // Map to the correct format.
+                // Map to the correct format.
 
 
-            // publish final results
-            await _mediator.Send(new ProcessRequestCommand(processContext));
+                // publish final results
+                await _mediator.Send(new ProcessRequestCommand(processContext));
 
-            var input = messageContext.Message;
-            var message = new Docked(input.UniqueId, input.Name, input.FilePath, input.RecievedOn);
-            await _messageBus.Publish(message);
+                var input = messageContext.Message;
+                var message = new Docked(processContext.Id, input.Name, input.FilePath, input.RecievedOn);
+                await _messageBus.Publish(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            finally
+            {
+                await messageContext.ConsumeCompleted;
+            }
         }
 
         private ProcessContext InitializeProcessor(ConsumeContext<Anchored> messageContext)

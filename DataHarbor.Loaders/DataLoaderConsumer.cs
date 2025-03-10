@@ -29,8 +29,10 @@ namespace DataHarbor.Loaders
         {
             _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
 
-            //var result = await _mediator.Send(new GetProcessResultQuery(messageContext.Message.UniqueId.ToString()));
-            //_dbaseService.CreateOrUpdateFile("D:\\DBFs\\inventor.dbf", result.Entries);
+            var result = await _mediator.Send(new GetProcessResultQuery(messageContext.Message.UniqueId.ToString()));
+            _dbaseService.CreateOrUpdateFile("D:\\DBFs\\inventor.dbf", result.Transactions);
+
+            await messageContext.ConsumeCompleted;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DataHarbor.Transformers
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                    await _bus.Publish(new Docked(new Guid("5d6d2c01-9793-42fd-9d33-7c632df01b73"), "W644", "C:\\TestFiles\\sample.csv", DateTime.UtcNow));
+                    await _bus.Publish(new Docked(new Guid("b6ad4a45-5833-4c59-a6e2-6b0651e28353"), "W644", "C:\\TestFiles\\sample.csv", DateTime.UtcNow));
                 }
                 await Task.Delay(100000, stoppingToken);
             }

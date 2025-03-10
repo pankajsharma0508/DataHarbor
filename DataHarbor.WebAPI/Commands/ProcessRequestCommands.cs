@@ -1,11 +1,11 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Messaging;
 using DataHarbor.WebAPI.Models;
 using MediatR;
 
 namespace DataHarbor.WebAPI.Commands
 {
 
-    public record CreateRequestCommand(Declaration request) : IRequest;
+    public record CreateRequestCommand(Anchored message) : IRequest;
 
     public record UpdateRequestCommand(Declaration request) : IRequest;
 

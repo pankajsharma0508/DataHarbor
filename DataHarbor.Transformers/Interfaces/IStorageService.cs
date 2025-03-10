@@ -7,7 +7,7 @@ namespace DataHarbor.Transformers.Interfaces
     {
         public Task<ProcessRequest> GetRequestByID(Guid id);
 
-        public Task<bool> SaveResults(ProcessResult result);
+        public Task SaveResults(ProcessRequest result);
 
         Task<ProcessingConfiguration> GetConfiguration(string name);
     }

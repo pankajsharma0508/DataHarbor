@@ -74,7 +74,7 @@ namespace DataHarbor.Extractors.Readers
             else
             {
                 columnNames = firstLine.Split(configuration.ColumnSeparator)
-                    .Select((x, index) => $"column{index}").ToList();
+                    .Select((x, index) => $"Column{index + 1}").ToList();
             }
             return columnNames;
         }

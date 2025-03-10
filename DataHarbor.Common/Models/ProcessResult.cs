@@ -1,4 +1,5 @@
 ﻿using DataHarbor.Common.Repository;
+using System.Data;
 
 namespace DataHarbor.Common.Models
 {
@@ -6,7 +7,7 @@ namespace DataHarbor.Common.Models
     {
         public ProcessResult(Guid id) : base(id.ToString())
         {
-            Entries = [];
+            
         }
         
         public Guid UniqueId { get; set; }
@@ -16,6 +17,6 @@ namespace DataHarbor.Common.Models
 
         public DateTime RecieveDate { get; set; }
 
-        public List<Transaction> Entries { get; set; }
+        public DataTable Transactions { get; set; }
     }
 }

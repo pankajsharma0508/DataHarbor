@@ -7,6 +7,6 @@ namespace DataHarbor.WebAPI.Query
     {
         public record GetConfigurationQueryById(Guid uniqueId) : IRequest<ProcessingConfiguration>;
 
-        public record GetConfigurationQuery(string name) : IRequest<List<ProcessingConfiguration>>;
+        public record GetConfigurationQuery() : IRequest<List<ProcessingConfiguration>>;
     }
 }

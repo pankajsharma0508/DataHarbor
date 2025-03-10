@@ -19,7 +19,9 @@ namespace DataHarbor.Common.Models
 
         public DateTime RecieveDate { get; set; }
 
-        public DataTable Data { get; set; }
+        public DataTable RawData { get; set; }
+
+        public DataTable Transactions { get; set; }
     }
 
     public enum ProcessStatus

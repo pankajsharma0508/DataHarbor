@@ -11,46 +11,46 @@ namespace DataHarbor.Loaders.Services
     {
         public bool IsFileExists(string filePath) => File.Exists(filePath);
 
-        private bool UpdateFile(string filePath, IEnumerable<T> entries, IEnumerable<PropertyInfo> properties)
+        private bool UpdateFile(string filePath, DataTable dataTable)
         {
             var dbf = new Dbf();
             dbf.Read(filePath);
-            AddRecordsToDbf(filePath, entries, dbf, properties);
+            AddRecordsToDbf(filePath, dataTable, dbf);
             return true;
         }
 
-        private bool CreateFile(string filePath, IEnumerable<T> entries, IEnumerable<PropertyInfo> properties)
+        private bool CreateFile(string filePath, DataTable dataTable)
         {
             var dbf = new Dbf();
-            foreach (PropertyInfo property in properties)
+            foreach (DataColumn column in dataTable.Columns)
             {
-                DbfField field = new DbfField(property.Name, DbfFieldType.Character, Byte.MaxValue);
+                DbfField field = new DbfField(column.ColumnName, DbfFieldType.Character, Byte.MaxValue);
                 dbf.Fields.Add(field);
             }
-            AddRecordsToDbf(filePath, entries, dbf, properties);
+            AddRecordsToDbf(filePath, dataTable, dbf);
 
             return true;
         }
 
-        private void AddRecordsToDbf(string filePath, IEnumerable<T> entries, Dbf dbf, IEnumerable<PropertyInfo> properties)
+        private void AddRecordsToDbf(string filePath, DataTable dataTable, Dbf dbf)
         {
-            foreach (var entry in entries)
+            foreach (DataRow row in dataTable.Rows)
             {
                 DbfRecord record = dbf.CreateRecord();
                 var columnCount = 0;
-                foreach (PropertyInfo property in properties)
+                foreach (var dbfField in dbf.Fields)
                 {
-                    record.Data[columnCount] = property.GetValue(entry, null);
+                    record.Data[columnCount] = row[dbfField.Name];
                     columnCount++;
                 }
             }
             dbf.Write(filePath, DbfVersion.FoxBaseDBase3NoMemo);
         }
 
-        public bool CreateOrUpdateFile(string filePath, IEnumerable<T> entries)
+        public bool CreateOrUpdateFile(string filePath, DataTable dataTable)
         {
             var properties = typeof(T).GetProperties();
-            return !File.Exists(filePath) ? CreateFile(filePath, entries, properties) : UpdateFile(filePath, entries, properties);
+            return !File.Exists(filePath) ? CreateFile(filePath, dataTable) : UpdateFile(filePath, dataTable);
         }
     }
 }

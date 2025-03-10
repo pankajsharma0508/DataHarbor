@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { Anchored } from '../model/anchored';
 import { Declaration } from '../model/declaration';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -183,10 +184,10 @@ export class DeclarationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiDeclarationPost(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiDeclarationPost(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiDeclarationPost(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiDeclarationPost(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationPost(body?: Anchored, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiDeclarationPost(body?: Anchored, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiDeclarationPost(body?: Anchored, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiDeclarationPost(body?: Anchored, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;

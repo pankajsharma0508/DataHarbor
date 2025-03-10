@@ -22,8 +22,7 @@ namespace DataHarbor.WebAPI.Controllers
             => _mediator.Send(new GetConfigurationQueryById(uniqueId));
 
         [HttpGet("configuration/all")]
-        public Task<List<ProcessingConfiguration>> GetConfigurations(string name)
-            => _mediator.Send(new GetConfigurationQuery(name));
+        public Task<List<ProcessingConfiguration>> GetConfigurations() => _mediator.Send(new GetConfigurationQuery());
 
         [HttpPost]
         public Task<bool> Post([FromBody] ProcessingConfiguration configuration)

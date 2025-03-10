@@ -1,6 +1,7 @@
 
 using DataHarbor.Common.Repository;
 using DataHarbor.Repository;
+using MassTransit;
 
 namespace DataHarbor.WebAPI
 {
@@ -34,6 +35,18 @@ namespace DataHarbor.WebAPI
                 });
             });
 
+            builder.Services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,10 +57,7 @@ namespace DataHarbor.WebAPI
             //}
 
             app.UseCors("AllowAll");
-
-
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
 

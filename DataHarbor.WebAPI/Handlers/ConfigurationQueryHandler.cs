@@ -30,7 +30,7 @@ namespace DataHarbor.WebAPI.Handlers
         }
         public Task<List<ProcessingConfiguration>> Handle(GetConfigurationQuery request, CancellationToken cancellationToken)
         {
-            return repository.Where(x => x.Name == request.name);
+            return repository.GetAll();
         }
     }
 }

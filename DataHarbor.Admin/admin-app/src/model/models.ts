@@ -1,3 +1,4 @@
+export * from './anchored';
 export * from './categoryLayoutMapping';
 export * from './declaration';
 export * from './filesConfigurations';

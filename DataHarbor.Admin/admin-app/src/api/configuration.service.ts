@@ -58,20 +58,13 @@ export class ConfigurationService {
     /**
      * 
      * 
-     * @param name 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationConfigurationAllGet(name?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<ProcessingConfiguration>>;
-    public apiConfigurationConfigurationAllGet(name?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProcessingConfiguration>>>;
-    public apiConfigurationConfigurationAllGet(name?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProcessingConfiguration>>>;
-    public apiConfigurationConfigurationAllGet(name?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
-        }
+    public apiConfigurationConfigurationAllGet(observe?: 'body', reportProgress?: boolean): Observable<Array<ProcessingConfiguration>>;
+    public apiConfigurationConfigurationAllGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProcessingConfiguration>>>;
+    public apiConfigurationConfigurationAllGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProcessingConfiguration>>>;
+    public apiConfigurationConfigurationAllGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -92,7 +85,6 @@ export class ConfigurationService {
 
         return this.httpClient.request<Array<ProcessingConfiguration>>('get',`${this.basePath}/api/Configuration/configuration/all`,
             {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

@@ -1,4 +1,5 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Messaging;
+using DataHarbor.Common.Models;
 using DataHarbor.WebAPI.Commands;
 using DataHarbor.WebAPI.Models;
 using DataHarbor.WebAPI.Query;
@@ -27,7 +28,7 @@ namespace DataHarbor.WebAPI.Controllers
         public Task<Declaration> Get(string id) => _mediator.Send(new GetProcessRequestQuery(id));
 
         [HttpPost]
-        public Task Post([FromBody] Declaration request) => _mediator.Send(new CreateRequestCommand(request));
+        public Task Post([FromBody] Anchored message) => _mediator.Send(new CreateRequestCommand(message));
 
         [HttpPut]
         public Task Put([FromBody] Declaration request) => _mediator.Send(new UpdateRequestCommand(request));

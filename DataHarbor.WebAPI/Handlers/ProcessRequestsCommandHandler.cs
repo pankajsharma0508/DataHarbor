@@ -1,23 +1,27 @@
-﻿using DataHarbor.Common.Configuration;
-using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Models;
 using DataHarbor.Repository;
 using DataHarbor.WebAPI.Commands;
+using MassTransit;
 using MediatR;
 
 namespace DataHarbor.WebAPI.Handlers
 {
     public class CreateRequestHandler : IRequestHandler<CreateRequestCommand>
     {
-        private readonly IRepository<ProcessRequest> repository;
+        private readonly ILogger<CreateRequestHandler> _logger;
+        private readonly IBus _bus;
 
-        public CreateRequestHandler(IRepository<ProcessRequest> repository)
+        public CreateRequestHandler(ILogger<CreateRequestHandler> logger, IBus bus)
         {
-            this.repository = repository;
+            _logger = logger;
+            _bus = bus;
         }
+
         public Task Handle(CreateRequestCommand command, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Message Recieved for : {command.message.Name} and file name ${command.message.FilePath}", DateTimeOffset.Now);
+            _bus.Publish(command.message);
             return Task.CompletedTask;
-            //return repository.Add(command.request);
         }
     }
 

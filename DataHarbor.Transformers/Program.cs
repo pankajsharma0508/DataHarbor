@@ -30,7 +30,7 @@ namespace DataHarbor.Transformers
                     });
                 });
             });
-            builder.Services.AddHostedService<Worker>();
+            //builder.Services.AddHostedService<Worker>();
 
             var host = builder.Build();
 
