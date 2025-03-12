@@ -401,7 +401,17 @@
             "type": "string",
             "format": "date-time"
           },
-          "data": {
+          "rawData": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "transactions": {
             "type": "array",
             "items": {
               "type": "object",

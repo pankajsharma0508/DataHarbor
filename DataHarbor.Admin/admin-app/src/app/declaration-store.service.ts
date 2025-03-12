@@ -19,7 +19,7 @@ export class DeclarationStore {
       return lastValueFrom(this.service.apiDeclarationIdGet(id));
     }
   
-    put(configuration: ProcessingConfiguration) {
-      return lastValueFrom(this.service.apiDeclarationPut(configuration));
+    put(request: Declaration) {
+      return lastValueFrom(this.service.apiDeclarationPut(request));
     }
 }

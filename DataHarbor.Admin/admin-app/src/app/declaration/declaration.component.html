@@ -4,6 +4,12 @@
             <i class="fa fa-2x fas fa-file-contract"></i>
             <h4 class="mb-0">Declaration From {{ declaration.name }}</h4>
         </div>
+        <div class="p-2 mt-4">
+            <button class="btn btn-primary" (click)="saveDeclaration()">
+                <i class="fa fas fa-save"></i>
+                Save
+            </button>
+        </div>
     </div>
     <div class="mb-4 d-flex">
         {{ declaration.recieveDate | date:'medium' }}
@@ -12,10 +18,21 @@
 </div>
 @if(declaration) {
 <div class="p-2">
-    <dx-data-grid [dataSource]="entries" [showBorders]="true" [rowAlternationEnabled]="true"
-        [showRowLines]="true" [showColumnLines]="true">
-        <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
-        </dxo-editing>
-    </dx-data-grid>
+    <div [hidden]="selectedTab.name != tabNames.SourceData">
+        <dx-data-grid [dataSource]="rawData" [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true"
+            [showColumnLines]="true">
+            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                [allowAdding]="true">
+            </dxo-editing>
+        </dx-data-grid>
+    </div>
+    <div [hidden]="selectedTab.name != tabNames.OperatorData">
+        <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+            [showRowLines]="true" [showColumnLines]="true">
+            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                [allowAdding]="true">
+            </dxo-editing>
+        </dx-data-grid>
+    </div>
 </div>
 }

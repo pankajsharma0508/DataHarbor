@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Tab, TabsComponent } from '../tabs/tabs.component';
+import { Tab, TabNames, TabsComponent } from '../tabs/tabs.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Declaration } from '../../model/declaration';
@@ -13,14 +13,16 @@ import { DxDataGridModule } from 'devextreme-angular';
   styleUrl: './declaration.component.scss',
   standalone: true
 })
-export class DeclarationComponent implements OnInit{
+export class DeclarationComponent implements OnInit {
   protected tabs: Tab[] = [
-    new Tab('Details'),
-    new Tab('Processing Logs'),
+    new Tab(TabNames.SourceData),
+    new Tab(TabNames.OperatorData),
+    new Tab(TabNames.ProcessedData),
   ]
   protected selectedTab = this.tabs[0];
   protected requestId: string | undefined;
   protected declaration: Declaration = {};
+  protected tabNames = TabNames
 
   constructor(private store: DeclarationStore, private route: ActivatedRoute) {
   }
@@ -36,7 +38,14 @@ export class DeclarationComponent implements OnInit{
     this.declaration = await this.store.get(requestId);
   }
 
-  get entries () {
-    return this.declaration.data || [];
+  get rawData() {
+    return this.declaration.rawData || [];
+  }
+  get transactions() {
+    return this.declaration.transactions || [];
+  }
+
+  saveDeclaration() {
+    this.store.put(this.declaration);
   }
 }

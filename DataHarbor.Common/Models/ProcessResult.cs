@@ -3,13 +3,10 @@ using System.Data;
 
 namespace DataHarbor.Common.Models
 {
-    public class ProcessResult : BaseDocument
+    public class ProcessResult : IDocument
     {
-        public ProcessResult(Guid id) : base(id.ToString())
-        {
-            
-        }
-        
+        public string Id { get => UniqueId.ToString(); set => UniqueId = new Guid(value); }
+
         public Guid UniqueId { get; set; }
         public string Name { get; set; }
 

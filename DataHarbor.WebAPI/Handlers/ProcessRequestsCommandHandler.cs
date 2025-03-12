@@ -1,4 +1,5 @@
-﻿using DataHarbor.Common.Models;
+﻿using AutoMapper;
+using DataHarbor.Common.Models;
 using DataHarbor.Repository;
 using DataHarbor.WebAPI.Commands;
 using MassTransit;
@@ -28,14 +29,17 @@ namespace DataHarbor.WebAPI.Handlers
     public class UpdateRequestHandler : IRequestHandler<UpdateRequestCommand>
     {
         private readonly IRepository<ProcessRequest> repository;
+        private readonly IMapper _mapper;
 
-        public UpdateRequestHandler(IRepository<ProcessRequest> repository)
+        public UpdateRequestHandler(IRepository<ProcessRequest> repository, IMapper mapper)
         {
             this.repository = repository;
+            _mapper = mapper;
         }
         public Task Handle(UpdateRequestCommand command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask; //repository.Update(command.request);
+            var declaration = _mapper.Map<ProcessRequest>(command.request);
+            return repository.Update(declaration);
         }
     }
 

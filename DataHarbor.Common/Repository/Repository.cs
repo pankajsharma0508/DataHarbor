@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace DataHarbor.Common.Repository
 {
-    public class DocumentRepository<T> : IRepository<T> where T : BaseDocument
+    public class DocumentRepository<T> : IRepository<T> where T : IDocument
     {
         public async Task<bool> Add(T document)
         {

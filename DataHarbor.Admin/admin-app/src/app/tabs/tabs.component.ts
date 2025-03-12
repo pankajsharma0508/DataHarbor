@@ -22,3 +22,10 @@ export class TabsComponent {
 export class Tab {
   constructor(public name: string) { }
 }
+
+export const TabNames = {
+  SourceData: 'Source Data',
+  OperatorData: 'Operator Data',
+  ProcessedData: 'Processed Data',
+  ProcessingLogs: 'Processing Logs'
+}

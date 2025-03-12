@@ -17,5 +17,6 @@ export interface Declaration {
     description?: string;
     status?: ProcessStatus;
     recieveDate?: Date;
-    data?: Array<{ [key: string]: string; }>;
+    rawData?: Array<{ [key: string]: string; }>;
+    transactions?: Array<{ [key: string]: string; }>;
 }

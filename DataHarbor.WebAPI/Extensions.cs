@@ -13,5 +13,27 @@ namespace DataHarbor.WebAPI
                 )
             ).ToList();
         }
+
+        public static DataTable ToDataTable(this List<Dictionary<string, string>> entries)
+        {
+            var table = new DataTable();
+            var columnNames = entries.First().Keys;
+            foreach (var columnName in columnNames.Distinct())
+            {
+                table.Columns.Add(new DataColumn(columnName));
+            }
+
+            foreach (var transactions in entries)
+            {
+                var newRow = table.NewRow();
+                foreach (var keyValue in transactions)
+                {
+                    newRow[keyValue.Key] = keyValue.Value;
+                }
+                table.Rows.Add(newRow);
+            }
+            table.AcceptChanges();
+            return table;
+        }
     }
 }

@@ -3,13 +3,8 @@ using System.Data;
 
 namespace DataHarbor.Common.Models
 {
-    public class ProcessRequest : BaseDocument
+    public class ProcessRequest : IDocument
     {
-        public ProcessRequest(Guid id) : base(id.ToString())
-        {
-            UniqueId = id;
-        }
-
         public Guid UniqueId { get; set; }
         public string Name { get; set; }
 
@@ -22,6 +17,7 @@ namespace DataHarbor.Common.Models
         public DataTable RawData { get; set; }
 
         public DataTable Transactions { get; set; }
+        public string Id { get => UniqueId.ToString(); set => UniqueId = new Guid(value); }
     }
 
     public enum ProcessStatus
