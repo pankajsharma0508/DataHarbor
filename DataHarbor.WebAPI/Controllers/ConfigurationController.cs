@@ -1,6 +1,7 @@
 ﻿using DataHarbor.Common.Configuration;
 using DataHarbor.WebAPI.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static DataHarbor.WebAPI.Query.ConfigurationQueries;
 
@@ -8,6 +9,7 @@ namespace DataHarbor.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConfigurationController : ControllerBase
     {
         private readonly IMediator _mediator;

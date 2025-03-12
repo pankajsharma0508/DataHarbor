@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { DeclarationsListComponent } from './declarations-list/declarations-list.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { DeclarationComponent } from './declaration/declaration.component';
+import { canActivateAuthRole } from '../authentication/auth.guard';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },

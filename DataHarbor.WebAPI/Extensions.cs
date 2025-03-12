@@ -17,22 +17,25 @@ namespace DataHarbor.WebAPI
         public static DataTable ToDataTable(this List<Dictionary<string, string>> entries)
         {
             var table = new DataTable();
-            var columnNames = entries.First().Keys;
-            foreach (var columnName in columnNames.Distinct())
+            if (entries.Count > 0)
             {
-                table.Columns.Add(new DataColumn(columnName));
-            }
-
-            foreach (var transactions in entries)
-            {
-                var newRow = table.NewRow();
-                foreach (var keyValue in transactions)
+                var columnNames = entries.First().Keys;
+                foreach (var columnName in columnNames.Distinct())
                 {
-                    newRow[keyValue.Key] = keyValue.Value;
+                    table.Columns.Add(new DataColumn(columnName));
                 }
-                table.Rows.Add(newRow);
+
+                foreach (var transactions in entries)
+                {
+                    var newRow = table.NewRow();
+                    foreach (var keyValue in transactions)
+                    {
+                        newRow[keyValue.Key] = keyValue.Value;
+                    }
+                    table.Rows.Add(newRow);
+                }
+                table.AcceptChanges();
             }
-            table.AcceptChanges();
             return table;
         }
     }
