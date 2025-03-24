@@ -5,14 +5,52 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Configuration/configuration/{uniqueId}": {
+    "/api/configuration/all": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProcessingConfiguration"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProcessingConfiguration"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProcessingConfiguration"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/configuration/{id}": {
       "get": {
         "tags": [
           "Configuration"
         ],
         "parameters": [
           {
-            "name": "uniqueId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -43,124 +81,7 @@
             }
           }
         }
-      }
-    },
-    "/api/Configuration/configuration/all": {
-      "get": {
-        "tags": [
-          "Configuration"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProcessingConfiguration"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProcessingConfiguration"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProcessingConfiguration"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Configuration": {
-      "post": {
-        "tags": [
-          "Configuration"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
       },
-      "put": {
-        "tags": [
-          "Configuration"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProcessingConfiguration"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Configuration/{id}": {
       "delete": {
         "tags": [
           "Configuration"
@@ -171,7 +92,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -182,7 +104,86 @@
         }
       }
     },
-    "/api/Declaration": {
+    "/api/configuration/create": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/configuration/update": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessingConfiguration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/declaration/all": {
       "get": {
         "tags": [
           "Declaration"
@@ -218,67 +219,9 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Declaration"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Anchored"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Anchored"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Anchored"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Declaration"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Declaration"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Declaration"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Declaration"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
       }
     },
-    "/api/Declaration/{id}": {
+    "/api/declaration/{id}": {
       "get": {
         "tags": [
           "Declaration"
@@ -330,6 +273,68 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/declaration/update": {
+      "put": {
+        "tags": [
+          "Declaration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/process/send-message": {
+      "post": {
+        "tags": [
+          "Process"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessMessage"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessMessage"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessMessage"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -340,45 +345,6 @@
   },
   "components": {
     "schemas": {
-      "Anchored": {
-        "type": "object",
-        "properties": {
-          "uniqueId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "filePath": {
-            "type": "string",
-            "nullable": true
-          },
-          "recievedOn": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CategoryLayoutMapping": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string",
-            "nullable": true
-          },
-          "layoutMappings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LayoutMapping"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "Declaration": {
         "type": "object",
         "properties": {
@@ -510,6 +476,40 @@
         },
         "additionalProperties": false
       },
+      "ProcessMessage": {
+        "type": "object",
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProcessMessageStatus"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "recievedOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProcessMessageStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "ProcessStatus": {
         "enum": [
           0,
@@ -550,13 +550,32 @@
           "layoutMappings": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CategoryLayoutMapping"
+              "$ref": "#/components/schemas/LayoutMapping"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Keycloak": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "http://localhost:8080/realms/DataHarbor/protocol/openid-connect/auth",
+            "scopes": {
+              "openid": "openid",
+              "profile": "profile"
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Keycloak": [ ]
+    }
+  ]
 }

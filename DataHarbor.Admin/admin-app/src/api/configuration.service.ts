@@ -61,12 +61,20 @@ export class ConfigurationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationConfigurationAllGet(observe?: 'body', reportProgress?: boolean): Observable<Array<ProcessingConfiguration>>;
-    public apiConfigurationConfigurationAllGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProcessingConfiguration>>>;
-    public apiConfigurationConfigurationAllGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProcessingConfiguration>>>;
-    public apiConfigurationConfigurationAllGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiConfigurationAllGet(observe?: 'body', reportProgress?: boolean): Observable<Array<ProcessingConfiguration>>;
+    public apiConfigurationAllGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ProcessingConfiguration>>>;
+    public apiConfigurationAllGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ProcessingConfiguration>>>;
+    public apiConfigurationAllGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -83,7 +91,7 @@ export class ConfigurationService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<ProcessingConfiguration>>('get',`${this.basePath}/api/Configuration/configuration/all`,
+        return this.httpClient.request<Array<ProcessingConfiguration>>('get',`${this.basePath}/api/configuration/all`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -96,20 +104,25 @@ export class ConfigurationService {
     /**
      * 
      * 
-     * @param uniqueId 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationConfigurationUniqueIdGet(uniqueId: string, observe?: 'body', reportProgress?: boolean): Observable<ProcessingConfiguration>;
-    public apiConfigurationConfigurationUniqueIdGet(uniqueId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProcessingConfiguration>>;
-    public apiConfigurationConfigurationUniqueIdGet(uniqueId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProcessingConfiguration>>;
-    public apiConfigurationConfigurationUniqueIdGet(uniqueId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (uniqueId === null || uniqueId === undefined) {
-            throw new Error('Required parameter uniqueId was null or undefined when calling apiConfigurationConfigurationUniqueIdGet.');
-        }
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -124,10 +137,18 @@ export class ConfigurationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/_*+json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.request<ProcessingConfiguration>('get',`${this.basePath}/api/Configuration/configuration/${encodeURIComponent(String(uniqueId))}`,
+        return this.httpClient.request<boolean>('post',`${this.basePath}/api/configuration/create`,
             {
+                body: body,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -154,6 +175,14 @@ export class ConfigurationService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
         ];
@@ -166,7 +195,7 @@ export class ConfigurationService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/Configuration/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/configuration/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -179,17 +208,28 @@ export class ConfigurationService {
     /**
      * 
      * 
-     * @param body 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationPost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public apiConfigurationPost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public apiConfigurationPost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public apiConfigurationPost(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiConfigurationIdGet(id: string, observe?: 'body', reportProgress?: boolean): Observable<ProcessingConfiguration>;
+    public apiConfigurationIdGet(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProcessingConfiguration>>;
+    public apiConfigurationIdGet(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProcessingConfiguration>>;
+    public apiConfigurationIdGet(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiConfigurationIdGet.');
+        }
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -204,18 +244,10 @@ export class ConfigurationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
-        return this.httpClient.request<boolean>('post',`${this.basePath}/api/Configuration`,
+        return this.httpClient.request<ProcessingConfiguration>('get',`${this.basePath}/api/configuration/${encodeURIComponent(String(id))}`,
             {
-                body: body,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -231,13 +263,21 @@ export class ConfigurationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationPut(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiConfigurationPut(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiConfigurationPut(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiConfigurationPut(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -258,7 +298,7 @@ export class ConfigurationService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Configuration`,
+        return this.httpClient.request<any>('post',`${this.basePath}/api/configuration/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

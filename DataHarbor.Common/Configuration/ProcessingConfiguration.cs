@@ -23,6 +23,10 @@ namespace DataHarbor.Common.Configuration
 
         public FilesConfigurations OperatorFilesConfigurations { get; set; }
 
-        public List<CategoryLayoutMapping> LayoutMappings { get; set; }
+        public List<LayoutMapping> LayoutMappings { get; set; }
+
+        public string MailboxFileName { get; set; }
+
+        public string MailboxFilePath { get; set; }
     }
 }

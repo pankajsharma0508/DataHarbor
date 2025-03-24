@@ -7,35 +7,29 @@ using static DataHarbor.WebAPI.Query.ConfigurationQueries;
 
 namespace DataHarbor.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/configuration")]
     [ApiController]
-    [Authorize]
     public class ConfigurationController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         public ConfigurationController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
-        [HttpGet("configuration/{uniqueId}")]
-        public Task<ProcessingConfiguration> GetLatestConfiguration(Guid uniqueId)
-            => _mediator.Send(new GetConfigurationQueryById(uniqueId));
-
-        [HttpGet("configuration/all")]
+        
+        [HttpGet("all")]
         public Task<List<ProcessingConfiguration>> GetConfigurations() => _mediator.Send(new GetConfigurationQuery());
 
-        [HttpPost]
-        public Task<bool> Post([FromBody] ProcessingConfiguration configuration)
-            => _mediator.Send(new CreateConfigurationCommand(configuration));
+        [HttpGet("{id}")]
+        public Task<ProcessingConfiguration> Get(Guid id) => _mediator.Send(new GetConfigurationQueryById(id));
 
-        [HttpPut]
-        public Task Put([FromBody] ProcessingConfiguration configuration)
-            => _mediator.Send(new UpdateConfigurationCommand(configuration));
+        [HttpPost("create")]
+        public Task<bool> Post([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new CreateConfigurationCommand(configuration));
+
+        [HttpPost("update")]
+        public Task Put([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new UpdateConfigurationCommand(configuration));
 
         [HttpDelete("{id}")]
-        public Task Delete(string id)
-            => _mediator.Send(new DeleteConfigurationCommand(id));
+        public Task Delete(Guid id) => _mediator.Send(new DeleteConfigurationCommand(id));
     }
 }

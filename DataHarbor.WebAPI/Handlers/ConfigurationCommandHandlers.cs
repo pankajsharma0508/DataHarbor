@@ -35,7 +35,7 @@ namespace DataHarbor.WebAPI.Handlers
 
         public Task Handle(DeleteConfigurationCommand request, CancellationToken cancellationToken)
         {
-            return repository.Delete(request.configurationId);
+            return repository.Delete(request.configurationId.ToString());
         }
     }
 

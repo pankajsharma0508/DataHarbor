@@ -27,7 +27,7 @@ namespace DataHarbor.Transformers.Processors
 
         private void Process(ProcessingConfiguration configuration, ProcessRequest request)
         {
-            var mappings = configuration.LayoutMappings.First().LayoutMappings;
+            var mappings = configuration.LayoutMappings;
             var table = initializeTable(mappings);
             foreach (DataRow row in request.RawData.Rows)
             {

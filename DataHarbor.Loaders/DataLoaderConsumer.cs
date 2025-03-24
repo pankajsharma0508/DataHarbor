@@ -1,5 +1,6 @@
 ﻿using DataHarbor.Common.Messaging;
 using DataHarbor.Common.Models;
+using DataHarbor.Loaders.Commands;
 using DataHarbor.Loaders.Queries;
 using DataHarbor.Loaders.Services;
 using MassTransit;
@@ -16,22 +17,31 @@ namespace DataHarbor.Loaders
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMediator _mediator;
-        private readonly IDbaseService<Transaction> _dbaseService;
 
-        public DataLoaderConsumer(ILogger<Worker> logger, IMediator mediator, IDbaseService<Transaction> dbaseService)
+        public DataLoaderConsumer(ILogger<Worker> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
-            _dbaseService = dbaseService;
         }
 
         public async Task Consume(ConsumeContext<Adrifted> messageContext)
         {
             _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
 
-            var result = await _mediator.Send(new GetProcessResultQuery(messageContext.Message.UniqueId.ToString()));
-            _dbaseService.CreateOrUpdateFile("D:\\DBFs\\inventor.dbf", result.Transactions);
+            var msg = messageContext.Message;
 
+            // Fetch configuration before progressing
+            var configuration = await _mediator.Send(new ProcessingConfigurationQuery(msg.Name));
+
+            // Fetch transactions
+            var processedResult = await _mediator.Send(new GetTransactionsQuery(messageContext.Message.UniqueId));
+
+
+            // Create or Update Dbase file
+            if (processedResult != null)
+            {
+                await _mediator.Send(new LoadResultsCommand(configuration, processedResult));
+            }
             await messageContext.ConsumeCompleted;
         }
     }

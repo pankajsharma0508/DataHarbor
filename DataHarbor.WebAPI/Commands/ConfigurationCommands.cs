@@ -7,5 +7,5 @@ namespace DataHarbor.WebAPI.Commands
 
     public record UpdateConfigurationCommand(ProcessingConfiguration configuration) : IRequest;
 
-    public record DeleteConfigurationCommand(string configurationId) : IRequest;
+    public record DeleteConfigurationCommand(Guid configurationId) : IRequest;
 }

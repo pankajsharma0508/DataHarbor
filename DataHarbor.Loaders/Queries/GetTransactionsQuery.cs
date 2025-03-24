@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace DataHarbor.Loaders.Queries
 {
-    public record GetProcessResultQuery(string id) : IRequest<ProcessResult>;
+    public record GetTransactionsQuery(Guid id) : IRequest<ProcessRequest>;
 }

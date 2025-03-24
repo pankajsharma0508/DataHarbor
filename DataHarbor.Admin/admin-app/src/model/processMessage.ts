@@ -9,15 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { FilesConfigurations } from './filesConfigurations';
-import { LayoutMapping } from './layoutMapping';
+import { ProcessMessageStatus } from './processMessageStatus';
 
-export interface ProcessingConfiguration { 
-    id?: string;
+export interface ProcessMessage { 
     uniqueId?: string;
+    status?: ProcessMessageStatus;
     name?: string;
-    description?: string;
-    modifiedOn?: Date;
-    operatorFilesConfigurations?: FilesConfigurations;
-    layoutMappings?: Array<LayoutMapping>;
+    filePath?: string;
+    recievedOn?: Date;
 }

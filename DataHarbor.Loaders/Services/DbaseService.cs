@@ -1,14 +1,18 @@
-﻿using DataHarbor.Common.Models;
-using DataHarbor.Common.Repository;
-using dBASE.NET.Core;
-using System;
+﻿using dBASE.NET.Core;
 using System.Data;
-using System.Reflection;
 
 namespace DataHarbor.Loaders.Services
 {
     public class DbaseService<T> : IDbaseService<T> where T : class
     {
+        private static readonly object fileLock = new object();
+        private readonly ILogger<DbaseService<T>> logger;
+
+        public DbaseService(ILogger<DbaseService<T>> logger)
+        {
+            this.logger = logger;
+        }
+
         public bool IsFileExists(string filePath) => File.Exists(filePath);
 
         private bool UpdateFile(string filePath, DataTable dataTable)
@@ -24,7 +28,7 @@ namespace DataHarbor.Loaders.Services
             var dbf = new Dbf();
             foreach (DataColumn column in dataTable.Columns)
             {
-                DbfField field = new DbfField(column.ColumnName, DbfFieldType.Character, Byte.MaxValue);
+                DbfField field = new DbfField(column.ColumnName, DbfFieldType.Character, 100);
                 dbf.Fields.Add(field);
             }
             AddRecordsToDbf(filePath, dataTable, dbf);
@@ -49,8 +53,11 @@ namespace DataHarbor.Loaders.Services
 
         public bool CreateOrUpdateFile(string filePath, DataTable dataTable)
         {
-            var properties = typeof(T).GetProperties();
-            return !File.Exists(filePath) ? CreateFile(filePath, dataTable) : UpdateFile(filePath, dataTable);
+            lock (fileLock)
+            {
+                var properties = typeof(T).GetProperties();
+                return !File.Exists(filePath) ? CreateFile(filePath, dataTable) : UpdateFile(filePath, dataTable);
+            }
         }
     }
 }

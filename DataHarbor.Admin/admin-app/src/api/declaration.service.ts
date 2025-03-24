@@ -17,7 +17,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { Anchored } from '../model/anchored';
 import { Declaration } from '../model/declaration';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -62,12 +61,20 @@ export class DeclarationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiDeclarationGet(observe?: 'body', reportProgress?: boolean): Observable<Array<Declaration>>;
-    public apiDeclarationGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Declaration>>>;
-    public apiDeclarationGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Declaration>>>;
-    public apiDeclarationGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationAllGet(observe?: 'body', reportProgress?: boolean): Observable<Array<Declaration>>;
+    public apiDeclarationAllGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Declaration>>>;
+    public apiDeclarationAllGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Declaration>>>;
+    public apiDeclarationAllGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -84,7 +91,7 @@ export class DeclarationService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<Declaration>>('get',`${this.basePath}/api/Declaration`,
+        return this.httpClient.request<Array<Declaration>>('get',`${this.basePath}/api/declaration/all`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -112,6 +119,14 @@ export class DeclarationService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
         ];
@@ -124,7 +139,7 @@ export class DeclarationService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/Declaration/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/declaration/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -152,6 +167,14 @@ export class DeclarationService {
 
         let headers = this.defaultHeaders;
 
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'text/plain',
@@ -167,7 +190,7 @@ export class DeclarationService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Declaration>('get',`${this.basePath}/api/Declaration/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<Declaration>('get',`${this.basePath}/api/declaration/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -184,13 +207,21 @@ export class DeclarationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiDeclarationPost(body?: Anchored, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiDeclarationPost(body?: Anchored, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiDeclarationPost(body?: Anchored, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiDeclarationPost(body?: Anchored, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationUpdatePut(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiDeclarationUpdatePut(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiDeclarationUpdatePut(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiDeclarationUpdatePut(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
+
+        // authentication (Keycloak) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -211,52 +242,7 @@ export class DeclarationService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/api/Declaration`,
-            {
-                body: body,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param body 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiDeclarationPut(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiDeclarationPut(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiDeclarationPut(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiDeclarationPut(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Declaration`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/declaration/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

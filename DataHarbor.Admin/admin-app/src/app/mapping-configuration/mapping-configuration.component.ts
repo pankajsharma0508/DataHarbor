@@ -14,6 +14,6 @@ export class MappingConfigurationComponent {
 
 
   get mappings() {
-    return this.configuration?.layoutMappings?.find(x=>x.category === 'Transactions File')?.layoutMappings || [];
+    return this.configuration?.layoutMappings || [];
   }
 }
