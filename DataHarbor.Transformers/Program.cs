@@ -28,6 +28,11 @@ namespace DataHarbor.Transformers
                     {
                         e.ConfigureConsumer<DataTransformerConsumer>(context);
                     });
+                    cfg.UseMessageRetry(r =>
+                    {
+                        r.Immediate(2); // Retry immediately 2 times
+                        r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(2));
+                    });
                 });
             });
             //builder.Services.AddHostedService<Worker>();

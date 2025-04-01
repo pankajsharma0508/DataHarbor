@@ -20,4 +20,6 @@ export interface ProcessingConfiguration {
     modifiedOn?: Date;
     operatorFilesConfigurations?: FilesConfigurations;
     layoutMappings?: Array<LayoutMapping>;
+    mailboxFileName?: string;
+    mailboxFilePath?: string;
 }

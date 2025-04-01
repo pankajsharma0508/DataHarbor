@@ -4,9 +4,8 @@ namespace DataHarbor.Common.Configuration
 {
     public class ProcessingConfiguration : IDocument
     {
-        public ProcessingConfiguration(Guid id)
+        public ProcessingConfiguration()
         {
-            UniqueId = id;
             OperatorFilesConfigurations = new FilesConfigurations();
             LayoutMappings = [];
         }

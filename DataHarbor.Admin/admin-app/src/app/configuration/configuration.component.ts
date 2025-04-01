@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Tab, TabsComponent } from '../tabs/tabs.component';
 import { CommonModule } from '@angular/common';
 import { ProcessingConfiguration } from '../../model/processingConfiguration';
@@ -7,7 +7,6 @@ import { ConfigurationStore } from '../configuration.service';
 import { FileConfigurationComponent } from '../file-configuration/file-configuration.component';
 import { MappingConfigurationComponent } from '../mapping-configuration/mapping-configuration.component';
 import { DxFileUploaderModule } from 'devextreme-angular';
-import { CategoryLayoutMapping } from '../../model/categoryLayoutMapping';
 import { LayoutMapping } from '../../model/layoutMapping';
 import { Categories } from './configuration-constants';
 
@@ -27,7 +26,7 @@ export class ConfigurationComponent {
   protected selectedTab = this.tabs[0];
   protected configurationId: string | undefined;
   protected configuration: ProcessingConfiguration = {};
-
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private store: ConfigurationStore,
     private route: ActivatedRoute) {
@@ -48,6 +47,10 @@ export class ConfigurationComponent {
     }
   }
 
+  triggerFileInput() {
+    this.fileInput.nativeElement.click(); // Triggers the hidden file input
+  }
+
   async saveConfiguration() {
     try {
       await this.store.put(this.configuration);
@@ -55,32 +58,33 @@ export class ConfigurationComponent {
     }
   }
 
-  onFileSelected(e: any) {
-    const files = e.value; // Access selected files
-    console.log('Selected files:', files);
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
 
-    // Example: Reading file contents
-    files.forEach((file: any) => {
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        console.log(`Contents of ${file.name}:`, event.target.result);
-        this.readConfigurationJson(event.target.result);
-
-      };
-      reader.readAsText(file);
-    });
+      if (file.type === 'application/json') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const fileContent = e.target?.result;
+          console.log('JSON File Content:', fileContent);
+          this.readConfigurationJson(fileContent);
+        };
+        reader.readAsText(file);
+      } else {
+        alert('Please select a valid JSON file.');
+      }
+    }
   }
 
-  readConfigurationJson(fileText: string) {
+  readConfigurationJson(fileText:any) {
     const configuration = JSON.parse(fileText);
     const snri = configuration?.snriConfiguration;
     if (snri) {
       const mailbox = snri.layoutMappings.find((x: { category: string; }) => x.category === Categories.Mailbox);
       const transactionFiles = snri.layoutMappings.find((x: { category: string; }) => x.category === Categories.TransactionFiles);
       if (this.configuration) {
-        this.configuration.layoutMappings = new Array<CategoryLayoutMapping>;
-        const mapping = <CategoryLayoutMapping>{};
-        mapping.category = transactionFiles.category;
+        this.configuration.layoutMappings = new Array<LayoutMapping>;
         const mergedMapping = transactionFiles.mappings.map((x: any) => {
           const mapping = <LayoutMapping>{}
           mapping.id = x.id;
@@ -96,9 +100,7 @@ export class ConfigurationComponent {
           }
           return mapping;
         });
-
-        mapping.layoutMappings = mergedMapping.filter((x:any) => !!x.fieldName);
-        this.configuration.layoutMappings.push(mapping);
+        this.configuration.layoutMappings = mergedMapping;
       }
     }
 

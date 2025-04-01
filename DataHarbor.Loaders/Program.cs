@@ -29,10 +29,15 @@ namespace DataHarbor.Loaders
                     {
                         e.ConfigureConsumer<DataLoaderConsumer>(context);
                     });
+                    cfg.UseMessageRetry(r =>
+                    {
+                        r.Immediate(2); // Retry immediately 2 times
+                        r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(2));
+                    });
                 });
             });
 
-            builder.Services.AddHostedService<Worker>();
+            //builder.Services.AddHostedService<Worker>();
 
             var host = builder.Build();
             host.Run();

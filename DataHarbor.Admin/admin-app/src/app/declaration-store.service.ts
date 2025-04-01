@@ -11,15 +11,11 @@ export class DeclarationStore {
 
   constructor(private service: DeclarationService) { }
 
-    post(request: Declaration) {
-      return lastValueFrom(this.service.apiDeclarationPost(request));
-    }
-  
     get(id: string) {
       return lastValueFrom(this.service.apiDeclarationIdGet(id));
     }
   
     put(request: Declaration) {
-      return lastValueFrom(this.service.apiDeclarationPut(request));
+      return lastValueFrom(this.service.apiDeclarationUpdatePut(request));
     }
 }

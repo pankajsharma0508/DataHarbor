@@ -9,6 +9,7 @@ import { ConfigurationService } from '../../api/configuration.service';
 import { ProcessingConfiguration } from '../../model/processingConfiguration';
 import { v4 as uuidv4 } from 'uuid';
 import { Anchored } from '../../model/anchored';
+import { ProcessService } from '../../api/process.service';
 
 
 @Component({
@@ -25,7 +26,9 @@ export class DeclarationsListComponent implements OnInit {
   configurations: Array<ProcessingConfiguration> = [];
 
   protected requests: Declaration[] = [];
-  constructor(private service: DeclarationService, private configurationService: ConfigurationService) {
+  constructor(private service: DeclarationService, 
+    private configurationService: ConfigurationService, 
+    private processService: ProcessService) {
   }
 
   ngOnInit(): void {
@@ -34,12 +37,12 @@ export class DeclarationsListComponent implements OnInit {
   }
 
   async loadConfigurations() {
-    const configOptions = await lastValueFrom(this.configurationService.apiConfigurationConfigurationAllGet());
+    const configOptions = await lastValueFrom(this.configurationService.apiConfigurationAllGet());
     this.configurations = configOptions;
   }
 
   async loadDeclarations() {
-    const requests = await lastValueFrom(this.service.apiDeclarationGet());
+    const requests = await lastValueFrom(this.service.apiDeclarationAllGet());
     this.requests = requests;
   }
 
@@ -48,7 +51,7 @@ export class DeclarationsListComponent implements OnInit {
     msg.uniqueId = uuidv4();
     msg.filePath = this.filePath;
     msg.name = this.selectedConfig?.name;
-    await lastValueFrom(this.service.apiDeclarationPost(msg));
+    await lastValueFrom(this.processService.apiProcessSendMessagePost(msg));
     this.showPopup = false;
   }
 }

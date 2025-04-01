@@ -1,6 +1,6 @@
 ﻿using DataHarbor.Common.Messaging;
 using DataHarbor.WebAPI.Commands;
-using MassTransit.Mediator;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataHarbor.WebAPI.Controllers

@@ -12,6 +12,12 @@ import { DxDataGridModule } from 'devextreme-angular';
 export class MappingConfigurationComponent {
   @Input() configuration?: ProcessingConfiguration;
 
+  protected fieldTypes = [
+    { text: 'Text', value: 'string' },
+    { text: 'Date', value: 'date' },
+    { text: 'Number', value: 'number' },
+    { text: 'Decimal', value: 'decimal' }
+  ]
 
   get mappings() {
     return this.configuration?.layoutMappings || [];

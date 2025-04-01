@@ -15,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideKeycloakAngular(),
     api.ConfigurationService,
-    api.DeclarationService
+    api.DeclarationService,
+    api.ProcessService
   ]
 };

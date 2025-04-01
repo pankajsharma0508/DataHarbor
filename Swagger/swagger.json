@@ -553,6 +553,14 @@
               "$ref": "#/components/schemas/LayoutMapping"
             },
             "nullable": true
+          },
+          "mailboxFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailboxFilePath": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

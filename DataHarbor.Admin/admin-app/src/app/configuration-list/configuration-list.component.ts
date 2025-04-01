@@ -25,7 +25,7 @@ export class ConfigurationListComponent implements OnInit {
   }
 
   async loadConfigurations() {
-    const config = await lastValueFrom(this.service.apiConfigurationConfigurationAllGet());
+    const config = await lastValueFrom(this.service.apiConfigurationAllGet());
     this.configurations = config;
   }
 }

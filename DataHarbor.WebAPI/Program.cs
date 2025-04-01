@@ -4,6 +4,7 @@ using DataHarbor.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using MassTransit;
+using Microsoft.AspNetCore.Http.Json;
 
 namespace DataHarbor.WebAPI
 {
@@ -79,10 +80,11 @@ namespace DataHarbor.WebAPI
                      };
                  });
 
+            builder.Services.Configure<JsonOptions>(options =>
+            {
+                options.SerializerOptions.IncludeFields = true;
+            });
 
-
-
-            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddTransient(typeof(IRepository<>), typeof(DocumentRepository<>));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
