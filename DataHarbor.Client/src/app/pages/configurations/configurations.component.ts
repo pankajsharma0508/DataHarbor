@@ -13,7 +13,6 @@ export class ConfigurationsComponent {
   protected configurations: Array<ProcessingConfiguration> = [];
 
   constructor(private service: ConfigurationService) {
-
   }
 
   ngOnInit(): void {

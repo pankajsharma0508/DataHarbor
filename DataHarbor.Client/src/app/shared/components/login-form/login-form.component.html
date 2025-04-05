@@ -2,9 +2,8 @@
   <dx-form [formData]="formData" [disabled]="loading">
 
     <dxi-item dataField="email" editorType="dxTextBox"
-      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'User Name', mode: 'username' }">
       <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
@@ -36,8 +35,4 @@
     </ng-container>
 
   </dx-form>
-  <div class="link">
-    <a routerLink="/reset-password">Forgot password?</a>
-  </div>
-  <dx-button stylingMode="outlined" text="Create an account" width="100%"  (click)="onCreateAccountClick()"></dx-button>
 </form>

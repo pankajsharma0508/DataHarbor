@@ -7,16 +7,16 @@ export const navigation = [
   {
     text: 'Configurations',
     path: '/pages/configurations',
-    icon: 'preferences'
+    icon: 'fa fa-toolbox'
   },
   {
     text: 'Declarations',
     path: '/pages/declarations',
-    icon: 'message'
+    icon: 'far fa-envelope-open'
   },
   {
     text: 'Insights',
     path: '/pages/insights',
-    icon: 'chart'
+    icon: 'far fa-chart-bar'
   }
 ];

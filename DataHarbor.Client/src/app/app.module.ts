@@ -4,21 +4,22 @@ import { AppComponent } from './app.component';
 import { DxHttpModule } from 'devextreme-angular/http';
 import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
 import { FooterModule, ResetPasswordFormModule, 
-  CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
+  CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule} from './shared/components';
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import * as api  from '../api/api';
 import { HttpClientModule } from '@angular/common/http';
-import { DxPopupModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule } from 'devextreme-angular';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    DxHttpModule, DxSelectBoxModule, DxTextBoxModule, DxPopupModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
     SingleCardModule,
@@ -29,7 +30,7 @@ import { DxPopupModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-an
     LoginFormModule,
     UnauthenticatedContentModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthService,

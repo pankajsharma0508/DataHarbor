@@ -1,0 +1,17 @@
+<div class="position-relative">
+    <ul class="nav nav-tabs w-100 d-flex">
+        <div class="d-flex flex-grow-1">
+            @for (tab of tabs; track $index) {
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="tab === selectedTab" (click)="onClick(tab)">{{tab.name}}</a>
+            </li>
+            }
+        </div>
+        <div class="ms-auto">
+            <ng-content select=".actions"></ng-content>
+        </div>
+    </ul>
+</div>
+<div class="content-bg">
+    <ng-content select=".tab-content"></ng-content>
+</div>

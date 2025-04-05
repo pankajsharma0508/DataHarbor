@@ -4,12 +4,29 @@ import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormCompon
 import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import { DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSelectBoxModule } from 'devextreme-angular';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { DeclarationsComponent } from './pages/declarations/declarations.component';
 import { InsightsComponent } from './pages/insights/insights.component';
+import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { DeclarationComponent } from './pages/declaration/declaration.component';
+import { TabsComponent } from './pages/tabs/tabs.component';
+import { FileConfigurationComponent } from './pages/configuration/file-configuration/file-configuration.component';
+import { MappingConfigurationComponent } from './pages/configuration/mapping-configuration/mapping-configuration.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
+  {
+    path: 'pages/declaration/:id',
+    component: DeclarationComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'pages/configuration/:id',
+    component: ConfigurationComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/insights',
     component: InsightsComponent,
@@ -62,7 +79,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
+  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule, 
+    CommonModule, 
+    FormsModule, DxNumberBoxModule, 
+    DxSelectBoxModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [
@@ -71,6 +91,11 @@ const routes: Routes = [
     ConfigurationsComponent,
     DeclarationsComponent,
     InsightsComponent,
+    ConfigurationComponent,
+    TabsComponent,
+    DeclarationComponent,
+    FileConfigurationComponent,
+    MappingConfigurationComponent
   ]
 })
 export class AppRoutingModule { }

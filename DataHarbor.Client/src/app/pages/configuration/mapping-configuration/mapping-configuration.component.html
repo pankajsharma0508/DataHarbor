@@ -1,0 +1,14 @@
+<div class="p-3">
+    <dx-data-grid [dataSource]="mappings" [allowColumnReordering]="false" [showBorders]="true" [columnAutoWidth]="true" [allowColumnResizing]="false"
+        [rowAlternationEnabled]="true">
+        <dxo-editing mode="cell" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+        <dxi-column dataField="sourceColumn" minWidth="300" width="auto"></dxi-column>
+        <dxi-column dataField="fieldName" minWidth="300" width="auto"></dxi-column>
+        <dxi-column dataField="fieldType" width="100">
+            <dxo-lookup [dataSource]="fieldTypes" displayExpr="text" valueExpr="value"></dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="formatPattern" width="150"></dxi-column>
+        <dxi-column dataField="isUnique" width="150"></dxi-column>
+    </dx-data-grid>
+</div>

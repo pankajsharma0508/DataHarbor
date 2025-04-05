@@ -6,7 +6,7 @@
         <dxi-column dataField="recieveDate" dataType="datetime"></dxi-column>
         <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
         <div *dxTemplate="let d of 'cellTemplate'">
-            <a [routerLink]="['/declarations', d.data.uniqueId]">{{d.data.name}}</a>
+            <a [routerLink]="['/pages/declaration', d.data.uniqueId]">{{d.data.name}}</a>
         </div>
     </dx-data-grid>
     <div class="card">
