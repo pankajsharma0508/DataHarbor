@@ -46,6 +46,7 @@ namespace DataHarbor.Transformers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[ERROR] Failed to process Docked message: {ex.Message}");
                 _logger.LogError(ex.Message, ex);
             }
             finally

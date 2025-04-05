@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Categories } from './configuration-constants';
 import { ConfigurationStore } from '../services/configuration.service';
 import { Tab } from '../tabs/tabs.component';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-configuration',
@@ -13,6 +14,7 @@ import { Tab } from '../tabs/tabs.component';
 })
 export class ConfigurationComponent {
   protected tabs: Tab[] = [
+    new Tab('General'),
     new Tab('File Settings'),
     new Tab('Mapping')
   ]
@@ -23,6 +25,7 @@ export class ConfigurationComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private store: ConfigurationStore,
+    private notification: NotificationService,
     private route: ActivatedRoute) {
   }
 
@@ -48,6 +51,7 @@ export class ConfigurationComponent {
   async saveConfiguration() {
     try {
       await this.store.put(this.configuration);
+      this.notification.showSuccess(`Saved Successfully.`);
     } catch (ex) {
     }
   }
@@ -95,6 +99,8 @@ export class ConfigurationComponent {
           return mapping;
         });
         this.configuration.layoutMappings = mergedMapping;
+        this.configuration.mailboxFilePath = snri?.mailboxFilePath;
+        this.configuration.mailboxFileName = snri?.mailboxFileName;
       }
     }
 

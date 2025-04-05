@@ -24,7 +24,7 @@ namespace DataHarbor.Transformers
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("ingest-queue", e =>
+                    cfg.ReceiveEndpoint("transformation-queue", e =>
                     {
                         e.ConfigureConsumer<DataTransformerConsumer>(context);
                     });

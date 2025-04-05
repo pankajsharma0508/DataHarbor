@@ -6,7 +6,9 @@ import { ProcessService } from '../../../api/process.service';
 import { Anchored } from '../../../model/anchored';
 import { Declaration } from '../../../model/declaration';
 import { ProcessingConfiguration } from '../../../model/processingConfiguration';
-import { v4 as uuidv4 } from 'uuid';
+import { NotificationService } from '../services/notification.service';
+import { Guid } from 'devextreme/common';
+import { RowRemovedEvent } from 'devextreme/ui/data_grid';
 
 
 @Component({
@@ -20,10 +22,11 @@ export class DeclarationsComponent implements OnInit {
   protected selectedConfig: ProcessingConfiguration | undefined;
   protected filePath: string = '';
   configurations: Array<ProcessingConfiguration> = [];
-
   protected requests: Declaration[] = [];
+
   constructor(private service: DeclarationService,
     private configurationService: ConfigurationService,
+    private notification: NotificationService,
     private processService: ProcessService) {
   }
 
@@ -43,11 +46,29 @@ export class DeclarationsComponent implements OnInit {
   }
 
   async announce() {
-    const msg = <Anchored>{};
-    msg.uniqueId = uuidv4();
-    msg.filePath = this.filePath;
-    msg.name = this.selectedConfig?.name;
-    await lastValueFrom(this.processService.apiProcessSendMessagePost(msg));
-    this.showPopup = false;
+    try {
+      const msg = <Anchored>{};
+      msg.uniqueId = new Guid().toString();
+      msg.filePath = this.filePath;
+      msg.name = this.selectedConfig?.name;
+      await lastValueFrom(this.processService.apiProcessSendMessagePost(msg));
+      this.notification.showSuccess('Declaration recorded successfully.');
+      this.showPopup = false;
+    } catch (e) {
+      this.notification.showSuccess('Unable to record declaration.');
+    }
+  }
+
+  async onRowRemoved(event: RowRemovedEvent) {
+    try {
+      const declaration = event.data as Declaration;
+      if (declaration?.uniqueId) {
+        await lastValueFrom(this.service.apiDeclarationIdDelete(declaration?.uniqueId));
+        await this.loadDeclarations();
+        this.notification.showSuccess(`${declaration.name} deleted successfully.`);
+      }
+    } catch (e) {
+      this.notification.showError(`Unable to delete declaration.`);
+    }
   }
 }

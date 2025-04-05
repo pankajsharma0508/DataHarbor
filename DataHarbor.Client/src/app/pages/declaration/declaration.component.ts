@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Declaration } from '../../../model/declaration';
 import { Tab, TabNames } from '../tabs/tabs.component';
 import { DeclarationStore } from '../services/declaration-store.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-declaration',
@@ -21,7 +22,7 @@ export class DeclarationComponent {
   protected declaration: Declaration = {};
   protected tabNames = TabNames
 
-  constructor(private store: DeclarationStore, private route: ActivatedRoute) {
+  constructor(private store: DeclarationStore, private route: ActivatedRoute, private notification: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -42,7 +43,8 @@ export class DeclarationComponent {
     return this.declaration.transactions || [];
   }
 
-  saveDeclaration() {
-    this.store.put(this.declaration);
+  async saveDeclaration() {
+    await this.store.put(this.declaration);
+    this.notification.showSuccess(`Saved Successfully.`);
   }
 }

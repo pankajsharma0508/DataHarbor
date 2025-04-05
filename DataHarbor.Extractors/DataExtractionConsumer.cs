@@ -51,6 +51,7 @@ namespace DataHarbor.Extractors
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[ERROR] Failed to process Anchored message: {ex.Message}");
                 _logger.LogError(ex.Message, ex);
             }
             finally

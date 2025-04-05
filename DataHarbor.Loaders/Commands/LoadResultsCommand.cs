@@ -5,4 +5,6 @@ using MediatR;
 namespace DataHarbor.Loaders.Commands
 {
     public record LoadResultsCommand(ProcessingConfiguration Configuration, ProcessRequest Request) : IRequest<bool>;
+
+    public record UpdateAccountingBookCommand(ProcessRequest Request) : IRequest<bool>;
 }

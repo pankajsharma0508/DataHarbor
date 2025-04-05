@@ -9,7 +9,7 @@ import { FilesConfigurations } from '../../../../model/filesConfigurations';
 })
 export class FileConfigurationComponent {
   @Input() fileConfiguration?: FilesConfigurations;
-  protected FileFormats = FileFormat.FileLineDelimiters;
+  protected FileFormats = FileFormat.Formats;
   protected LineDelimiters = FileLineDelimiter.FileLineDelimiters;
   protected ColumnDelimiters = FileColumnDelimiter.FileColumnDelimiters;
   protected DecimalSymbols = FileDecimalSymbol.FileDecimalSymbols;

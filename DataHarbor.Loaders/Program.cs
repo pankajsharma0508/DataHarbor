@@ -25,7 +25,7 @@ namespace DataHarbor.Loaders
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("ingest-queue", e =>
+                    cfg.ReceiveEndpoint("loading-queue", e =>
                     {
                         e.ConfigureConsumer<DataLoaderConsumer>(context);
                     });

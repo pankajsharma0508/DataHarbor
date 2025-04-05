@@ -32,10 +32,13 @@
             </div>
             <div class="tab-content">
                 @if (selectedTab.name === this.tabs[0].name) {
+                <app-general-configuration [configuration]="configuration"></app-general-configuration>
+                }
+                @else if (selectedTab.name === this.tabs[1].name) {
                 <app-file-configuration
                     [fileConfiguration]="configuration.operatorFilesConfigurations"></app-file-configuration>
                 }
-                @else if (selectedTab.name === this.tabs[1].name) {
+                @else if (selectedTab.name === this.tabs[2].name) {
                 <app-mapping-configuration [configuration]="configuration"></app-mapping-configuration>
                 }
             </div>

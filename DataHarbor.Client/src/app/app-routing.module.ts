@@ -4,7 +4,7 @@ import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormCompon
 import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSelectBoxModule } from 'devextreme-angular';
+import { DxDataGridModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxToastModule } from 'devextreme-angular';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { DeclarationsComponent } from './pages/declarations/declarations.component';
 import { InsightsComponent } from './pages/insights/insights.component';
@@ -15,8 +15,15 @@ import { FileConfigurationComponent } from './pages/configuration/file-configura
 import { MappingConfigurationComponent } from './pages/configuration/mapping-configuration/mapping-configuration.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GeneralConfigurationComponent } from './pages/configuration/general-configuration/general-configuration.component';
+import { AccountsComponent } from './pages/accounts/accounts.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/accounts',
+    component: AccountsComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/declaration/:id',
     component: DeclarationComponent,
@@ -81,7 +88,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule, 
     CommonModule, 
-    FormsModule, DxNumberBoxModule, 
+    FormsModule, DxNumberBoxModule, DxToastModule, DxPopupModule, DxTextBoxModule, DxTextAreaModule,
     DxSelectBoxModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
@@ -95,7 +102,9 @@ const routes: Routes = [
     TabsComponent,
     DeclarationComponent,
     FileConfigurationComponent,
-    MappingConfigurationComponent
+    MappingConfigurationComponent,
+    GeneralConfigurationComponent,
+    AccountsComponent
   ]
 })
 export class AppRoutingModule { }

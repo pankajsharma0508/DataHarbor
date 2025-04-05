@@ -1,5 +1,5 @@
 export class FileFormat {
-    public static FileLineDelimiters: Array<FileFormat> = [
+    public static Formats: Array<FileFormat> = [
         { id: 0, extension: '.txt', description: 'Text File' },
         { id: 1, extension: '.csv', description: 'Comma Separated Files' },
     ]

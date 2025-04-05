@@ -18,6 +18,9 @@ namespace DataHarbor.WebAPI
                 .ForMember(dest => dest.RawData, opt => opt.MapFrom(src => src.RawData.ToDataTable()))
                 .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions.ToDataTable()));
 
+            CreateMap<ProcessResult, Account>()
+               .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions.ToDictionaryList()));
+
             CreateMap<ProcessMessage, Anchored>()
                 .ForMember(dest => dest.UniqueId, opt => opt.MapFrom(src => src.UniqueId))
                 .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath))

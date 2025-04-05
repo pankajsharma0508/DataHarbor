@@ -1,5 +1,4 @@
-﻿using DataHarbor.Common.Models;
-using DataHarbor.WebAPI.Models;
+﻿using DataHarbor.WebAPI.Models;
 using MediatR;
 
 namespace DataHarbor.WebAPI.Query

@@ -1,9 +1,15 @@
 <h2>Configurations</h2>
 <div class="content-block">
-    <dx-data-grid [dataSource]="configurations" [showBorders]="true" [rowAlternationEnabled]="true">
-        <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
+    <dx-data-grid [dataSource]="configurations" [showBorders]="true" [rowAlternationEnabled]="true"
+        (onRowRemoved)="onRowRemoved($event)" (onRowUpdated)="onRowUpdated($event)"
+        (onRowInserted)="onRowInserted($event)">
+        <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+        <dxi-column dataField="name" cellTemplate="cellTemplate">
+            <dxi-validation-rule type="required" message="Name is required."> </dxi-validation-rule>
+        </dxi-column>
         <dxi-column dataField="description"></dxi-column>
-        <dxi-column dataField="modifiedOn" dataType="datetime"></dxi-column>
+        <dxi-column dataField="modifiedOn" dataType="datetime" [allowEditing]="false"></dxi-column>
         <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
         <div *dxTemplate="let d of 'cellTemplate'">
             <a [routerLink]="['/pages/configuration', d.data.id]">{{d.data.name}}</a>

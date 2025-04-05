@@ -26,23 +26,34 @@ namespace DataHarbor.Loaders
 
         public async Task Consume(ConsumeContext<Adrifted> messageContext)
         {
-            _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
-
-            var msg = messageContext.Message;
-
-            // Fetch configuration before progressing
-            var configuration = await _mediator.Send(new ProcessingConfigurationQuery(msg.Name));
-
-            // Fetch transactions
-            var processedResult = await _mediator.Send(new GetTransactionsQuery(messageContext.Message.UniqueId));
-
-
-            // Create or Update Dbase file
-            if (processedResult != null)
+            try
             {
-                await _mediator.Send(new LoadResultsCommand(configuration, processedResult));
+                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+
+                var msg = messageContext.Message;
+
+                // Fetch configuration before progressing
+                var configuration = await _mediator.Send(new ProcessingConfigurationQuery(msg.Name));
+
+                // Fetch transactions
+                var processedResult = await _mediator.Send(new GetTransactionsQuery(messageContext.Message.UniqueId));
+
+                // Create or Update Dbase file
+                if (processedResult != null)
+                {
+                    await _mediator.Send(new UpdateAccountingBookCommand(processedResult));
+                    await _mediator.Send(new LoadResultsCommand(configuration, processedResult));
+                }
             }
-            await messageContext.ConsumeCompleted;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] Failed to process Docked message: {ex.Message}");
+                _logger.LogError(ex.Message, ex);
+            }
+            finally
+            {
+                await messageContext.ConsumeCompleted;
+            }
         }
     }
 }

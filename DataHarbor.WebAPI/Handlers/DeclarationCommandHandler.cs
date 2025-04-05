@@ -53,8 +53,7 @@ namespace DataHarbor.WebAPI.Handlers
         }
         public Task Handle(DeleteRequestCommand command, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
-            //return repository.Delete(command.id);
+            return repository.Delete(command.id);
         }
     }
 

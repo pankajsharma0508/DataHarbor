@@ -1,0 +1,24 @@
+@if(configuration) {
+<div class="row form-group p-2">
+    <div class="col-md-4">
+        <div class="form-group p-2">
+            <label class="control-label"> Description</label>
+            <dx-text-area [(ngModel)]="configuration.description"></dx-text-area>
+        </div>
+    </div>
+</div>
+<div class="row form-group p-2">
+    <div class="col-md-3">
+        <div class="form-group p-2">
+            <label class="control-label"> Mailbox File Path</label>
+            <dx-text-box [(ngModel)]="configuration.mailboxFilePath"></dx-text-box>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group p-2">
+            <label class="control-label"> Mailbox File Name</label>
+            <dx-text-box [(ngModel)]="configuration.mailboxFileName"></dx-text-box>
+        </div>
+    </div>
+</div>
+}
