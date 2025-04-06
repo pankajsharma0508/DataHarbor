@@ -19,10 +19,10 @@ namespace DataHarbor.WebAPI.Handlers
             _mapper = mapper;
         }
 
-        public Task<List<Account>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Account>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
         {
-            var accounts = repository.GetAll();
-            return Task.FromResult(_mapper.Map<List<Account>>(accounts));
+            var accounts = await repository.GetAll();
+            return _mapper.Map<List<Account>>(accounts);
         }
     }
 
@@ -37,10 +37,10 @@ namespace DataHarbor.WebAPI.Handlers
             _mapper = mapper;
         }
 
-        public Task<Account> Handle(GetAccountQuery request, CancellationToken cancellationToken)
+        public async Task<Account> Handle(GetAccountQuery request, CancellationToken cancellationToken)
         {
-            var accounts = repository.FirstOrDefault(x => x.Id == request.id);
-            return Task.FromResult(_mapper.Map<Account>(accounts));
+            var accounts = await repository.FirstOrDefault(x => x.Id == request.id);
+            return _mapper.Map<Account>(accounts);
         }
     }
 }

@@ -17,8 +17,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GeneralConfigurationComponent } from './pages/configuration/general-configuration/general-configuration.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
+import { AccountComponent } from './pages/account/account.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/account/:id',
+    component: AccountComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/accounts',
     component: AccountsComponent,
@@ -104,7 +110,8 @@ const routes: Routes = [
     FileConfigurationComponent,
     MappingConfigurationComponent,
     GeneralConfigurationComponent,
-    AccountsComponent
+    AccountsComponent,
+    AccountComponent
   ]
 })
 export class AppRoutingModule { }

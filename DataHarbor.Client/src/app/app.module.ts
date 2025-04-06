@@ -36,7 +36,8 @@ import { NotificationService } from './pages/services/notification.service';
     NotificationService,
     api.ConfigurationService,
     api.DeclarationService,
-    api.ProcessService
+    api.ProcessService,
+    api.AccountsService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,11 @@
 <h2>Accounts</h2>
 <div class="content-block">
-    <div class="dx-card responsive-paddings">Put your content here</div>
+    <dx-data-grid [dataSource]="accounts" [showBorders]="true" [rowAlternationEnabled]="true">
+        <dxi-column dataField="name" cellTemplate="cellTemplate">
+        </dxi-column>
+        <dxi-column dataField="description"></dxi-column>
+        <div *dxTemplate="let d of 'cellTemplate'">
+            <a [routerLink]="['/pages/account', d.data.uniqueId]">{{d.data.name}}</a>
+        </div>
+    </dx-data-grid>
 </div>
