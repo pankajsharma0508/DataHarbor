@@ -3,7 +3,6 @@ import { lastValueFrom } from 'rxjs';
 import { ConfigurationService } from '../../../api/configuration.service';
 import { DeclarationService } from '../../../api/declaration.service';
 import { ProcessService } from '../../../api/process.service';
-import { Anchored } from '../../../model/anchored';
 import { Declaration } from '../../../model/declaration';
 import { ProcessingConfiguration } from '../../../model/processingConfiguration';
 import { NotificationService } from '../services/notification.service';
@@ -21,8 +20,9 @@ export class DeclarationsComponent implements OnInit {
   showPopup = false;
   protected selectedConfig: ProcessingConfiguration | undefined;
   protected filePath: string = '';
+  protected description: string = '';
   configurations: Array<ProcessingConfiguration> = [];
-  protected requests: Declaration[] = [];
+  protected declarations: Declaration[] = [];
 
   constructor(private service: DeclarationService,
     private configurationService: ConfigurationService,
@@ -41,17 +41,19 @@ export class DeclarationsComponent implements OnInit {
   }
 
   async loadDeclarations() {
-    const requests = await lastValueFrom(this.service.apiDeclarationAllGet());
-    this.requests = requests;
+    const declarations = await lastValueFrom(this.service.apiDeclarationAllGet());
+    this.declarations = declarations;
   }
 
   async announce() {
     try {
-      const msg = <Anchored>{};
-      msg.uniqueId = new Guid().toString();
-      msg.filePath = this.filePath;
-      msg.name = this.selectedConfig?.name;
-      await lastValueFrom(this.processService.apiProcessSendMessagePost(msg));
+      const declaration = <Declaration>{};
+      declaration.uniqueId = new Guid().toString();
+      declaration.filePath = this.filePath;
+      declaration.name = this.selectedConfig?.name;
+      declaration.description = this.description || '';
+      const newDeclaration = await lastValueFrom(this.service.apiDeclarationCreatePost(declaration));
+      this.declarations.push(newDeclaration);
       this.notification.showSuccess('Declaration recorded successfully.');
       this.showPopup = false;
     } catch (e) {

@@ -1,6 +1,6 @@
 <h2>Declarations</h2>
 <div class="content-block">
-    <dx-data-grid [dataSource]="requests" [showBorders]="true" [rowAlternationEnabled]="true"
+    <dx-data-grid [dataSource]="declarations" [showBorders]="true" [rowAlternationEnabled]="true"
         (onRowRemoved)="onRowRemoved($event)">
         <dxo-toolbar>
             <dxi-item location="after">
@@ -17,12 +17,13 @@
             <a [routerLink]="['/pages/declaration', d.data.uniqueId]">{{d.data.name}}</a>
         </div>
     </dx-data-grid>
-    <dx-popup [(visible)]="showPopup" [width]="400" [height]="250" [showTitle]="true" title="Announce Declaration"
+    <dx-popup [(visible)]="showPopup" [width]="400" [height]="275" [showTitle]="true" title="Announce Declaration"
         [dragEnabled]="true" [closeOnOutsideClick]="true">
         <div class="popup-content">
             <dx-select-box [items]="configurations" [(value)]="selectedConfig" displayExpr="name"
                 placeholder="Select Configuration"></dx-select-box>
             <dx-text-box [(value)]="filePath" placeholder="Enter File Path"></dx-text-box>
+            <dx-text-box [(value)]="description" placeholder="Enter description"></dx-text-box>
             <div class="button-group">
                 <button class="btn btn-sm btn-primary" [disabled]="!(selectedConfig && filePath)"
                     (click)="announce()">Announce</button>
@@ -30,5 +31,4 @@
             </div>
         </div>
     </dx-popup>
-
 </div>

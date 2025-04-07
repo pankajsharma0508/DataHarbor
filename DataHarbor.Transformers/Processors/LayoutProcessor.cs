@@ -16,7 +16,7 @@ namespace DataHarbor.Transformers.Processors
             Console.WriteLine("Layout Processor");
 
             var configuration = context.GetProcessingParameter(ProcessingResultNames.Configuration) as ProcessingConfiguration;
-            var processRequest = context.GetProcessingParameter(ProcessingResultNames.RawData) as ProcessRequest;
+            var processRequest = context.GetProcessingParameter(ProcessingResultNames.ProcessingRequest) as ProcessRequest;
 
             Process(configuration, processRequest);
             context.AddProcessingParameter(ProcessingResultNames.ProcessedResult, processRequest);

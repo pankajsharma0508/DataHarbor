@@ -1,5 +1,6 @@
 ﻿using DataHarbor.Common.Configuration;
 using DataHarbor.Common.Messaging;
+using DataHarbor.Common.Models;
 using DataHarbor.Common.Process;
 using DataHarbor.Extractors.Commands;
 using DataHarbor.Repository;
@@ -16,38 +17,49 @@ namespace DataHarbor.Extractors
         private readonly ILogger<DataExtractionConsumer> _logger;
         private readonly IMediator _mediator;
         private readonly IRepository<ProcessingConfiguration> _configurationRepository;
+        private readonly IRepository<ProcessRequest> _declarationRepository;
         private readonly IBus _messageBus;
 
         public DataExtractionConsumer(ILogger<DataExtractionConsumer> logger,
             IMediator mediator,
             IBus messageBus,
-            IRepository<ProcessingConfiguration> configurationRepository)
+            IRepository<ProcessingConfiguration> configurationRepository,
+            IRepository<ProcessRequest> declarationRepository)
         {
             _logger = logger;
             _mediator = mediator;
             _messageBus = messageBus;
             _configurationRepository = configurationRepository;
+            _declarationRepository = declarationRepository;
         }
 
         public async Task Consume(ConsumeContext<Anchored> messageContext)
         {
             try
             {
-                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
-                var processContext = InitializeProcessor(messageContext);
+                
+                _logger.LogInformation($"Received message: {messageContext.Message.DeclarationId}");
+
+                var declarationId = messageContext.Message.DeclarationId;
+                var processContext = await InitializeProcessor(messageContext.Message.DeclarationId);
+
+                // Validate file
+                await _mediator.Send(new ValidateRequestCommand(processContext));
 
                 // Read file.
                 await _mediator.Send(new ReadFileQuery(processContext));
-
-                // Map to the correct format.
 
 
                 // publish final results
                 await _mediator.Send(new ProcessRequestCommand(processContext));
 
-                var input = messageContext.Message;
-                var message = new Docked(processContext.Id, input.Name, input.FilePath, input.RecievedOn);
-                await _messageBus.Publish(message);
+
+                if (!processContext.ContainsCriticalError())
+                {
+                    var input = messageContext.Message;
+                    var message = new Docked(declarationId);
+                    await _messageBus.Publish(message);
+                }
             }
             catch (Exception ex)
             {
@@ -60,19 +72,14 @@ namespace DataHarbor.Extractors
             }
         }
 
-        private ProcessContext InitializeProcessor(ConsumeContext<Anchored> messageContext)
+        private async Task<ProcessContext> InitializeProcessor(Guid uniqueId)
         {
-            var filePath = messageContext.Message.FilePath;
             var processContext = new ProcessContext();
-            processContext.Id = Guid.NewGuid();
-            processContext.FilePath = filePath;
-            processContext.Name = messageContext.Message.Name;
-
-            var configurationName = messageContext.Message.Name;
-            if (!string.IsNullOrEmpty(configurationName))
+            var declaration = await _declarationRepository.GetByID(uniqueId.ToString());
+            if (declaration != null)
             {
-                var processingConfiguration = GetProcessingConfiguration(configurationName);
-                processContext.AddProcessingParameter(nameof(ProcessingConfiguration), processingConfiguration);
+                processContext.Configuration = GetProcessingConfiguration(declaration.Name);
+                processContext.Declaration = declaration;
             }
             return processContext;
         }

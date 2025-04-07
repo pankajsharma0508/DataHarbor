@@ -42,6 +42,11 @@
                             </dxo-editing>
                         </dx-data-grid>
                     </div>
+                    <div [hidden]="selectedTab.name != tabNames.ProcessingLogs">
+                        <dx-data-grid [dataSource]="processingLogs" [showBorders]="true" [rowAlternationEnabled]="true"
+                            [showRowLines]="true" [showColumnLines]="true" [columnMinWidth]="100">
+                        </dx-data-grid>
+                    </div>
                 </div>
                 }
             </div>

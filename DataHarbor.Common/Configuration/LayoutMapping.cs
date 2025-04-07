@@ -12,4 +12,14 @@
         public bool IsUnique { get; set; }
         public int? Length { get; set; }
     }
+
+    public class FieldTypes
+    {
+        public static string Date = "date";
+        public static string Number = "number";
+        public static string Decimal = "decimal";
+        public static string Text = "string";
+
+    }
+
 }

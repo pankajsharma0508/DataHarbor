@@ -10,13 +10,16 @@
  * Do not edit the class manually.
  */
 import { ProcessStatus } from './processStatus';
+import { ProcessingLogEntry } from './processingLogEntry';
 
 export interface Declaration { 
     uniqueId?: string;
     name?: string;
     description?: string;
+    filePath?: string;
     status?: ProcessStatus;
     recieveDate?: Date;
     rawData?: Array<{ [key: string]: string; }>;
     transactions?: Array<{ [key: string]: string; }>;
+    processingLogs?: Array<ProcessingLogEntry>;
 }

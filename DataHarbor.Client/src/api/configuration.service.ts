@@ -108,9 +108,9 @@ export class ConfigurationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<ProcessingConfiguration>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProcessingConfiguration>>;
+    public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProcessingConfiguration>>;
     public apiConfigurationCreatePost(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
@@ -146,7 +146,7 @@ export class ConfigurationService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<boolean>('post',`${this.basePath}/api/configuration/create`,
+        return this.httpClient.request<ProcessingConfiguration>('post',`${this.basePath}/api/configuration/create`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -263,9 +263,9 @@ export class ConfigurationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'body', reportProgress?: boolean): Observable<ProcessingConfiguration>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ProcessingConfiguration>>;
+    public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ProcessingConfiguration>>;
     public apiConfigurationUpdatePost(body?: ProcessingConfiguration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
@@ -281,6 +281,9 @@ export class ConfigurationService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -298,7 +301,7 @@ export class ConfigurationService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/api/configuration/update`,
+        return this.httpClient.request<ProcessingConfiguration>('post',`${this.basePath}/api/configuration/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

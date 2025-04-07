@@ -9,12 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ProcessMessageStatus } from './processMessageStatus';
+import { ProcessingSeverity } from './processingSeverity';
 
-export interface ProcessMessage { 
-    declarationId?: string;
-    status?: ProcessMessageStatus;
-    name?: string;
-    filePath?: string;
-    recievedOn?: Date;
+export interface ProcessingLogEntry { 
+    processingStage?: string;
+    summary?: string;
+    message?: string;
+    timeStamp?: Date;
+    category?: string;
+    severity?: ProcessingSeverity;
+    recordID?: number;
 }

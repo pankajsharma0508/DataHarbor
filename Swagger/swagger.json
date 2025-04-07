@@ -357,6 +357,37 @@
         }
       }
     },
+    "/api/declaration/create": {
+      "put": {
+        "tags": [
+          "Declaration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Declaration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/declaration/update": {
       "put": {
         "tags": [
@@ -465,6 +496,10 @@
             "type": "string",
             "nullable": true
           },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          },
           "status": {
             "$ref": "#/components/schemas/ProcessStatus"
           },
@@ -489,6 +524,13 @@
               "additionalProperties": {
                 "type": "string"
               }
+            },
+            "nullable": true
+          },
+          "processingLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessingLogEntry"
             },
             "nullable": true
           }
@@ -584,7 +626,7 @@
       "ProcessMessage": {
         "type": "object",
         "properties": {
-          "uniqueId": {
+          "declarationId": {
             "type": "string",
             "format": "uuid"
           },
@@ -669,6 +711,51 @@
           }
         },
         "additionalProperties": false
+      },
+      "ProcessingLogEntry": {
+        "type": "object",
+        "properties": {
+          "processingStage": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ProcessingSeverity"
+          },
+          "recordID": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProcessingSeverity": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
       }
     },
     "securitySchemes": {

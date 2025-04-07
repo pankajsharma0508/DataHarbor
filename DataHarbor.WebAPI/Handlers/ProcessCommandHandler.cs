@@ -23,7 +23,7 @@ namespace DataHarbor.WebAPI.Handlers
 
             public Task Handle(DataProcessMessage command, CancellationToken cancellationToken)
             {
-                _logger.LogInformation($"Message Recieved for : {command.message.Name} and file name ${command.message.FilePath}", DateTimeOffset.Now);
+                _logger.LogInformation($"Message Recieved for : {command.message.DeclarationId}");
                 command.message.RecievedOn = DateTime.UtcNow;
                 switch (command.message.Status)
                 {

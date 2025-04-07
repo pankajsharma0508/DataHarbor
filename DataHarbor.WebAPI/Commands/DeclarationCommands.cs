@@ -5,10 +5,10 @@ using MediatR;
 namespace DataHarbor.WebAPI.Commands
 {
 
-    public record CreateRequestCommand(Anchored message) : IRequest;
+    public record CreateDeclarationCommand(Declaration declaration) : IRequest<Declaration>;
 
-    public record UpdateRequestCommand(Declaration request) : IRequest;
+    public record UpdateDeclarationCommand(Declaration declaration) : IRequest<Declaration>;
 
-    public record DeleteRequestCommand(string id) : IRequest;
+    public record DeleteDeclarationCommand(string id) : IRequest;
 
 }

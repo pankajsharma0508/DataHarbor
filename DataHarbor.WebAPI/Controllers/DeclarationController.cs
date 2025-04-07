@@ -23,10 +23,13 @@ namespace DataHarbor.WebAPI.Controllers
         [HttpGet("{id}")]
         public Task<Declaration> Get(string id) => _mediator.Send(new GetProcessRequestQuery(id));
 
+        [HttpPost("create")]
+        public Task<Declaration> Post([FromBody] Declaration request) => _mediator.Send(new CreateDeclarationCommand(request));
+
         [HttpPut("update")]
-        public Task Put([FromBody] Declaration request) => _mediator.Send(new UpdateRequestCommand(request));
+        public Task Put([FromBody] Declaration request) => _mediator.Send(new UpdateDeclarationCommand(request));
 
         [HttpDelete("{id}")]
-        public Task Delete(string id) => _mediator.Send(new DeleteRequestCommand(id));
+        public Task Delete(string id) => _mediator.Send(new DeleteDeclarationCommand(id));
     }
 }

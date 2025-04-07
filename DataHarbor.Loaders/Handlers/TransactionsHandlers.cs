@@ -5,16 +5,16 @@ using MediatR;
 
 namespace DataHarbor.Loaders.Handlers
 {
-    public class GetTransactionsHandler : IRequestHandler<GetTransactionsQuery, ProcessRequest>
+    public class GetDeclarationQueryHandler : IRequestHandler<GetDeclarationQuery, ProcessRequest>
     {
         private readonly IRepository<ProcessRequest> repository;
 
-        public GetTransactionsHandler(IRepository<ProcessRequest> repository)
+        public GetDeclarationQueryHandler(IRepository<ProcessRequest> repository)
         {
             this.repository = repository;
         }
 
-        public Task<ProcessRequest> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
+        public Task<ProcessRequest> Handle(GetDeclarationQuery request, CancellationToken cancellationToken)
         {
             return repository.GetByID(request.id.ToString());
         }

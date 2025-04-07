@@ -1,4 +1,6 @@
-﻿using DataHarbor.Common.Messaging;
+﻿using DataHarbor.Common.Configuration;
+using DataHarbor.Common.Messaging;
+using DataHarbor.Common.Models;
 using DataHarbor.Common.Validators;
 using FluentValidation;
 using System;
@@ -12,15 +14,8 @@ namespace DataHarbor.Common.Process
 {
     public class ProcessContext
     {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string FilePath { get; set; }
-
         private List<ProcessContextData> ProcessContextParameters = [];
-        public List<ValidationMessage> ValidationMessages { get; set; } = [];
-
+        public List<ProcessingLogEntry> ProcessingLogs { get; set; } = [];
         public Dictionary<string, DataTable> ProcessingResults { get; set; } = [];
 
         public object? GetProcessingParameter(string name)
@@ -33,17 +28,37 @@ namespace DataHarbor.Common.Process
             this.ProcessContextParameters.Add(new ProcessContextData { Name = name, Value = value });
         }
 
-        public void LogMessage(ValidationMessage message) => this.ValidationMessages.Add(message);
-
-        public void LogMessage(string summary, string message = null, Severity severity = Severity.Info, int recordId = 0)
+        public ProcessingConfiguration? Configuration
         {
-            this.ValidationMessages.Add(new ValidationMessage
+            get { return GetProcessingParameter(nameof(ProcessingConfiguration)) as ProcessingConfiguration; }
+            set { AddProcessingParameter(nameof(ProcessingConfiguration), value); }
+        }
+
+        public ProcessRequest? Declaration
+        {
+            get { return GetProcessingParameter(nameof(ProcessRequest)) as ProcessRequest; }
+            set { AddProcessingParameter(nameof(ProcessRequest), value); }
+        }
+
+        public bool ContainsCriticalError() => ProcessingLogs.Any(x => x.Severity == ProcessingSeverity.Critical);
+
+        public void LogMessage(ProcessingLogEntry message) => this.ProcessingLogs.Add(message);
+
+        public void LogMessage(
+            string summary,
+            string message,
+            string category,
+            ProcessingSeverity severity = ProcessingSeverity.Debug,
+            int recordId = 0)
+        {
+            this.ProcessingLogs.Add(new ProcessingLogEntry
             {
-                Id = Guid.NewGuid(),
-                Summary = summary ?? message,
+                ProcessingStage = summary,
+                Category = category,
                 Message = message,
-                RecordId = recordId,
-                Severity = Severity.Info
+                Severity = severity,
+                TimeStamp = DateTime.UtcNow,
+                RecordID = recordId
             });
         }
     }

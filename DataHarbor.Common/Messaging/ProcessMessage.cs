@@ -2,7 +2,7 @@
 {
     public class ProcessMessage
     {
-        public Guid UniqueId { get; set; }
+        public Guid DeclarationId { get; set; }
         public ProcessMessageStatus Status { get; set; }
         public string Name { get; set; }
         public string FilePath { get; set; }

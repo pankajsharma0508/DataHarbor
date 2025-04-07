@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import Keycloak from 'keycloak-js';
+
 
 export interface IUser {
   email: string;
@@ -14,6 +16,7 @@ const defaultUser = {
 
 @Injectable()
 export class AuthService {
+  keyCloak: Keycloak | undefined;
   private _user: IUser | null = defaultUser;
   get loggedIn(): boolean {
     return !!this._user;
@@ -24,7 +27,14 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.keyCloak = new Keycloak({
+      realm: 'DataHarbor',
+      url: 'http://localhost:8080/',
+      clientId: 'DataHarborClient'
+    }
+    );
+  }
 
   async logIn(email: string, password: string) {
 
@@ -32,7 +42,6 @@ export class AuthService {
       // Send request
       this._user = { ...defaultUser, email };
       this.router.navigate([this._lastAuthenticatedPath]);
-
       return {
         isOk: true,
         data: this._user

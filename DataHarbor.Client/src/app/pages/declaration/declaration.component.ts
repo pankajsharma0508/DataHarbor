@@ -15,7 +15,7 @@ export class DeclarationComponent {
   protected tabs: Tab[] = [
     new Tab(TabNames.SourceData),
     new Tab(TabNames.OperatorData),
-    new Tab(TabNames.ProcessedData),
+    new Tab(TabNames.ProcessingLogs),
   ]
   protected selectedTab = this.tabs[0];
   protected requestId: string | undefined;
@@ -41,6 +41,9 @@ export class DeclarationComponent {
   }
   get transactions() {
     return this.declaration.transactions || [];
+  }
+  get processingLogs() {
+    return this.declaration.processingLogs || [];
   }
 
   async saveDeclaration() {

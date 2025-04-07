@@ -6,3 +6,5 @@ export * from './processMessage';
 export * from './processMessageStatus';
 export * from './processStatus';
 export * from './processingConfiguration';
+export * from './processingLogEntry';
+export * from './processingSeverity';

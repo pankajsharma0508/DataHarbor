@@ -2,7 +2,6 @@
 using DataHarbor.Common.Messaging;
 using DataHarbor.Common.Models;
 using DataHarbor.WebAPI.Models;
-using System.Data;
 
 namespace DataHarbor.WebAPI
 {
@@ -22,22 +21,13 @@ namespace DataHarbor.WebAPI
                .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions.ToDictionaryList()));
 
             CreateMap<ProcessMessage, Anchored>()
-                .ForMember(dest => dest.UniqueId, opt => opt.MapFrom(src => src.UniqueId))
-                .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath))
-                .ForMember(dest => dest.RecievedOn, opt => opt.MapFrom(src => src.RecievedOn))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+                .ForMember(dest => dest.DeclarationId, opt => opt.MapFrom(src => src.DeclarationId));
 
             CreateMap<ProcessMessage, Docked>()
-                .ForMember(dest => dest.UniqueId, opt => opt.MapFrom(src => src.UniqueId))
-                .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath))
-                .ForMember(dest => dest.RecievedOn, opt => opt.MapFrom(src => src.RecievedOn))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+                .ForMember(dest => dest.DeclarationId, opt => opt.MapFrom(src => src.DeclarationId));
 
             CreateMap<ProcessMessage, Adrifted>()
-                .ForMember(dest => dest.UniqueId, opt => opt.MapFrom(src => src.UniqueId))
-                .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.FilePath))
-                .ForMember(dest => dest.RecievedOn, opt => opt.MapFrom(src => src.RecievedOn))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+                .ForMember(dest => dest.DeclarationId, opt => opt.MapFrom(src => src.DeclarationId));
         }
     }
 }

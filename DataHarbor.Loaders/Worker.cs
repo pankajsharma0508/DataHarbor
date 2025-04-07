@@ -27,7 +27,7 @@ namespace DataHarbor.Loaders
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 }
 
-                var message = new Adrifted(new Guid("0a91cef6-e187-4430-b18b-88e68716c1f1"), "W644", "", DateTime.UtcNow);
+                var message = new Adrifted(new Guid("0a91cef6-e187-4430-b18b-88e68716c1f1"));
                 await _bus.Publish(message);
 
                 //var result = await _mediator.Send(new GetProcessResultQuery("9871f569-db22-4c1e-bfb6-4184989d7abb"));

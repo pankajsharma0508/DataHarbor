@@ -28,21 +28,21 @@ namespace DataHarbor.Loaders
         {
             try
             {
-                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+                _logger.LogInformation($"Received message: {messageContext.Message.DeclarationId}");
 
                 var msg = messageContext.Message;
 
-                // Fetch configuration before progressing
-                var configuration = await _mediator.Send(new ProcessingConfigurationQuery(msg.Name));
-
                 // Fetch transactions
-                var processedResult = await _mediator.Send(new GetTransactionsQuery(messageContext.Message.UniqueId));
+                var declaration = await _mediator.Send(new GetDeclarationQuery(messageContext.Message.DeclarationId));
+
+                // Fetch configuration before progressing
+                var configuration = await _mediator.Send(new ProcessingConfigurationQuery(declaration.Name));
 
                 // Create or Update Dbase file
-                if (processedResult != null)
+                if (declaration != null)
                 {
-                    await _mediator.Send(new UpdateAccountingBookCommand(processedResult));
-                    await _mediator.Send(new LoadResultsCommand(configuration, processedResult));
+                    await _mediator.Send(new UpdateAccountingBookCommand(declaration));
+                    await _mediator.Send(new LoadResultsCommand(configuration, declaration));
                 }
             }
             catch (Exception ex)

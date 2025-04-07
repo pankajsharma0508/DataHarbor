@@ -22,7 +22,7 @@ namespace DataHarbor.Extractors
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 }
-                await _bus.Publish(new Anchored(Guid.NewGuid(), "W644", "C:\\TestFiles\\sample.csv", DateTime.UtcNow));
+                await _bus.Publish(new Anchored(Guid.NewGuid()));
                 await Task.Delay(100000, stoppingToken);
             }
         }

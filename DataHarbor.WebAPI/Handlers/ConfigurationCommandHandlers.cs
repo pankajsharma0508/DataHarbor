@@ -5,7 +5,7 @@ using MediatR;
 
 namespace DataHarbor.WebAPI.Handlers
 {
-    public class CreateConfigurationHandler : IRequestHandler<CreateConfigurationCommand, bool>
+    public class CreateConfigurationHandler : IRequestHandler<CreateConfigurationCommand, ProcessingConfiguration>
     {
         private readonly IRepository<ProcessingConfiguration> repository;
 
@@ -13,17 +13,17 @@ namespace DataHarbor.WebAPI.Handlers
         {
             this.repository = repository;
         }
-        public Task<bool> Handle(CreateConfigurationCommand command, CancellationToken cancellationToken)
+        public Task<ProcessingConfiguration> Handle(CreateConfigurationCommand command, CancellationToken cancellationToken)
         {
             return repository.Add(command.configuration);
         }
     }
 
-    public class UpdateConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand>
+    public class UpdateConfigurationHandler(IRepository<ProcessingConfiguration> repository) : IRequestHandler<UpdateConfigurationCommand, ProcessingConfiguration>
     {
         private readonly IRepository<ProcessingConfiguration> repository = repository;
 
-        public Task Handle(UpdateConfigurationCommand command, CancellationToken cancellationToken)
+        public Task<ProcessingConfiguration> Handle(UpdateConfigurationCommand command, CancellationToken cancellationToken)
         {
             return repository.Update(command.configuration);
         }

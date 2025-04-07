@@ -1,5 +1,5 @@
 java -jar swagger-codegen-cli.jar generate ^
-  -i swagger.json ^
+  -i http://localhost:5237/swagger/v1/swagger.json ^
   -l typescript-angular ^
   -o proxy 
 

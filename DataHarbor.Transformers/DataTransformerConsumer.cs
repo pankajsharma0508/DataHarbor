@@ -25,10 +25,10 @@ namespace DataHarbor.Transformers
         {
             try
             {
-                _logger.LogInformation($"Received message: {messageContext.Message.FilePath}");
+                _logger.LogInformation($"Received message: {messageContext.Message.DeclarationId}");
 
                 // Fetch process request.
-                var context = await PrepareProcessContext(messageContext.Message.UniqueId);
+                var context = await PrepareProcessContext(messageContext.Message.DeclarationId);
 
                 // Feed it to the pipeline.
                 var pipeline = MailboxPipeline.GetPipeline();
@@ -36,12 +36,13 @@ namespace DataHarbor.Transformers
                 await pipeline.ExecuteAsync(context);
 
                 // Store the result.
-                var result = context.GetProcessingParameter(ProcessingResultNames.ProcessedResult) as ProcessRequest;
+                var result = context.Declaration;
+                result.Status = ProcessStatus.Adrifted;
                 await _storageService.SaveResults(result);
 
                 // trigger the message for next step.
                 var msg = messageContext.Message;
-                var message = new Adrifted(msg.UniqueId, msg.Name, msg.FilePath, msg.RecievedOn);
+                var message = new Adrifted(msg.DeclarationId);
                 await _messageBus.Publish(message);
             }
             catch (Exception ex)
@@ -61,7 +62,7 @@ namespace DataHarbor.Transformers
 
             // Fetch Process Request
             var processRequest = await _storageService.GetRequestByID(requestId);
-            context.AddProcessingParameter(ProcessingResultNames.RawData, processRequest);
+            context.AddProcessingParameter(ProcessingResultNames.ProcessingRequest, processRequest);
 
             // Fetch configuration for the facility.
             var configuration = await _storageService.GetConfiguration(processRequest.Name);

@@ -19,16 +19,10 @@ namespace DataHarbor.Extractors.Handlers
         {
             var context = command.Context;
             var data = context.ProcessingResults.FirstOrDefault(x => x.Key == ProcessingResultNames.LoadSourceData).Value;
-            var request = new ProcessRequest
-            {
-                Id = context.Id.ToString(),
-                UniqueId = context.Id,
-                Name = context.Name,
-                Description = context.Name,
-                RawData = data,
-                RecieveDate = DateTime.UtcNow
-            };
-            repository.Add(request);
+            context.Declaration.Status = ProcessStatus.Docked;
+            context.Declaration.RawData = data;
+            context.Declaration.ProcessingLogs = context.ProcessingLogs;
+            repository.Update(context.Declaration);
 
             return Task.CompletedTask;
         }

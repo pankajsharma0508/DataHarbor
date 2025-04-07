@@ -1,7 +1,6 @@
 ﻿using DataHarbor.Common.Configuration;
 using DataHarbor.WebAPI.Commands;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static DataHarbor.WebAPI.Query.ConfigurationQueries;
 
@@ -24,10 +23,10 @@ namespace DataHarbor.WebAPI.Controllers
         public Task<ProcessingConfiguration> Get(Guid id) => _mediator.Send(new GetConfigurationQueryById(id));
 
         [HttpPost("create")]
-        public Task<bool> Post([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new CreateConfigurationCommand(configuration));
+        public Task<ProcessingConfiguration> Post([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new CreateConfigurationCommand(configuration));
 
         [HttpPost("update")]
-        public Task Put([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new UpdateConfigurationCommand(configuration));
+        public Task<ProcessingConfiguration> Put([FromBody] ProcessingConfiguration configuration) => _mediator.Send(new UpdateConfigurationCommand(configuration));
 
         [HttpDelete("{id}")]
         public Task Delete(Guid id) => _mediator.Send(new DeleteConfigurationCommand(id));

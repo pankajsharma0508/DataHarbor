@@ -17,17 +17,16 @@ namespace DataHarbor.Extractors.Handlers
 
         public Task<ProcessContext> Handle(ReadFileQuery request, CancellationToken cancellationToken)
         {
-            var configuration = request.context
-                .GetProcessingParameter(nameof(ProcessingConfiguration));
-
-            if (configuration == null)
+            var configuration = request.context.Configuration;
+            if (configuration == null || request.context.ContainsCriticalError())
             {
-                request.context.LogMessage("Unable to find configuration.");
                 return Task.FromResult(request.context);
             }
-            var fileConfiguration = ((ProcessingConfiguration)configuration).OperatorFilesConfigurations;
+
+            var declaration = request.context.Declaration;
+            var fileConfiguration = configuration.OperatorFilesConfigurations;
             var processor = _resolver.GetProcessor(fileConfiguration.FileFormat);
-            var result = processor.ReadFile(fileConfiguration, request.context.FilePath);
+            var result = processor.ReadFile(fileConfiguration, declaration?.FilePath);
 
             request.context.ProcessingResults.Add(ProcessingResultNames.LoadSourceData, result);
 

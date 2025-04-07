@@ -9,12 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ProcessMessageStatus } from './processMessageStatus';
 
-export interface ProcessMessage { 
-    declarationId?: string;
-    status?: ProcessMessageStatus;
-    name?: string;
-    filePath?: string;
-    recievedOn?: Date;
-}
+export type ProcessingSeverity = 0 | 1 | 2 | 3 | 4 | 5;
+
+export const ProcessingSeverity = {
+    NUMBER_0: 0 as ProcessingSeverity,
+    NUMBER_1: 1 as ProcessingSeverity,
+    NUMBER_2: 2 as ProcessingSeverity,
+    NUMBER_3: 3 as ProcessingSeverity,
+    NUMBER_4: 4 as ProcessingSeverity,
+    NUMBER_5: 5 as ProcessingSeverity
+};

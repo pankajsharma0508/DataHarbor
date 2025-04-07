@@ -1,19 +1,21 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using System.Data;
 
 namespace DataHarbor.Common.Validators
 {
-    public class DateFormatValidator : AbstractValidator<DateRequest>
+    public class DateFormatValidator : AbstractValidator<DataRow>
     {
         private string DateFormat { get; set; }
 
-        public DateFormatValidator(string dateFormat, bool canBeEmpty = false)
+        public DateFormatValidator(string fieldName, string dateFormat = "dd-MM-yyyy")
         {
             DateFormat = dateFormat;
-            RuleFor(x => x.DateValue).NotEmpty()
-                .WithMessage("Date is Required.")
+            RuleFor(x => x.Field<string>(fieldName))
+                .NotEmpty()
+                .WithMessage($"{fieldName} is Required.")
                 .Must(IsInValidFormat)
-                .WithMessage($"Invalid date format. Please {dateFormat}");
+                .WithMessage($"{fieldName} is in Invalid date format.");
         }
 
         private bool IsInValidFormat(string date)
@@ -22,10 +24,5 @@ namespace DataHarbor.Common.Validators
                 System.Globalization.CultureInfo.InvariantCulture,
                 System.Globalization.DateTimeStyles.None, out _);
         }
-    }
-
-    public class DateRequest(string dateValue)
-    {
-        public string DateValue { get; set; } = dateValue;
     }
 }

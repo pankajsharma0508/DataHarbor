@@ -4,24 +4,21 @@ using Raven.Client.Documents;
 using System.Linq.Expressions;
 using System;
 using System.Xml;
+using static System.Collections.Specialized.BitVector32;
 
 namespace DataHarbor.Common.Repository
 {
     public class DocumentRepository<T> : IRepository<T> where T : IDocument
     {
-        public async Task<bool> Add(T document)
+        public async Task<T> Add(T document)
         {
-            try
+            using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
             {
-                using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
-                {
-                    await session.StoreAsync(document);
-                    await session.SaveChangesAsync();
-                }
+                await session.StoreAsync(document);
+                await session.SaveChangesAsync();
 
+                return await session.LoadAsync<T>(document.Id);
             }
-            catch (Exception) { return false; }
-            return true;
         }
 
         public async Task Delete(string id)
@@ -63,19 +60,19 @@ namespace DataHarbor.Common.Repository
             return await session.Query<T>().Where(predicate).ToListAsync();
         }
 
-        public Task Update(T document)
+        public async Task<T> Update(T document)
         {
-            using (var session = DocumentDBContext.DocumentStore.OpenSession())
+            using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
             {
-                var entity = session.Load<T>(document?.Id);
+                var entity = await session.LoadAsync<T>(document?.Id);
                 if (entity == null)
                     throw new Exception($"Unable to find {nameof(T)}, with id: {document?.Id}");
 
                 DocumentRepository<T>.CopyProperties(document, entity);
-                session.SaveChanges(); 
-            }
+                await session.SaveChangesAsync();
 
-            return Task.CompletedTask;
+                return await session.LoadAsync<T>(document.Id);
+            }
         }
 
         private static void CopyProperties(T source, T destination)

@@ -1,4 +1,5 @@
 ﻿using DataHarbor.Common.Models;
+using DataHarbor.Common.Process;
 
 namespace DataHarbor.WebAPI.Models
 {
@@ -9,6 +10,8 @@ namespace DataHarbor.WebAPI.Models
 
         public string Description { get; set; }
 
+        public string FilePath { get; set; }
+
         public ProcessStatus Status { get; set; }
 
         public DateTime RecieveDate { get; set; }
@@ -16,5 +19,7 @@ namespace DataHarbor.WebAPI.Models
         public List<Dictionary<string, string>> RawData { get; set; } = [];
 
         public List<Dictionary<string, string>> Transactions { get; set; } = [];
+
+        public List<ProcessingLogEntry> ProcessingLogs { get; set; } = [];
     }
 }
