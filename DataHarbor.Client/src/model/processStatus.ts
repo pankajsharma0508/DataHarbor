@@ -10,12 +10,12 @@
  * Do not edit the class manually.
  */
 
-export type ProcessStatus = 0 | 1 | 2 | 3 | 4;
+export type ProcessStatus = 'Anchored' | 'Docked' | 'Adrifted' | 'Dispatched' | 'Error';
 
 export const ProcessStatus = {
-    NUMBER_0: 0 as ProcessStatus,
-    NUMBER_1: 1 as ProcessStatus,
-    NUMBER_2: 2 as ProcessStatus,
-    NUMBER_3: 3 as ProcessStatus,
-    NUMBER_4: 4 as ProcessStatus
+    Anchored: 'Anchored' as ProcessStatus,
+    Docked: 'Docked' as ProcessStatus,
+    Adrifted: 'Adrifted' as ProcessStatus,
+    Dispatched: 'Dispatched' as ProcessStatus,
+    Error: 'Error' as ProcessStatus
 };

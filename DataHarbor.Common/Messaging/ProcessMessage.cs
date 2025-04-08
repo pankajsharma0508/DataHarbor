@@ -1,18 +1,19 @@
-﻿namespace DataHarbor.Common.Messaging
+﻿using System.Text.Json.Serialization;
+
+namespace DataHarbor.Common.Messaging
 {
     public class ProcessMessage
     {
         public Guid DeclarationId { get; set; }
+
         public ProcessMessageStatus Status { get; set; }
-        public string Name { get; set; }
-        public string FilePath { get; set; }
-        public DateTime RecievedOn { get; set; }
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ProcessMessageStatus
     {
         Anchored,
+        Docked,
         Adrifted,
-        Docked
     }
 }

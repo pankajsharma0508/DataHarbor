@@ -22,6 +22,8 @@
         <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab">
             <div class="d-flex gap-2 actions">
                 <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Save</button>
+                <dx-drop-down-button text="Process Files" [dropDownOptions]="{ width: 230 }" icon="fa fa-solid fa-retweet"
+                    displayExpr="step" [items]="steps" (onItemClick)="onItemClick($event)"></dx-drop-down-button>
             </div>
             <div class="tab-content">
                 @if(declaration) {

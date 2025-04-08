@@ -19,7 +19,7 @@ namespace DataHarbor.Extractors.Handlers
         {
             var context = command.Context;
             var data = context.ProcessingResults.FirstOrDefault(x => x.Key == ProcessingResultNames.LoadSourceData).Value;
-            context.Declaration.Status = ProcessStatus.Docked;
+            context.Declaration.Status = context.ContainsCriticalError() ? ProcessStatus.Error : ProcessStatus.Docked;
             context.Declaration.RawData = data;
             context.Declaration.ProcessingLogs = context.ProcessingLogs;
             repository.Update(context.Declaration);

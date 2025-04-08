@@ -4,6 +4,12 @@ import { Declaration } from '../../../model/declaration';
 import { Tab, TabNames } from '../tabs/tabs.component';
 import { DeclarationStore } from '../services/declaration-store.service';
 import { NotificationService } from '../services/notification.service';
+import { ProcessingSteps, ProcessStepMessage } from './declaration-constants';
+import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
+import { ProcessMessageStatus } from '../../../model/processMessageStatus';
+import { ProcessService } from '../../../api/process.service';
+import { ProcessMessage } from '../../../model/processMessage';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-declaration',
@@ -21,8 +27,12 @@ export class DeclarationComponent {
   protected requestId: string | undefined;
   protected declaration: Declaration = {};
   protected tabNames = TabNames
+  protected steps = ProcessingSteps;
 
-  constructor(private store: DeclarationStore, private route: ActivatedRoute, private notification: NotificationService) {
+  constructor(private store: DeclarationStore, 
+    private route: ActivatedRoute,
+    private processService: ProcessService, 
+    private notification: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -49,5 +59,14 @@ export class DeclarationComponent {
   async saveDeclaration() {
     await this.store.put(this.declaration);
     this.notification.showSuccess(`Saved Successfully.`);
+  }
+
+  async onItemClick(e: DxDropDownButtonTypes.ItemClickEvent) {
+   const stepMessage = e.itemData as ProcessStepMessage;
+   const request = <ProcessMessage>{ };
+   request.declarationId = this.requestId;
+   request.status = stepMessage.message;
+   await lastValueFrom(this.processService.apiProcessSendMessagePost(request));
+   this.notification.showSuccess(`Processing files ${stepMessage.message}.`);
   }
 }

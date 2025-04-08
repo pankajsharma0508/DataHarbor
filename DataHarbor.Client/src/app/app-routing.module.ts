@@ -4,7 +4,7 @@ import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormCompon
 import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxToastModule } from 'devextreme-angular';
+import { DxDataGridModule, DxDropDownButtonModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxToastModule } from 'devextreme-angular';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { DeclarationsComponent } from './pages/declarations/declarations.component';
 import { InsightsComponent } from './pages/insights/insights.component';
@@ -94,7 +94,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule, 
     CommonModule, 
-    FormsModule, DxNumberBoxModule, DxToastModule, DxPopupModule, DxTextBoxModule, DxTextAreaModule,
+    FormsModule, DxNumberBoxModule, DxToastModule, DxPopupModule, DxTextBoxModule, DxTextAreaModule, DxDropDownButtonModule,
     DxSelectBoxModule],
   providers: [AuthGuardService],
   exports: [RouterModule],

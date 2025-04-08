@@ -10,10 +10,10 @@
  * Do not edit the class manually.
  */
 
-export type ProcessMessageStatus = 0 | 1 | 2;
+export type ProcessMessageStatus = 'Anchored' | 'Docked' | 'Adrifted';
 
 export const ProcessMessageStatus = {
-    NUMBER_0: 0 as ProcessMessageStatus,
-    NUMBER_1: 1 as ProcessMessageStatus,
-    NUMBER_2: 2 as ProcessMessageStatus
+    Anchored: 'Anchored' as ProcessMessageStatus,
+    Docked: 'Docked' as ProcessMessageStatus,
+    Adrifted: 'Adrifted' as ProcessMessageStatus
 };

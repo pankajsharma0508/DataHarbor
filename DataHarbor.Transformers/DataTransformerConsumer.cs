@@ -62,11 +62,11 @@ namespace DataHarbor.Transformers
 
             // Fetch Process Request
             var processRequest = await _storageService.GetRequestByID(requestId);
-            context.AddProcessingParameter(ProcessingResultNames.ProcessingRequest, processRequest);
+            context.Declaration = processRequest;
 
             // Fetch configuration for the facility.
             var configuration = await _storageService.GetConfiguration(processRequest.Name);
-            context.AddProcessingParameter(ProcessingResultNames.Configuration, configuration);
+            context.Configuration = configuration;
 
             return context;
         }

@@ -14,25 +14,20 @@ namespace DataHarbor.Transformers.Processors
         public Task ProcessAsync(ProcessContext context)
         {
             Console.WriteLine("Layout Processor");
-
-            var configuration = context.GetProcessingParameter(ProcessingResultNames.Configuration) as ProcessingConfiguration;
-            var processRequest = context.GetProcessingParameter(ProcessingResultNames.ProcessingRequest) as ProcessRequest;
-
-            Process(configuration, processRequest);
-            context.AddProcessingParameter(ProcessingResultNames.ProcessedResult, processRequest);
-
+            Process(context);
             return Task.CompletedTask;
         }
 
 
-        private void Process(ProcessingConfiguration configuration, ProcessRequest request)
+        private void Process(ProcessContext context)
         {
-            var mappings = configuration.LayoutMappings;
+            var mappings = context.Configuration.LayoutMappings;
             var table = initializeTable(mappings);
-            foreach (DataRow row in request.RawData.Rows)
+            var rawData = context.Declaration.RawData;
+            foreach (DataRow row in rawData.Rows)
             {
                 var newRow  = table.NewRow();
-                foreach (DataColumn column in request.RawData.Columns)
+                foreach (DataColumn column in rawData.Columns)
                 {
                     var mapping = mappings.FirstOrDefault(x => x.SourceColumn == column?.ColumnName);
                     if (mapping != null)
@@ -43,7 +38,7 @@ namespace DataHarbor.Transformers.Processors
                 table.Rows.Add(newRow);
                 table.AcceptChanges();
             }
-            request.Transactions = table;
+            context.Declaration.Transactions = table;
         }
 
         private DataTable initializeTable(List<LayoutMapping> mappings)

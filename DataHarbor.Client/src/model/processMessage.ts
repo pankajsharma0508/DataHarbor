@@ -14,7 +14,4 @@ import { ProcessMessageStatus } from './processMessageStatus';
 export interface ProcessMessage { 
     declarationId?: string;
     status?: ProcessMessageStatus;
-    name?: string;
-    filePath?: string;
-    recievedOn?: Date;
 }

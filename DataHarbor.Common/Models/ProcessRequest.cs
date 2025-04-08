@@ -1,6 +1,7 @@
 ﻿using DataHarbor.Common.Process;
 using DataHarbor.Common.Repository;
 using System.Data;
+using System.Text.Json.Serialization;
 
 namespace DataHarbor.Common.Models
 {
@@ -26,11 +27,13 @@ namespace DataHarbor.Common.Models
         public string Id { get => UniqueId.ToString(); set => UniqueId = new Guid(value); }
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ProcessStatus
     {
         Anchored,
         Docked,
         Adrifted,
-        Dispatched
+        Dispatched,
+        Error
     }
 }
