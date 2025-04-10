@@ -2,7 +2,8 @@
   <dx-drop-down-button
     *ngIf="menuMode !== 'list'"
     stylingMode="text"
-    icon="fa fa-solid fa-user"
+    icon="fas fa-user-circle"
+    text="{{user?.lastName}}, {{user?.firstName}}"
     [showArrowIcon]="false"
     [items]="menuItems"
     displayExpr="text"

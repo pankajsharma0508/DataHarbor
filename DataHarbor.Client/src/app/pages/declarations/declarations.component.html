@@ -1,7 +1,9 @@
 <h2>Declarations</h2>
 <div class="content-block">
-    <dx-data-grid [dataSource]="declarations" [showBorders]="true" [rowAlternationEnabled]="true"
-        (onRowRemoved)="onRowRemoved($event)">
+    <dx-data-grid [dataSource]="declarations" [showBorders]="true" [rowAlternationEnabled]="true" [columnMinWidth]="50"
+        [columnAutoWidth]="true" (onRowRemoved)="onRowRemoved($event)" (onExporting)="onExporting($event)">
+        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
         <dxo-toolbar>
             <dxi-item location="after">
                 <div *dxTemplate>
@@ -9,6 +11,7 @@
                 </div>
             </dxi-item>
         </dxo-toolbar>
+        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
         <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
         <dxi-column dataField="status" caption="Status"></dxi-column>
         <dxi-column dataField="description"></dxi-column>

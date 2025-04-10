@@ -6,10 +6,13 @@ import { DeclarationStore } from '../services/declaration-store.service';
 import { NotificationService } from '../services/notification.service';
 import { ProcessingSteps, ProcessStepMessage } from './declaration-constants';
 import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
-import { ProcessMessageStatus } from '../../../model/processMessageStatus';
 import { ProcessService } from '../../../api/process.service';
 import { ProcessMessage } from '../../../model/processMessage';
 import { lastValueFrom } from 'rxjs';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { ExportService } from '../../shared/services/export.service';
+import { LoadPanelService } from '../../shared/services';
+
 
 @Component({
   selector: 'app-declaration',
@@ -20,7 +23,7 @@ import { lastValueFrom } from 'rxjs';
 export class DeclarationComponent {
   protected tabs: Tab[] = [
     new Tab(TabNames.SourceData),
-    new Tab(TabNames.OperatorData),
+    new Tab(TabNames.TransactionData),
     new Tab(TabNames.ProcessingLogs),
   ]
   protected selectedTab = this.tabs[0];
@@ -29,9 +32,11 @@ export class DeclarationComponent {
   protected tabNames = TabNames
   protected steps = ProcessingSteps;
 
-  constructor(private store: DeclarationStore, 
+  constructor(private store: DeclarationStore,
     private route: ActivatedRoute,
-    private processService: ProcessService, 
+    private processService: ProcessService,
+    private exportService: ExportService,
+    private loadService: LoadPanelService,
     private notification: NotificationService) {
   }
 
@@ -43,7 +48,14 @@ export class DeclarationComponent {
   }
 
   async loadRequest(requestId: any) {
-    this.declaration = await this.store.get(requestId);
+    try {
+      this.loadService.show();
+      this.declaration = await this.store.get(requestId);
+    } catch (ex) {
+      this.notification.showError('Error while loading..');
+    } finally {
+      this.loadService.hide();
+    }
   }
 
   get rawData() {
@@ -57,16 +69,24 @@ export class DeclarationComponent {
   }
 
   async saveDeclaration() {
-    await this.store.put(this.declaration);
-    this.notification.showSuccess(`Saved Successfully.`);
+    try {
+      await this.store.put(this.declaration);
+      this.notification.showSuccess(`Saved Successfully.`);
+    } catch (e) {
+      this.notification.showError(`Unable to save declaration ${this.declaration.name}.`);
+    }
   }
 
   async onItemClick(e: DxDropDownButtonTypes.ItemClickEvent) {
-   const stepMessage = e.itemData as ProcessStepMessage;
-   const request = <ProcessMessage>{ };
-   request.declarationId = this.requestId;
-   request.status = stepMessage.message;
-   await lastValueFrom(this.processService.apiProcessSendMessagePost(request));
-   this.notification.showSuccess(`Processing files ${stepMessage.message}.`);
+    const stepMessage = e.itemData as ProcessStepMessage;
+    const request = <ProcessMessage>{};
+    request.declarationId = this.requestId;
+    request.status = stepMessage.message;
+    await lastValueFrom(this.processService.apiProcessSendMessagePost(request));
+    this.notification.showSuccess(`Processing files ${stepMessage.message}.`);
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.exportService.onExporting(this.selectedTab.name, e);
   }
 }

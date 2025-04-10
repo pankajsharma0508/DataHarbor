@@ -7,7 +7,7 @@ export class ProcessStepMessage {
 }
 
 export const ProcessingSteps = [
-    new ProcessStepMessage('From Anchored', ProcessMessageStatus.Anchored),
-    new ProcessStepMessage('From Docked', ProcessMessageStatus.Docked),
-    new ProcessStepMessage('From Adrifted', ProcessMessageStatus.Adrifted),
+    new ProcessStepMessage('From Load Source', ProcessMessageStatus.Anchored),
+    new ProcessStepMessage('From Process Data', ProcessMessageStatus.Docked),
+    new ProcessStepMessage('From Update Accounts', ProcessMessageStatus.Adrifted),
 ]

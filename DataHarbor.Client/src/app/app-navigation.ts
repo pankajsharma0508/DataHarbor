@@ -5,7 +5,7 @@ export const navigation = [
     icon: 'home'
   },
   {
-    text: 'Accounts',
+    text: 'Facilities',
     path: '/pages/accounts',
     icon: 'fa fa-solid fa-book'
   },

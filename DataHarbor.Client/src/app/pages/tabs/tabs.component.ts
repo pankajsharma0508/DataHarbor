@@ -24,7 +24,6 @@ export class Tab {
 
 export const TabNames = {
   SourceData: 'Source Data',
-  OperatorData: 'Operator Data',
-  ProcessedData: 'Processed Data',
+  TransactionData: 'Transactions',
   ProcessingLogs: 'Processing Logs'
 }

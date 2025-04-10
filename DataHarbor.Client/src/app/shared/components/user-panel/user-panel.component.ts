@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DxListModule } from 'devextreme-angular/ui/list';
 import { DxDropDownButtonModule } from 'devextreme-angular/ui/drop-down-button';
 import { DxContextMenuModule } from 'devextreme-angular/ui/context-menu';
+import { IUser } from '../../../../authentication/keycloak.service';
 
 @Component({
   selector: 'app-user-panel',
@@ -13,11 +14,9 @@ import { DxContextMenuModule } from 'devextreme-angular/ui/context-menu';
 })
 
 export class UserPanelComponent {
-  @Input()
-  menuItems: any;
-
-  @Input()
-  menuMode = 'context';
+  @Input() menuItems: any;
+  @Input() menuMode = 'context';
+  @Input() user: IUser | undefined | null;
 }
 
 @NgModule({

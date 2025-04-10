@@ -1,11 +1,12 @@
 ﻿using DataHarbor.Common.Models;
+using DataHarbor.Common.Process;
 using DataHarbor.Loaders.Commands;
 using DataHarbor.Loaders.Services;
 using MediatR;
 
 namespace DataHarbor.Loaders.Handlers
 {
-    public class LoadResultsCommandHandler : IRequestHandler<LoadResultsCommand, bool>
+    public class LoadResultsCommandHandler : IRequestHandler<LoadResultsCommand, ProcessContext>
     {
         private readonly IDbaseService<Transaction> _dbaseService;
 
@@ -14,20 +15,20 @@ namespace DataHarbor.Loaders.Handlers
             _dbaseService = dbaseService;
         }
 
-        public Task<bool> Handle(LoadResultsCommand command, CancellationToken cancellationToken)
+        public Task<ProcessContext> Handle(LoadResultsCommand command, CancellationToken cancellationToken)
         {
-            var configuration = command.Configuration;
-            var filePath = configuration.MailboxFilePath;
-            var fileName = configuration.MailboxFileName;
+            var configuration = command.Context.Configuration;
+            var filePath = configuration?.MailboxFilePath;
+            var fileName = configuration?.MailboxFileName;
 
             // fall back to some default location
             if (string.IsNullOrEmpty(filePath) || string.IsNullOrEmpty(fileName))
             {
 
             }
-
-            var result = _dbaseService.CreateOrUpdateFile($"{filePath}\\{fileName}", command.Request.Transactions);
-            return Task.FromResult(result);
+            var declaration = command.Context.Declaration;
+            _dbaseService.CreateOrUpdateFile($"{filePath}\\{fileName}", declaration.Transactions);
+            return Task.FromResult(command.Context);
         }
     }
 }

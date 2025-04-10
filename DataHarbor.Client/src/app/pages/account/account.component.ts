@@ -4,7 +4,8 @@ import { NotificationService } from '../services/notification.service';
 import { AccountsService } from '../../../api/accounts.service';
 import { Account } from '../../../model/account';
 import { lastValueFrom } from 'rxjs';
-import { DataSource } from 'devextreme/common/data';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { ExportService } from '../../shared/services/export.service';
 
 @Component({
   selector: 'app-account',
@@ -15,10 +16,11 @@ import { DataSource } from 'devextreme/common/data';
 export class AccountComponent {
   protected accountId: string | undefined;
   protected account: Account | undefined;
-  
+
   constructor(
     private accountService: AccountsService,
     private notification: NotificationService,
+    private exportService: ExportService,
     private route: ActivatedRoute) {
   }
 
@@ -38,5 +40,9 @@ export class AccountComponent {
   }
   get transactions() {
     return this.account?.transactions || [];
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.exportService.onExporting(this.account?.name, e);
   }
 }

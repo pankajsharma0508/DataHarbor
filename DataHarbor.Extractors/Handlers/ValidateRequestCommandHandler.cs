@@ -36,8 +36,13 @@ namespace DataHarbor.Extractors.Handlers
                     request.Context.LogMessage("File Format", "Unexpected file format.",
                    ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
                 }
-
             }
+            if(!request.Context.ContainsCriticalError())
+            {
+                request.Context.LogMessage("File Validation", "Validation completed successfully.",
+                   ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Info);
+            }
+
             return Task.FromResult(request.Context);
         }
     }

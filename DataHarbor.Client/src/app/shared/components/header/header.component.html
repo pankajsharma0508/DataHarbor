@@ -17,11 +17,11 @@
     </dxi-item>
     <dxi-item location="after" locateInMenu="auto" menuItemTemplate="menuItem">
       <div *dxTemplate="let data of 'item'">
-        <app-user-panel [menuItems]="userMenuItems"></app-user-panel>
+        <app-user-panel [menuItems]="userMenuItems" [user]="user" ></app-user-panel>
       </div>
     </dxi-item>
     <div *dxTemplate="let data of 'menuItem'">
-      <app-user-panel [menuItems]="userMenuItems" menuMode="list"></app-user-panel>
+      <app-user-panel [menuItems]="userMenuItems" menuMode="list" [user]="user"></app-user-panel>
     </div>
   </dx-toolbar>
 </header>

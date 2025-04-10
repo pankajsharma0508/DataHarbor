@@ -16,12 +16,16 @@
         </div>
     </div>
 </div>
-<div class="content-block dx-card p-2">
+<!-- <div class="content-block dx-card p-2">
     account details can go here.
-</div>
+</div> -->
 
 <div class="content-block">
-    <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true">
+    <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+        (onExporting)="onExporting($event)" [columnMinWidth]="50" [columnAutoWidth]="true">
+        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
         <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
         <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50, 100, 'all']"></dxo-pager>
     </dx-data-grid>

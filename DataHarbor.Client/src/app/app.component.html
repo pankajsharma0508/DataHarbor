@@ -1,9 +1,12 @@
 <ng-container *ngIf="isAuthenticated(); else unauthenticated">
   <app-side-nav-outer-toolbar title="{{appInfo.title}}">
+    <dx-load-panel [visible]="!!(isVisible | async)" message="Loading..." shadingColor="rgba(0,0,0,0.4)"
+      [shading]="true" [showIndicator]="true" [showPane]="true" [closeOnOutsideClick]="false">
+    </dx-load-panel>
     <router-outlet></router-outlet>
     <app-footer>
       Copyright © 2011-{{appInfo.currentYear}} {{appInfo.title}} Inc.
-      <br/>
+      <br />
       All trademarks or registered trademarks are property of their respective owners.
     </app-footer>
   </app-side-nav-outer-toolbar>

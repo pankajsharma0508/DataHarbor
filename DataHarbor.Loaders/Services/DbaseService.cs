@@ -1,5 +1,7 @@
-﻿using dBASE.NET.Core;
+﻿using DataHarbor.Common.Constants;
+using dBASE.NET.Core;
 using System.Data;
+using dBASE;
 
 namespace DataHarbor.Loaders.Services
 {
@@ -50,7 +52,7 @@ namespace DataHarbor.Loaders.Services
             }
             dbf.Write(filePath, DbfVersion.FoxBaseDBase3NoMemo);
         }
-
+    
         public bool CreateOrUpdateFile(string filePath, DataTable dataTable)
         {
             lock (fileLock)

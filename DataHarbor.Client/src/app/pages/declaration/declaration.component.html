@@ -21,34 +21,48 @@
     <div class="row mt-4 d-flex gap-3">
         <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab">
             <div class="d-flex gap-2 actions">
-                <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-save"></i> Save</button>
-                <dx-drop-down-button text="Process Files" [dropDownOptions]="{ width: 230 }" icon="fa fa-solid fa-retweet"
-                    displayExpr="step" [items]="steps" (onItemClick)="onItemClick($event)"></dx-drop-down-button>
+                <button class="btn btn-primary btn-sm" type="button" (click)="saveDeclaration()"><i
+                        class="fas fa-save"></i>
+                    Save</button>
+                <dx-drop-down-button text="Process Files" [dropDownOptions]="{ width: 230 }"
+                    icon="fa fa-solid fa-retweet" displayExpr="step" [items]="steps"
+                    (onItemClick)="onItemClick($event)"></dx-drop-down-button>
             </div>
             <div class="tab-content">
                 @if(declaration) {
                 <div class="p-2">
-                    <div [hidden]="selectedTab.name != tabNames.SourceData">
-                        <dx-data-grid [dataSource]="rawData" [showBorders]="true" [rowAlternationEnabled]="true"
-                            [showRowLines]="true" [showColumnLines]="true" [columnMinWidth]="100">
-                            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
-                                [allowAdding]="true">
-                            </dxo-editing>
-                        </dx-data-grid>
-                    </div>
-                    <div [hidden]="selectedTab.name != tabNames.OperatorData">
-                        <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
-                            [showRowLines]="true" [showColumnLines]="true" [columnMinWidth]="100">
-                            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
-                                [allowAdding]="true">
-                            </dxo-editing>
-                        </dx-data-grid>
-                    </div>
-                    <div [hidden]="selectedTab.name != tabNames.ProcessingLogs">
-                        <dx-data-grid [dataSource]="processingLogs" [showBorders]="true" [rowAlternationEnabled]="true"
-                            [showRowLines]="true" [showColumnLines]="true" [columnMinWidth]="100">
-                        </dx-data-grid>
-                    </div>
+                    @if(selectedTab.name === tabNames.SourceData)
+                    {
+                    <dx-data-grid [dataSource]="rawData" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" (onExporting)="onExporting($event)"
+                        [showRowLines]="true" [showColumnLines]="true">
+                        <dxo-editing mode="popup" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                            [allowAdding]="true">
+                        </dxo-editing>
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    } @else if (selectedTab.name === tabNames.TransactionData) {
+                    <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" [showRowLines]="true" [showColumnLines]="true"
+                        (onExporting)="onExporting($event)">
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-editing mode="popup" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                            [allowAdding]="true">
+                        </dxo-editing>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    } @else if(selectedTab.name === tabNames.ProcessingLogs){
+                    <dx-data-grid [dataSource]="processingLogs" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" [showRowLines]="true" [showColumnLines]="true"
+                        (onExporting)="onExporting($event)">
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    }
                 </div>
                 }
             </div>

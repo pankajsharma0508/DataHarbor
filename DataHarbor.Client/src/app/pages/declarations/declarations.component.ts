@@ -8,6 +8,9 @@ import { ProcessingConfiguration } from '../../../model/processingConfiguration'
 import { NotificationService } from '../services/notification.service';
 import { Guid } from 'devextreme/common';
 import { RowRemovedEvent } from 'devextreme/ui/data_grid';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { ExportService } from '../../shared/services/export.service';
+import { LoadPanelService } from '../../shared/services';
 
 
 @Component({
@@ -27,12 +30,21 @@ export class DeclarationsComponent implements OnInit {
   constructor(private service: DeclarationService,
     private configurationService: ConfigurationService,
     private notification: NotificationService,
+    private exportService: ExportService,
+    private loadService: LoadPanelService,
     private processService: ProcessService) {
   }
 
   ngOnInit(): void {
-    this.loadConfigurations();
-    this.loadDeclarations();
+    try {
+      this.loadService.show();
+      this.loadConfigurations();
+      this.loadDeclarations();
+    } catch (ex) {
+      this.notification.showError('Error while loading..');
+    } finally {
+      this.loadService.hide();
+    }
   }
 
   async loadConfigurations() {
@@ -72,5 +84,8 @@ export class DeclarationsComponent implements OnInit {
     } catch (e) {
       this.notification.showError(`Unable to delete declaration.`);
     }
+  }
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.exportService.onExporting('Declarations', e);
   }
 }

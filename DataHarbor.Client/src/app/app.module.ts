@@ -12,8 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 import * as api from '../api/api';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationService } from './pages/services/notification.service';
-import { KeycloakService } from 'keycloak-angular';
 import { provideAuth } from '../authentication/auth.module';
+import { ExportService } from './shared/services/export.service';
+import { LoadPanelService } from './shared/services/load-panel.service';
+import { DxLoadPanelModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { provideAuth } from '../authentication/auth.module';
     BrowserModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
+    DxLoadPanelModule,
     SingleCardModule,
     FooterModule,
     ResetPasswordFormModule,
@@ -38,6 +41,8 @@ import { provideAuth } from '../authentication/auth.module';
     ScreenService,
     AppInfoService,
     NotificationService,
+    ExportService,
+    LoadPanelService,
     api.ConfigurationService,
     api.DeclarationService,
     api.ProcessService,

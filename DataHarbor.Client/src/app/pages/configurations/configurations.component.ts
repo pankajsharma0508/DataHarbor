@@ -6,6 +6,8 @@ import { RowInsertedEvent, RowRemovedEvent, RowUpdatedEvent } from 'devextreme/u
 import { NotificationService } from '../services/notification.service';
 import { Guid } from 'devextreme/common';
 import { FileColumnDelimiter, FileDecimalSymbol, FileFormat, FileLineDelimiter, FileThousandSeparator } from '../configuration/file-configuration/file-configuration-contants';
+import { ExportService } from '../../shared/services/export.service';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 
 @Component({
   selector: 'app-configurations',
@@ -16,7 +18,9 @@ import { FileColumnDelimiter, FileDecimalSymbol, FileFormat, FileLineDelimiter, 
 export class ConfigurationsComponent {
   protected configurations: Array<ProcessingConfiguration> = [];
 
-  constructor(private service: ConfigurationService, private notification: NotificationService) {
+  constructor(private service: ConfigurationService,
+    private exportService: ExportService,
+    private notification: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -70,9 +74,9 @@ export class ConfigurationsComponent {
 
   initConfiguration(fc: ProcessingConfiguration) {
     fc.mailboxFileName = '';
-    fc.mailboxFilePath ='';
+    fc.mailboxFilePath = '';
     fc.layoutMappings = [];
-    const fileConfiguration = <FilesConfigurations> {};
+    const fileConfiguration = <FilesConfigurations>{};
     fileConfiguration.fileCategory = "Transaction File";
     fileConfiguration.fileFormat = FileFormat.Formats[0].extension;
     fileConfiguration.columnSeparator = FileColumnDelimiter.FileColumnDelimiters[0].columnDelimiter;
@@ -83,5 +87,8 @@ export class ConfigurationsComponent {
     fileConfiguration.footerRowsToIgnore = 0;
     fileConfiguration.textQualifier = "";
     fc.operatorFilesConfigurations = fileConfiguration;
+  }
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.exportService.onExporting('Configurations', e);
   }
 }

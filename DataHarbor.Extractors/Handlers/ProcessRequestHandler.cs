@@ -24,6 +24,11 @@ namespace DataHarbor.Extractors.Handlers
             context.Declaration.ProcessingLogs = context.ProcessingLogs;
             repository.Update(context.Declaration);
 
+            command.Context.LogMessage("Declaration Loaded",
+                "Declaration added successfully.",
+                 ProcessingLogConstants.Category_Declaration_Loading, 
+                 ProcessingSeverity.Info);
+
             return Task.CompletedTask;
         }
     }

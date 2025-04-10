@@ -8,7 +8,7 @@ const defaultPath = '/';
 export class AuthService {
   private _user: IUser | null = null;
   get loggedIn(): boolean {
-    return !!this._user;
+    return !!this.keyClock.isLoggedIn();
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
