@@ -20,5 +20,9 @@ namespace DataHarbor.WebAPI.Controllers
 
         [HttpGet("{id}")]
         public Task<Account> Get(string id) => _mediator.Send(new GetAccountQuery(id));
+
+        [HttpPost("create")]
+        public Task<Account> Post([FromBody] Account account) => _mediator.Send(new CreateAccountCommand(account));
+
     }
 }

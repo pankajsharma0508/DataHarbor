@@ -51,7 +51,7 @@ namespace DataHarbor.Extractors.Readers
             // check for empty line seperator;
             // check for empty column seperator;
 
-            var lines = fileContent.Split(configuration.LineSeparator).ToList();
+            var lines = fileContent.Split(configuration.LineSeparator, StringSplitOptions.RemoveEmptyEntries).ToList();
             if (configuration.HeaderRowsToIgnore > 0)
             {
                 lines = lines.Skip(configuration.HeaderRowsToIgnore).ToList();

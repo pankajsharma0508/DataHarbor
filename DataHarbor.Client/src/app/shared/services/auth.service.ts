@@ -1,23 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import Keycloak from 'keycloak-js';
-
-
-export interface IUser {
-  email: string;
-  avatarUrl?: string;
-}
+import { Router } from '@angular/router';
+import { IUser, KeycloakService } from '../../../authentication/keycloak.service';
 
 const defaultPath = '/';
-const defaultUser = {
-  email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
-};
 
 @Injectable()
 export class AuthService {
-  keyCloak: Keycloak | undefined;
-  private _user: IUser | null = defaultUser;
+  private _user: IUser | null = null;
   get loggedIn(): boolean {
     return !!this._user;
   }
@@ -27,20 +16,13 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) {
-    this.keyCloak = new Keycloak({
-      realm: 'DataHarbor',
-      url: 'http://localhost:8080/',
-      clientId: 'DataHarborClient'
-    }
-    );
+  constructor(private router: Router, private keyClock: KeycloakService) {
   }
 
   async logIn(email: string, password: string) {
 
     try {
       // Send request
-      this._user = { ...defaultUser, email };
       this.router.navigate([this._lastAuthenticatedPath]);
       return {
         isOk: true,
@@ -58,6 +40,7 @@ export class AuthService {
   async getUser() {
     try {
       // Send request
+      this._user = this.keyClock.getUserProfile();
 
       return {
         isOk: true,
@@ -122,38 +105,8 @@ export class AuthService {
   }
 
   async logOut() {
+    this.keyClock.logout();
     this._user = null;
-    this.router.navigate(['/login-form']);
-  }
-}
-
-@Injectable()
-export class AuthGuardService implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) { }
-
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const isLoggedIn = this.authService.loggedIn;
-    const isAuthForm = [
-      'login-form',
-      'reset-password',
-      'create-account',
-      'change-password/:recoveryCode'
-    ].includes(route.routeConfig?.path || defaultPath);
-
-    if (isLoggedIn && isAuthForm) {
-      this.authService.lastAuthenticatedPath = defaultPath;
-      this.router.navigate([defaultPath]);
-      return false;
-    }
-
-    if (!isLoggedIn && !isAuthForm) {
-      this.router.navigate(['/login-form']);
-    }
-
-    if (isLoggedIn) {
-      this.authService.lastAuthenticatedPath = route.routeConfig?.path || defaultPath;
-    }
-
-    return isLoggedIn || isAuthForm;
+    this.keyClock.login();
   }
 }

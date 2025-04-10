@@ -20,6 +20,9 @@ namespace DataHarbor.WebAPI
             CreateMap<ProcessResult, Account>()
                .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions.ToDictionaryList()));
 
+            CreateMap<Account, ProcessResult>()
+               .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions.ToDataTable()));
+
             CreateMap<ProcessMessage, Anchored>()
                 .ForMember(dest => dest.DeclarationId, opt => opt.MapFrom(src => src.DeclarationId));
 

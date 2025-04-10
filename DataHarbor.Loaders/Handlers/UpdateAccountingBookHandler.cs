@@ -1,7 +1,11 @@
-﻿using DataHarbor.Common.Models;
+﻿using DataHarbor.Common.Constants;
+using DataHarbor.Common.Models;
 using DataHarbor.Loaders.Commands;
 using DataHarbor.Repository;
 using MediatR;
+using System.Data;
+using System.Linq;
+using System.Transactions;
 
 namespace DataHarbor.Loaders.Handlers
 {
@@ -32,8 +36,27 @@ namespace DataHarbor.Loaders.Handlers
             }
             else
             {
-                book.Transactions.Merge(transactions);
-                book.Transactions.AcceptChanges();
+                var accountTable = book.Transactions.Copy();
+
+                // Find new transaction ids.
+                var existingIds = transactions.AsEnumerable()
+                    .Select(x => x.Field<string>(MetadataHeader.GUID)).Distinct();
+
+                // remove existing trasaction ids if reprocessed.
+                var uniqueRows = accountTable.AsEnumerable()
+                    .Where(row => !existingIds.Contains(row.Field<string>(MetadataHeader.GUID)));
+
+                if (uniqueRows.Count() > 0)
+                {
+                    DataTable updated = uniqueRows.CopyToDataTable();
+                    updated.Merge(transactions);
+                    updated.AcceptChanges();
+                    book.Transactions = updated;
+                }
+                else
+                {
+                    book.Transactions = transactions;
+                }
                 await _resultRepository.Update(book);
             }
 
