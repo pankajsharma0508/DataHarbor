@@ -2,6 +2,9 @@
 
 namespace DataHarbor.Common.Messaging
 {
+    /// <summary>
+    /// Process Message
+    /// </summary>
     public class ProcessMessage
     {
         public Guid DeclarationId { get; set; }
