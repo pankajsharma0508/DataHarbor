@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="d-flex">
+            <div class="ms-3">
+                <div class="d-flex gap-3">
+                    <i class="fa fa-2x fa-solid fa-toolbox"></i>
+                    <h4 class="mb-0">Declaration from {{ declaration.name }}</h4>
+                </div>
+                <div class="pt-2 d-flex gap-2">
+                    <i class="fa fa-solid fa-flag"></i>
+                    <h6>{{declaration.name}}</h6>
+                </div>
+                <div>
+                    <h6>{{ declaration.recieveDate | date:'medium' }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4 d-flex gap-3">
+    <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab">
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="button"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </app-tabs>
+</div>
+@if(declaration) {
+<div class="p-2">
+    <div [hidden]="selectedTab.name != tabNames.SourceData">
+        <dx-data-grid [dataSource]="rawData" [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true"
+            [showColumnLines]="true" [columnMinWidth]="100">
+            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                [allowAdding]="true">
+            </dxo-editing>
+        </dx-data-grid>
+    </div>
+    <div [hidden]="selectedTab.name != tabNames.OperatorData">
+        <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+            [showRowLines]="true" [showColumnLines]="true" [columnMinWidth]="100">
+            <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                [allowAdding]="true">
+            </dxo-editing>
+        </dx-data-grid>
+    </div>
+</div>
+}

@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="d-flex">
+            <div class="ms-3">
+                <div class="d-flex gap-3">
+                    <i class="fa fa-2x fa-solid fa-toolbox"></i>
+                    <h4 class="mb-0">Configuration - {{ configuration.name }}</h4>
+                </div>
+                <div class="pt-2 d-flex gap-2">
+                    <i class="fa fa-solid fa-flag"></i>
+                    <h6>{{configuration.name}}</h6>
+                </div>
+                <div>
+                    <h6>{{configuration.description}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 d-flex gap-3">
+    <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab">
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="button" (click)="saveConfiguration()"><i class="fas fa-save"></i> Save</button>
+            <button class="btn btn-secondary" type="button" (click)="triggerFileInput()"><i class="fas fa-save"></i> Import</button>
+            <button class="btn btn-secondary" type="button" (click)="saveConfiguration()"><i class="fas fa-save"></i> Export</button>
+            <input type="file" #fileInput accept=".json" (change)="onFileSelected($event)" hidden>
+        </div>
+    </app-tabs>
+</div>
+
+@if (selectedTab.name === this.tabs[0].name) {
+<app-file-configuration [fileConfiguration]="configuration.operatorFilesConfigurations"></app-file-configuration>
+}
+@else if (selectedTab.name === this.tabs[1].name) {
+<app-mapping-configuration [configuration]="configuration"></app-mapping-configuration>
+}

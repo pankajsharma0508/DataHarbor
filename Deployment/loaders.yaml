@@ -1,0 +1,17 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataharbor-loaders
+spec:
+  selector:
+    matchLabels:
+      app: dataharbor-loaders
+  template:
+     metadata:
+       labels:
+         app: dataharbor-loaders
+     spec:
+       hostNetwork: true
+       containers:
+         - name: dataharbor-loaders
+           image: pank05081985/dataharbor-loaders

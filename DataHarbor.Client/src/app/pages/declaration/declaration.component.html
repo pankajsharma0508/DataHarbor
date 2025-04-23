@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="d-flex">
+            <div class="ms-3">
+                <div class="d-flex gap-3">
+                    <i class="fa-2x far fa-envelope-open"></i>
+                    <h4 class="mb-0">Declaration from {{ declaration.name }}</h4>
+                </div>
+                <div class="pt-2 d-flex gap-2 pb-2">
+                    <i class="fa fa-solid fa-flag"></i>
+                    <span>{{declaration.name}}</span>
+                </div>
+                <div> {{ declaration.recieveDate | date:'medium' }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="row mt-4 d-flex gap-3">
+        <app-tabs [tabs]="tabs" [(selectedTab)]="selectedTab">
+            <div class="d-flex gap-2 actions">
+                <button class="btn btn-primary btn-sm" type="button" (click)="saveDeclaration()"><i
+                        class="fas fa-save"></i>
+                    Save</button>
+                <dx-drop-down-button text="Process Files" [dropDownOptions]="{ width: 230 }"
+                    icon="fa fa-solid fa-retweet" displayExpr="step" [items]="steps"
+                    (onItemClick)="onItemClick($event)"></dx-drop-down-button>
+            </div>
+            <div class="tab-content">
+                @if(declaration) {
+                <div class="p-2">
+                    @if(selectedTab.name === tabNames.SourceData)
+                    {
+                    <dx-data-grid [dataSource]="rawData" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" (onExporting)="onExporting($event)"
+                        [showRowLines]="true" [showColumnLines]="true">
+                        <dxo-editing mode="popup" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                            [allowAdding]="true">
+                        </dxo-editing>
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    } @else if (selectedTab.name === tabNames.TransactionData) {
+                    <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" [showRowLines]="true" [showColumnLines]="true"
+                        (onExporting)="onExporting($event)">
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-editing mode="popup" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true"
+                            [allowAdding]="true">
+                        </dxo-editing>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    } @else if(selectedTab.name === tabNames.ProcessingLogs){
+                    <dx-data-grid [dataSource]="processingLogs" [showBorders]="true" [rowAlternationEnabled]="true"
+                        [columnMinWidth]="50" [columnAutoWidth]="true" [showRowLines]="true" [showColumnLines]="true"
+                        (onExporting)="onExporting($event)">
+                        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+                        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+                    </dx-data-grid>
+                    }
+                </div>
+                }
+            </div>
+        </app-tabs>
+    </div>
+</div>

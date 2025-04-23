@@ -1,25 +1,19 @@
-﻿using DataHarbor.Extractors.Processors;
-using DataHarbor.Extractors.Readers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataHarbor.Extractors.Readers;
 
 namespace DataHarbor.Extractors.Handlers
 {
     public class FileReaderResolver
     {
-        private readonly IEnumerable<IFileReader> _fileReader;
+        private readonly IEnumerable<IFileReader> _fileReaders;
 
         public FileReaderResolver(IEnumerable<IFileReader> fileReader)
         {
-            _fileReader = fileReader;
+            _fileReaders = fileReader;
         }
 
         public IFileReader GetProcessor(string fileExtension)
         {
-            var processor = _fileReader.FirstOrDefault(p => p.CanRead(fileExtension));
+            var processor = _fileReaders.FirstOrDefault(p => p.CanRead(fileExtension));
             if (processor == null)
             {
                 throw new NotSupportedException($"No processor found for file type: {fileExtension}");

@@ -1,0 +1,65 @@
+@if(fileConfiguration) {
+<div class="row form-group p-2">
+    <div class="col-md-2">
+        <div class="form-group p-2">
+            <label class="control-label"> File Format</label>
+            <dx-select-box placeholder="Select file format" [required]="true" [(ngModel)]="fileConfiguration.fileFormat"
+                [dataSource]="FileFormats" valueExpr="extension" displayExpr="description">
+            </dx-select-box>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group p-2">
+            <label class="control-label"> Line Delimiter</label>
+            <dx-select-box placeholder="Select the line delimiter" [(ngModel)]="fileConfiguration.lineSeparator"
+                [dataSource]="LineDelimiters" valueExpr="lineDelimiter" displayExpr="description">
+            </dx-select-box>
+        </div>
+        <div class="form-group p-2">
+            <label class="control-label"> Column Delimiter</label>
+            <dx-select-box placeholder="Select the column delimiter" [(ngModel)]="fileConfiguration.columnSeparator"
+                [dataSource]="ColumnDelimiters" valueExpr="columnDelimiter" displayExpr="description">
+            </dx-select-box>
+        </div>
+        <div class="form-group p-2">
+            <label class="control-label"> Text Qualifier</label>
+            <dx-text-box [(ngModel)]="fileConfiguration.textQualifier" maxLength="1"></dx-text-box>
+        </div>
+        <div class="form-group p-2">
+            <label class="control-label"> Decimal Point</label>
+            <dx-select-box placeholder="Select the decimal point" [(ngModel)]="fileConfiguration.decimalSeparator"
+                [dataSource]="DecimalSymbols" valueExpr="decimalSymbol" displayExpr="description">
+            </dx-select-box>
+        </div>
+        <div class="form-group p-2">
+            <label class="control-label"> Thousands Separator</label>
+            <dx-select-box placeholder="Select the thousands separator"
+                [(ngModel)]="fileConfiguration.digitalGroupSeparator" [dataSource]="ThousandSeparators"
+                valueExpr="format" displayExpr="description">
+            </dx-select-box>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group p-2">
+            <label class="control-label"> Top Rows to Ignore</label>
+            <dx-number-box [(ngModel)]="fileConfiguration.headerRowsToIgnore" [min]="0" [max]="99"
+                [showSpinButtons]="true">
+                <dxi-button name="spins"></dxi-button>
+            </dx-number-box>
+        </div>
+        <div class="form-group p-2">
+            <label class="control-label"> Bottom Rows to Ignore</label>
+            <dx-number-box [(ngModel)]="fileConfiguration.footerRowsToIgnore" [min]="0" [max]="99"
+                [showSpinButtons]="true">
+                <dxi-button name="spins"></dxi-button>
+            </dx-number-box>
+        </div>
+        <div class="form-group p-2 pt-3">
+            <label class="form-check-label" for="firstRowHasHeaders">First Row Contains Column Names</label>
+            <div class="form-check form-switch pt-1">
+                <input class="form-check-input" type="checkbox" id="firstRowHasHeaders" [(ngModel)]="fileConfiguration.firstRowHasHeaders">
+            </div>
+        </div>
+    </div>
+</div>
+}

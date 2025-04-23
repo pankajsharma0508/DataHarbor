@@ -1,0 +1,38 @@
+<h2>Declarations</h2>
+<div class="content-block">
+    <dx-data-grid [dataSource]="declarations" [showBorders]="true" [rowAlternationEnabled]="true" [columnMinWidth]="50"
+        [columnAutoWidth]="true" (onRowRemoved)="onRowRemoved($event)" (onExporting)="onExporting($event)">
+        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-toolbar>
+            <dxi-item location="after">
+                <div *dxTemplate>
+                    <button class="btn btn-primary" (click)="showPopup= true"> Announce Declaration</button>
+                </div>
+            </dxi-item>
+        </dxo-toolbar>
+        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+        <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
+        <dxi-column dataField="status" caption="Status"></dxi-column>
+        <dxi-column dataField="description"></dxi-column>
+        <dxi-column dataField="recieveDate" dataType="datetime"></dxi-column>
+        <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+        <div *dxTemplate="let d of 'cellTemplate'">
+            <a [routerLink]="['/pages/declaration', d.data.uniqueId]">{{d.data.name}}</a>
+        </div>
+    </dx-data-grid>
+    <dx-popup [(visible)]="showPopup" [width]="400" [height]="275" [showTitle]="true" title="Announce Declaration"
+        [dragEnabled]="true" [closeOnOutsideClick]="true">
+        <div class="popup-content">
+            <dx-select-box [items]="configurations" [(value)]="selectedConfig" displayExpr="name"
+                placeholder="Select Configuration"></dx-select-box>
+            <dx-text-box [(value)]="filePath" placeholder="Enter File Path"></dx-text-box>
+            <dx-text-box [(value)]="description" placeholder="Enter description"></dx-text-box>
+            <div class="button-group">
+                <button class="btn btn-sm btn-primary" [disabled]="!(selectedConfig && filePath)"
+                    (click)="announce()">Announce</button>
+                <button class="btn btn-sm btn-secondary" (click)="showPopup = false">Cancel</button>
+            </div>
+        </div>
+    </dx-popup>
+</div>

@@ -1,0 +1,41 @@
+﻿﻿apiVersion: v1
+kind: Service
+metadata:
+  name: dataharbor-api
+spec:
+  selector:
+    app: dataharbor-api
+  ports:
+    - port: 7000
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataharbor-api
+spec:
+  selector:
+    matchLabels:
+      app: dataharbor-api
+  template:
+     metadata:
+       labels:
+         app: dataharbor-api
+     spec:
+       containers:
+         - name: dataharbor-api
+           image: pank05081985/dataharbor-webapi
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: dataharbor-api
+spec:
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 60
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: dataharbor-api

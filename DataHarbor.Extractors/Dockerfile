@@ -3,16 +3,16 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0-nanoserver-1809 AS base
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["DataHarbor.Extractors/DataHarbor.Extractors.csproj", "DataHarbor.Extractors/"]
-RUN dotnet restore "./DataHarbor.Extractors/./DataHarbor.Extractors.csproj"
+COPY ["DataHarbor.Extractors.csproj", "."]
+RUN dotnet restore "./DataHarbor.Extractors.csproj"
 COPY . .
-WORKDIR "/src/DataHarbor.Extractors"
+WORKDIR "/src/."
 RUN dotnet build "./DataHarbor.Extractors.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
 FROM build AS publish

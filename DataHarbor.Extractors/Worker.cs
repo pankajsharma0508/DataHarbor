@@ -1,17 +1,17 @@
-using DataHarbor.Extractors.Commands;
-using MediatR;
+﻿using DataHarbor.Common.Messaging;
+using MassTransit;
 
 namespace DataHarbor.Extractors
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IMediator _mediator;
+        private readonly IBus _bus;
 
-        public Worker(ILogger<Worker> logger, IMediator mediator)
+        public Worker(ILogger<Worker> logger, IBus bus)
         {
             _logger = logger;
-            _mediator = mediator;
+            _bus = bus;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,15 +22,8 @@ namespace DataHarbor.Extractors
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 }
-
-                FileInfo fileInfo = new FileInfo("C:\\TestFiles\\sample.txt");
-                if (fileInfo.Exists)
-                {
-                    var inputData = await _mediator.Send(new ReadFileQuery(fileInfo.FullName, fileInfo.Extension));
-                    // await _mediator.Send(new ProcessFileCommand(fileInfo.Extension, fileInfo.FullName));
-                }
-
-                await Task.Delay(1000, stoppingToken);
+                await _bus.Publish(new Anchored(Guid.NewGuid()));
+                await Task.Delay(100000, stoppingToken);
             }
         }
     }

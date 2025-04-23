@@ -1,0 +1,21 @@
+<h2>Configurations</h2>
+<div class="content-block">
+    <dx-data-grid [dataSource]="configurations" [showBorders]="true" [rowAlternationEnabled]="true"
+        (onRowRemoved)="onRowRemoved($event)" (onRowUpdated)="onRowUpdated($event)"
+        (onRowInserted)="onRowInserted($event)" (onExporting)="onExporting($event)">
+        <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+        <dxi-column dataField="name" cellTemplate="cellTemplate">
+            <dxi-validation-rule type="required" message="Name is required."> </dxi-validation-rule>
+        </dxi-column>
+        <dxi-column dataField="description"></dxi-column>
+        <dxi-column dataField="modifiedOn" dataType="datetime" [allowEditing]="false"></dxi-column>
+        <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+        <div *dxTemplate="let d of 'cellTemplate'">
+            <a [routerLink]="['/pages/configuration', d.data.id]">{{d.data.name}}</a>
+        </div>
+    </dx-data-grid>
+</div>

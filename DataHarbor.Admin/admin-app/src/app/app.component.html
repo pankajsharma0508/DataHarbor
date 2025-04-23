@@ -1,0 +1,23 @@
+<div class="d-flex flex-column vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container-fluid">
+            <i class="fa fa-2x fa-solid fa-envelope-open-text text-white"></i>
+            <a class="navbar-brand px-2" href="#">Data Harbor</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-0">
+                    <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" routerLink="configurations">Configuration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" routerLink="declarations">Declarations</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid content flex-grow-1 overflow-auto pt-5 pb-5">
+        <div class="p-2 pt-4">
+            <router-outlet />
+        </div>
+    </div>
+    <footer class="bg-primary text-white text-center fixed-bottom">
+        <p>&copy; 2025. All rights reserved.</p>
+    </footer>
+</div>

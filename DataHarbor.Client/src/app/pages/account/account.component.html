@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="d-flex">
+            <div class="ms-3">
+                <div class="d-flex gap-3">
+                    <i class="fa fa-2x fa-solid fa-toolbox"></i>
+                    <h4 class="mb-0">Account - {{ account?.name }}</h4>
+                </div>
+                <div class="pt-2 d-flex gap-2 pb-2">
+                    <i class="fa fa-solid fa-flag"></i>
+                    <span>{{account?.name}}</span>
+                </div>
+                <div> {{account?.description}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="content-block dx-card p-2">
+    account details can go here.
+</div> -->
+
+<div class="content-block">
+    <dx-data-grid [dataSource]="transactions" [showBorders]="true" [rowAlternationEnabled]="true"
+        (onExporting)="onExporting($event)" [columnMinWidth]="50" [columnAutoWidth]="true">
+        <dxo-header-filter [search]="{ enabled: true }" [visible]="true"></dxo-header-filter>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
+        <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50, 100, 'all']"></dxo-pager>
+    </dx-data-grid>
+</div>

@@ -1,0 +1,35 @@
+name: Build and Package - Common
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+      runs-on: ubuntu-latest
+              
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: '8.0.x'
+    
+        - name: Restore Dependencies
+          run: dotnet restore ./DataHarbor.Common/DataHarbor.Common.csproj
+
+        - name : Build Assemblies
+          run: dotnet build --no-restore ./DataHarbor.Common/DataHarbor.Common.csproj --configuration Release
+        
+        - name: Create Nuget Package
+          run: dotnet pack ./DataHarbor.Common/DataHarbor.Common.csproj --configuration Release --no-build --output nupkg
+        
+        - name: Publish Nuget Package
+          run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          env:
+            NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}

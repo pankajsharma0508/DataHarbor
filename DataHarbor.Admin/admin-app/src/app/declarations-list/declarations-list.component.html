@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-header">
+        Declarations
+    </div>
+    <div class="p-2 pe-4">
+        <button class="btn btn-primary float-end" (click)="showPopup= true"> Announce Declaration</button>
+    </div>
+    <div class="card-body">
+        <div>
+            <dx-data-grid [dataSource]="requests" [showBorders]="true" [rowAlternationEnabled]="true">
+                <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
+                <dxi-column dataField="description"></dxi-column>
+                <dxi-column dataField="recieveDate" dataType="datetime"></dxi-column>
+                <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+                <div *dxTemplate="let d of 'cellTemplate'">
+                    <a [routerLink]="['/declarations', d.data.uniqueId]">{{d.data.name}}</a>
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>
+
+<dx-popup
+  [(visible)]="showPopup"
+  [width]="400"
+  [height]="250"
+  [showTitle]="true"
+  title="Announce Declaration"
+  [dragEnabled]="true"
+  [closeOnOutsideClick]="true"
+>
+  <div class="popup-content">
+    <!-- Configuration Dropdown -->
+    <dx-select-box [items]="configurations" [(value)]="selectedConfig" displayExpr="name"
+        placeholder="Select Configuration"></dx-select-box>
+
+    <!-- File Path Textbox -->
+    <dx-text-box [(value)]="filePath" placeholder="Enter File Path"></dx-text-box>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <button class="btn btn-sm btn-primary" [disabled]="!(selectedConfig && filePath)" (click)="announce()">Announce</button>
+      <button class="btn btn-sm btn-secondary" (click)="showPopup = false">Cancel</button>
+    </div>
+  </div>
+</dx-popup>

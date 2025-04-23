@@ -1,0 +1,9 @@
+<dx-data-grid [dataSource]="configurations" [showBorders]="true" [rowAlternationEnabled]="true">
+    <dxi-column dataField="name" cellTemplate="cellTemplate"></dxi-column>
+    <dxi-column dataField="description"></dxi-column>
+    <dxi-column dataField="modifiedOn" dataType="datetime"></dxi-column>
+    <dxo-editing [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+    <div *dxTemplate="let d of 'cellTemplate'">
+        <a [routerLink]="['/configurations', d.data.id]">{{d.data.name}}</a>
+    </div>
+</dx-data-grid>

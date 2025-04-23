@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataharbor-transformers
+spec:
+  selector:
+    matchLabels:
+      app: dataharbor-transformers
+  template:
+     metadata:
+       labels:
+         app: dataharbor-transformers
+     spec:
+       hostNetwork: true
+       containers:
+         - name: dataharbor-transformers
+           image: pank05081985/dataharbor-transformers
