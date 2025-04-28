@@ -1,0 +1,33 @@
+# Stage 1: Build the Angular application
+FROM node:slim AS builder
+
+# Set working directory
+WORKDIR /DataHarbor.Client
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application source code
+COPY . .
+
+# Build the Angular app in production mode
+RUN npm run build --prod
+
+# Stage 2: Serve the Angular app using Nginx
+FROM nginx:stable-alpine
+
+# Copy the built app from Stage 1
+COPY --from=builder /DataHarbor.Client/dist/data-harbor.client/browser /usr/share/nginx/html
+
+# Copy a custom nginx config if you have one
+# (Optional, you can skip this if using default nginx settings)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
