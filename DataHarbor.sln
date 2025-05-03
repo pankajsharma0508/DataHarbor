@@ -16,8 +16,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{2266A6CE-41CB-401F-96F2-C8E9383A6E0D}"
 	ProjectSection(SolutionItems) = preProject
 		Deployment\api.yaml = Deployment\api.yaml
+		Deployment\client.yaml = Deployment\client.yaml
 		Deployment\extractors.yaml = Deployment\extractors.yaml
 		Deployment\loaders.yaml = Deployment\loaders.yaml
+		Deployment\keycloak.yaml = Deployment\keycloak.yaml
+		Deployment\ravendb.yaml = Deployment\ravendb.yaml
 		Deployment\transformers.yaml = Deployment\transformers.yaml
 	EndProjectSection
 EndProject

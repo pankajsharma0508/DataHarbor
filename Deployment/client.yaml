@@ -1,36 +1,36 @@
 ﻿﻿apiVersion: v1
 kind: Service
 metadata:
-  name: dataharbor-api
+  name: dataharbor-client
 spec:
   selector:
-    app: dataharbor-api
+    app: dataharbor-client
   ports:
-    - port: 7000
-      targetPort: 8080
+    - port: 4200
+      targetPort: 8000
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dataharbor-api
+  name: dataharbor-client
 spec:
   selector:
     matchLabels:
-      app: dataharbor-api
+      app: dataharbor-client
   template:
      metadata:
        labels:
-         app: dataharbor-api
+         app: dataharbor-client
      spec:
        containers:
-         - name: dataharbor-api
-           image: pank05081985/dataharbor-webapi
+         - name: dataharbor-client
+           image: pank05081985/dataharbor-client
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: dataharbor-api
+  name: dataharbor-client
 spec:
   minReplicas: 2
   maxReplicas: 6
@@ -38,12 +38,13 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: dataharbor-api
+    name: dataharbor-client
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dataharbor-api-ingress
+  name: dataharbor-client-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -51,12 +52,10 @@ spec:
     - host: dataharbor.local
       http:
         paths:
-          - path: /api(/|$)(.*)
+          - path: /client(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: dataharbor-api
+                name: dataharbor-client
                 port:
-                  number: 7000
-
-
+                  number: 8000
