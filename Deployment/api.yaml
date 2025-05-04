@@ -39,24 +39,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: dataharbor-api
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: dataharbor-api-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  rules:
-    - host: dataharbor.local
-      http:
-        paths:
-          - path: /api(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: dataharbor-api
-                port:
-                  number: 7000
+
 
 

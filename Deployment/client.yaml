@@ -6,8 +6,8 @@ spec:
   selector:
     app: dataharbor-client
   ports:
-    - port: 4200
-      targetPort: 8000
+    - port: 8000
+      targetPort: 80
   type: LoadBalancer
 ---
 apiVersion: apps/v1
@@ -39,23 +39,3 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: dataharbor-client
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: dataharbor-client-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  rules:
-    - host: dataharbor.local
-      http:
-        paths:
-          - path: /client(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: dataharbor-client
-                port:
-                  number: 8000
