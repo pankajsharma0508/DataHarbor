@@ -8,7 +8,7 @@ namespace DataHarbor.Repository
         {
             var store = new DocumentStore
             {
-                Urls = new[] { "http://127.0.0.1:8080" }, // Your RavenDB server URL
+                Urls = new[] { "http://dataharbor.local:9000" }, // Your RavenDB server URL
                 Database = "Mailbox-Declarations",
             };
             store.Initialize();
