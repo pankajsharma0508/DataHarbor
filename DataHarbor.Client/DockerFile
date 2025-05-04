@@ -1,18 +1,11 @@
-﻿# Stage 1: Build the Angular app
-FROM node:20 AS build
-WORKDIR /app
-COPY package*.json ./ 
+﻿FROM node:slim
+
+WORKDIR /usr/src/app
+
+COPY . /usr/src/app
+
+RUN npm install -g @angular/cli
+
 RUN npm install
-COPY . . 
 
-#RUN ls -la /app/dist
-
-RUN npm run build --prod
-
-#RUN ls -la /app/dist
-
-# Stage 2: Serve with NGINX
-FROM nginx:alpine
-COPY --from=build /app/dist/data-harbor.client/browser /usr/share/nginx/html
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]
