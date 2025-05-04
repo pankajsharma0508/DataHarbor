@@ -16,7 +16,7 @@ RUN npm run build -- --configuration=production
 FROM nginx:alpine
 
 # Copy the build output to Nginx HTML directory
-COPY --from=builder /app/dist/data-harbor.client /usr/share/nginx/html
+COPY --from=builder /app/dist/data-harbor.client/browser /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
