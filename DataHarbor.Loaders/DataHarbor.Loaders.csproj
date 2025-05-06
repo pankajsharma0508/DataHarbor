@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataHarbor.Common" Version="1.0.8" />
+    <PackageReference Include="DataHarbor.Common" Version="1.0.9" />
     <PackageReference Include="dBASE.Net.Core" Version="1.0.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
     <PackageReference Include="MediatR" Version="12.4.1" />
