@@ -18,6 +18,8 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { Declaration } from '../model/declaration';
+import { ProcessStatus } from '../model/processStatus';
+import { ProcessingLogEntry } from '../model/processingLogEntry';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -104,15 +106,63 @@ export class DeclarationService {
     /**
      * 
      * 
-     * @param body 
+     * @param files 
+     * @param uniqueId 
+     * @param name 
+     * @param description 
+     * @param status 
+     * @param recieveDate 
+     * @param rawData 
+     * @param transactions 
+     * @param processingLogs 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiDeclarationCreatePost(body?: Declaration, observe?: 'body', reportProgress?: boolean): Observable<Declaration>;
-    public apiDeclarationCreatePost(body?: Declaration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Declaration>>;
-    public apiDeclarationCreatePost(body?: Declaration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Declaration>>;
-    public apiDeclarationCreatePost(body?: Declaration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiDeclarationCreatePostForm(files?: Array<Blob>, uniqueId?: string, name?: string, description?: string, status?: ProcessStatus, recieveDate?: Date, rawData?: Array<{ [key: string]: string; }>, transactions?: Array<{ [key: string]: string; }>, processingLogs?: Array<ProcessingLogEntry>, observe?: 'body', reportProgress?: boolean): Observable<Declaration>;
+    public apiDeclarationCreatePostForm(files?: Array<Blob>, uniqueId?: string, name?: string, description?: string, status?: ProcessStatus, recieveDate?: Date, rawData?: Array<{ [key: string]: string; }>, transactions?: Array<{ [key: string]: string; }>, processingLogs?: Array<ProcessingLogEntry>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Declaration>>;
+    public apiDeclarationCreatePostForm(files?: Array<Blob>, uniqueId?: string, name?: string, description?: string, status?: ProcessStatus, recieveDate?: Date, rawData?: Array<{ [key: string]: string; }>, transactions?: Array<{ [key: string]: string; }>, processingLogs?: Array<ProcessingLogEntry>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Declaration>>;
+    public apiDeclarationCreatePostForm(files?: Array<Blob>, uniqueId?: string, name?: string, description?: string, status?: ProcessStatus, recieveDate?: Date, rawData?: Array<{ [key: string]: string; }>, transactions?: Array<{ [key: string]: string; }>, processingLogs?: Array<ProcessingLogEntry>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+
+
+
+
+
+
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uniqueId !== undefined && uniqueId !== null) {
+            queryParameters = queryParameters.set('UniqueId', <any>uniqueId);
+        }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('Name', <any>name);
+        }
+        if (description !== undefined && description !== null) {
+            queryParameters = queryParameters.set('Description', <any>description);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('Status', <any>status);
+        }
+        if (recieveDate !== undefined && recieveDate !== null) {
+            queryParameters = queryParameters.set('RecieveDate', <any>recieveDate.toISOString());
+        }
+        if (rawData) {
+            rawData.forEach((element) => {
+                queryParameters = queryParameters.append('RawData', <any>element);
+            })
+        }
+        if (transactions) {
+            transactions.forEach((element) => {
+                queryParameters = queryParameters.append('Transactions', <any>element);
+            })
+        }
+        if (processingLogs) {
+            processingLogs.forEach((element) => {
+                queryParameters = queryParameters.append('ProcessingLogs', <any>element);
+            })
+        }
 
         let headers = this.defaultHeaders;
 
@@ -137,18 +187,33 @@ export class DeclarationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
+            'multipart/form-data'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (files) {
+            files.forEach((element) => {
+                formParams = formParams.append('Files', <any>element) as any || formParams;
+            })
         }
 
         return this.httpClient.request<Declaration>('post',`${this.basePath}/api/declaration/create`,
             {
-                body: body,
+                body: convertFormParamsToString ? formParams.toString() : formParams,
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

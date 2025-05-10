@@ -9,6 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Attachment } from './attachment';
 import { FilesConfigurations } from './filesConfigurations';
 import { LayoutMapping } from './layoutMapping';
 
@@ -18,8 +19,9 @@ export interface ProcessingConfiguration {
     name?: string;
     description?: string;
     modifiedOn?: Date;
-    operatorFilesConfigurations?: FilesConfigurations;
-    layoutMappings?: Array<LayoutMapping>;
     mailboxFileName?: string;
     mailboxFilePath?: string;
+    operatorFilesConfigurations?: FilesConfigurations;
+    layoutMappings?: Array<LayoutMapping>;
+    attachments?: Array<Attachment>;
 }

@@ -27,7 +27,7 @@ namespace DataHarbor.Extractors.Handlers
             var declaration = request.context.Declaration;
             var fileConfiguration = configuration.OperatorFilesConfigurations;
             var processor = _resolver.GetProcessor(fileConfiguration.FileFormat);
-            var result = processor.ReadFile(fileConfiguration, declaration?.FilePath);
+            var result = processor.ReadFile(fileConfiguration, declaration);
 
             request.context.ProcessingResults.Add(ProcessingResultNames.LoadSourceData, result);
 

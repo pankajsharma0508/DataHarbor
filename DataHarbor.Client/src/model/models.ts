@@ -1,5 +1,7 @@
 export * from './account';
+export * from './attachment';
 export * from './declaration';
+export * from './declarationCreateBody';
 export * from './filesConfigurations';
 export * from './layoutMapping';
 export * from './processMessage';
@@ -8,3 +10,4 @@ export * from './processStatus';
 export * from './processingConfiguration';
 export * from './processingLogEntry';
 export * from './processingSeverity';
+export * from './stream';

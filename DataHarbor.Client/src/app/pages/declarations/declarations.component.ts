@@ -26,6 +26,7 @@ export class DeclarationsComponent implements OnInit {
   protected description: string = '';
   configurations: Array<ProcessingConfiguration> = [];
   protected declarations: Declaration[] = [];
+  protected files = [];
 
   constructor(private service: DeclarationService,
     private configurationService: ConfigurationService,
@@ -59,12 +60,7 @@ export class DeclarationsComponent implements OnInit {
 
   async announce() {
     try {
-      const declaration = <Declaration>{};
-      declaration.uniqueId = new Guid().toString();
-      declaration.filePath = this.filePath;
-      declaration.name = this.selectedConfig?.name;
-      declaration.description = this.description || '';
-      const newDeclaration = await lastValueFrom(this.service.apiDeclarationCreatePost(declaration));
+      const newDeclaration = await lastValueFrom(this.service.apiDeclarationCreatePostForm(this.files, new Guid().toString(), this.selectedConfig?.name, this.description || ''));
       this.declarations.push(newDeclaration);
       this.notification.showSuccess('Declaration recorded successfully.');
       this.showPopup = false;
@@ -87,5 +83,9 @@ export class DeclarationsComponent implements OnInit {
   }
   onExporting(e: DxDataGridTypes.ExportingEvent) {
     this.exportService.onExporting('Declarations', e);
+  }
+
+  onFilesChanged(event: any) {
+    this.files = event.value;
   }
 }

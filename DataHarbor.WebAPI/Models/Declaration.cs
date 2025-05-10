@@ -10,11 +10,11 @@ namespace DataHarbor.WebAPI.Models
 
         public string Description { get; set; }
 
-        public string FilePath { get; set; }
-
         public ProcessStatus Status { get; set; }
 
         public DateTime RecieveDate { get; set; }
+        
+        public List<IFormFile>? Files { get; set; }
 
         public List<Dictionary<string, string>> RawData { get; set; } = [];
 

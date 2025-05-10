@@ -21,15 +21,17 @@
             <a [routerLink]="['/pages/declaration', d.data.uniqueId]">{{d.data.name}}</a>
         </div>
     </dx-data-grid>
-    <dx-popup [(visible)]="showPopup" [width]="400" [height]="275" [showTitle]="true" title="Announce Declaration"
+    <dx-popup [(visible)]="showPopup" [width]="500" [height]="450" [showTitle]="true" title="Announce Declaration"
         [dragEnabled]="true" [closeOnOutsideClick]="true">
         <div class="popup-content">
             <dx-select-box [items]="configurations" [(value)]="selectedConfig" displayExpr="name"
                 placeholder="Select Configuration"></dx-select-box>
-            <dx-text-box [(value)]="filePath" placeholder="Enter File Path"></dx-text-box>
             <dx-text-box [(value)]="description" placeholder="Enter description"></dx-text-box>
+            <dx-file-uploader labelText="" accept="*" uploadMode="useForm" name="Files" [showFileList]="true"
+                (onValueChanged)="onFilesChanged($event)">
+            </dx-file-uploader>
             <div class="button-group">
-                <button class="btn btn-sm btn-primary" [disabled]="!(selectedConfig && filePath)"
+                <button class="btn btn-sm btn-primary" [disabled]="!(selectedConfig && !!files)" 
                     (click)="announce()">Announce</button>
                 <button class="btn btn-sm btn-secondary" (click)="showPopup = false">Cancel</button>
             </div>

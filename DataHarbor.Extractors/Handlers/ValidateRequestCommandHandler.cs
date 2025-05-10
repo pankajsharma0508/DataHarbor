@@ -18,30 +18,39 @@ namespace DataHarbor.Extractors.Handlers
                 request.Context.LogMessage("Missing Configuration", "Unable to find appropriate configuration.",
                     ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
             }
-
-            var declaration = request.Context.Declaration;
-            // Validate if the file format defined is not matching the reported file type.
-            var filePath = declaration?.FilePath;
-            if (filePath != null)
+            else
             {
-                var file = new FileInfo(filePath);
-                if (!file.Exists)
+                var declaration = request.Context.Declaration;
+                if (declaration == null)
                 {
-                    request.Context.LogMessage("File Access", "Unable to access transaction file.",
-                        ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
+                    request.Context.LogMessage("File Access", "Unable to find declaration.", ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
                 }
-
-                if (file.Extension != configuration?.OperatorFilesConfigurations?.FileFormat)
+                else
                 {
-                    request.Context.LogMessage("File Format", "Unexpected file format.",
-                   ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
+                    // Validate if the file format defined is not matching the reported file type.
+                    if (declaration?.Attachments.Count == 0)
+                    {
+                        request.Context.LogMessage("File Access", "Unable to access transaction file.",
+                                ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Critical);
+                    }
+
+                    foreach (var attachment in declaration.Attachments)
+                    {
+                        if (!attachment.FileName.Contains(configuration.OperatorFilesConfigurations.FileFormat))
+                        {
+                            request.Context.LogMessage("File Format", "Unexpected file format.", ProcessingLogConstants.Category_Preload_Validation,
+                                ProcessingSeverity.Critical);
+                        }
+                    }
+
+                    if (!request.Context.ContainsCriticalError())
+                    {
+                        request.Context.LogMessage("File Validation", "Validation completed successfully.",
+                           ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Info);
+                    }
                 }
             }
-            if(!request.Context.ContainsCriticalError())
-            {
-                request.Context.LogMessage("File Validation", "Validation completed successfully.",
-                   ProcessingLogConstants.Category_Preload_Validation, ProcessingSeverity.Info);
-            }
+
 
             return Task.FromResult(request.Context);
         }

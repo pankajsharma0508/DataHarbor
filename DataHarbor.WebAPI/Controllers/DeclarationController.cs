@@ -24,7 +24,7 @@ namespace DataHarbor.WebAPI.Controllers
         public Task<Declaration> Get(string id) => _mediator.Send(new GetProcessRequestQuery(id));
 
         [HttpPost("create")]
-        public Task<Declaration> Post([FromBody] Declaration request) => _mediator.Send(new CreateDeclarationCommand(request));
+        public Task<Declaration> Post(Declaration request) => _mediator.Send(new CreateDeclarationCommand(request));
 
         [HttpPut("update")]
         public Task Put([FromBody] Declaration request) => _mediator.Send(new UpdateDeclarationCommand(request));

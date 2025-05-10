@@ -26,11 +26,26 @@ namespace DataHarbor.WebAPI.Handlers
 
         public async Task<Declaration> Handle(CreateDeclarationCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Message Recieved for : {command.declaration.Name} and file name ${command.declaration.FilePath}", DateTimeOffset.Now);
+            _logger.LogInformation($"Message Recieved for : {command.declaration.Name} and file description ${command.declaration.Description}", DateTimeOffset.Now);
 
             var declaration = _mapper.Map<ProcessRequest>(command.declaration);
             declaration.RecieveDate = DateTime.UtcNow;
             declaration.Status = ProcessStatus.Anchored;
+
+            if (command.declaration.Files != null)
+            {
+                foreach (var file in command.declaration.Files)
+                {
+                    var attachment = new Attachment
+                    {
+                        FileName = file.FileName,
+                        FileContentType = file.ContentType,
+                        FileStream = file.OpenReadStream()
+                    };
+                    declaration.Attachments.Add(attachment);
+                }
+            }
+
             var added = await _repository.Add(declaration);
             await _bus.Publish(new Anchored(command.declaration.UniqueId));
 

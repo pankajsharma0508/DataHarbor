@@ -16,9 +16,9 @@ export interface Declaration {
     uniqueId?: string;
     name?: string;
     description?: string;
-    filePath?: string;
     status?: ProcessStatus;
     recieveDate?: Date;
+    files?: Array<Blob>;
     rawData?: Array<{ [key: string]: string; }>;
     transactions?: Array<{ [key: string]: string; }>;
     processingLogs?: Array<ProcessingLogEntry>;

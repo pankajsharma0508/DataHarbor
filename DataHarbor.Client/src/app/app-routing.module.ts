@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
 import { HomeComponent } from './pages/home/home.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxDropDownButtonModule, DxFormModule, DxLoadPanelModule, DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxToastModule } from 'devextreme-angular';
+import {
+  DxDataGridModule, DxDropDownButtonModule, DxFileUploaderModule, DxFormModule,
+  DxNumberBoxModule, DxPopupModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxToastModule
+} from 'devextreme-angular';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { DeclarationsComponent } from './pages/declarations/declarations.component';
 import { InsightsComponent } from './pages/insights/insights.component';
@@ -23,67 +26,67 @@ const routes: Routes = [
   {
     path: 'pages/account/:id',
     component: AccountComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/accounts',
     component: AccountsComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/declaration/:id',
     component: DeclarationComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/configuration/:id',
     component: ConfigurationComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/insights',
     component: InsightsComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/declarations',
     component: DeclarationsComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'pages/configurations',
     component: ConfigurationsComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'tasks',
     component: TasksComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'login-form',
     component: LoginFormComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'reset-password',
     component: ResetPasswordFormComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'create-account',
     component: CreateAccountFormComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: 'change-password/:recoveryCode',
     component: ChangePasswordFormComponent,
-    canActivate: [ authGuard ]
+    canActivate: [authGuard]
   },
   {
     path: '**',
@@ -92,10 +95,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule, 
-    CommonModule, 
+  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule,
+    CommonModule,
     FormsModule, DxNumberBoxModule, DxToastModule, DxPopupModule,
-    DxTextBoxModule, DxTextAreaModule, DxDropDownButtonModule,
+    DxTextBoxModule, DxTextAreaModule, DxDropDownButtonModule, DxFileUploaderModule,
     DxSelectBoxModule],
   providers: [],
   exports: [RouterModule],
