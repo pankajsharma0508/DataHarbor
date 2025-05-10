@@ -64,6 +64,7 @@ export class ConfigurationsComponent {
     try {
       const fc = event.data as ProcessingConfiguration;
       fc.modifiedOn = new Date();
+      fc.attachments = [];
       await lastValueFrom(this.service.apiConfigurationUpdatePost(fc));
       await this.loadConfigurations();
       this.notification.showSuccess(`${fc.name} updated successfully.`);
@@ -76,6 +77,7 @@ export class ConfigurationsComponent {
     fc.mailboxFileName = '';
     fc.mailboxFilePath = '';
     fc.layoutMappings = [];
+    fc.attachments = [];
     const fileConfiguration = <FilesConfigurations>{};
     fileConfiguration.fileCategory = "Transaction File";
     fileConfiguration.fileFormat = FileFormat.Formats[0].extension;
