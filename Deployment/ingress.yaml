@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dataharbor-ingress
+  name: dataharbor-api-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -16,13 +16,6 @@ spec:
                 name: dataharbor-api
                 port:
                   number: 7000
-          - path: /(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: dataharbor-client
-                port:
-                  number: 8000
           - path: /prometheus(/|$)(.*)
             pathType: Prefix
             backend:
@@ -37,10 +30,20 @@ spec:
                 name: grafana
                 port:
                   number: 3000
-          - path: /db(/|$)(.*)
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dataharbor-ui-ingress
+spec:
+  rules:
+    - host: dataharbor.local
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: ravendb
+                name: dataharbor-client
                 port:
-                  number: 9001
+                  number: 8000

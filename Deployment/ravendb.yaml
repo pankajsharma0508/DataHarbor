@@ -1,61 +1,54 @@
+# ravendb-pvc.yaml
 apiVersion: v1
-kind: Service
+kind: PersistentVolumeClaim
 metadata:
-  name: ravendb
-  labels:
-    app: ravendb
+  name: ravendb-pvc
 spec:
-  type: NodePort
-  selector:
-    app: ravendb
-  ports:
-    - name: http
-      port: 9001
-      targetPort: 9001
-      nodePort: 30901
-    - name: tcp
-      port: 38888
-      targetPort: 38888
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: ravendb
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: ravendb
-  serviceName: "ravendb"
-  replicas: 1
   template:
     metadata:
       labels:
         app: ravendb
     spec:
       containers:
-        - name: ravendb
-          image: ravendb/ravendb:latest
-          command: ["/bin/bash", "-c"]
-          args: ["./run.sh --ServerUrl=http://0.0.0.0:9001"]
-          ports:
-            - containerPort: 9001
-              name: http
-            - containerPort: 38888
-              name: tcp
-          volumeMounts:
-            - name: ravendb-storage
-              mountPath: /opt/RavenDB/Server/RavenData
-          env:
-            - name: RAVEN_Security_UnsecuredAccessAllowed
-              value: "PublicNetwork"
-            - name: RAVEN_License_Eula_Accepted
-              value: "true"
-  volumeClaimTemplates:
-    - metadata:
-        name: ravendb-storage
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 5Gi
-        storageClassName: standard
+      - name: ravendb
+        image: ravendb/ravendb:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: ravendb-storage
+          mountPath: /opt/RavenDB/Server/RavenData
+        env:
+        - name: RAVEN_Setup_Mode
+          value: "None"  # Use "None" for unsecured single-node dev mode
+      volumes:
+      - name: ravendb-storage
+        persistentVolumeClaim:
+          claimName: ravendb-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ravendb
+spec:
+  selector:
+    app: ravendb
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  type: ClusterIP  # use LoadBalancer or NodePort for external access
