@@ -2,9 +2,6 @@
 using DataHarbor.Repository;
 using Raven.Client.Documents;
 using System.Linq.Expressions;
-using System;
-using System.Xml;
-using static System.Collections.Specialized.BitVector32;
 
 namespace DataHarbor.Common.Repository
 {
@@ -15,9 +12,21 @@ namespace DataHarbor.Common.Repository
             using (var session = DocumentDBContext.DocumentStore.OpenAsyncSession())
             {
                 await session.StoreAsync(document);
+
+                foreach (var attachment in document.Attachments)
+                {
+                    if (attachment != null && attachment.FileStream != null && attachment.FileContentType != null)
+                    {
+                        session.Advanced.Attachments.Store(
+                                entity: document,
+                                name: attachment.FileName,
+                                stream: attachment.FileStream,
+                                contentType: attachment.FileContentType);
+                    }
+                }
                 await session.SaveChangesAsync();
 
-                return await session.LoadAsync<T>(document.Id);
+                return await GetByID(document.Id);
             }
         }
 
@@ -45,7 +54,25 @@ namespace DataHarbor.Common.Repository
         public async Task<T> GetByID(string id)
         {
             using var session = DocumentDBContext.DocumentStore.OpenAsyncSession();
-            return await session.LoadAsync<T>(id);
+            var document = await session.LoadAsync<T>(id);
+            if (document != null)
+            {
+                var attachments = session.Advanced.Attachments.GetNames(document);
+                foreach (var attachment in attachments)
+                {
+                    if (attachment?.Name != null)
+                    {
+                        var result = await session.Advanced.Attachments.GetAsync(document.Id, attachment.Name);
+                        var file = new Attachment();
+                        file.FileName = attachment.Name;
+                        file.FileContentType   = attachment.ContentType;
+                        file.FileStream = result.Stream;
+
+                        document.Attachments.Add(file);
+                    }
+                }
+            }
+            return document;
         }
 
         public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)

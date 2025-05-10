@@ -15,5 +15,7 @@ namespace DataHarbor.Common.Models
         public DateTime RecieveDate { get; set; }
 
         public DataTable Transactions { get; set; }
+
+        public List<Attachment> Attachments { get; set; }
     }
 }

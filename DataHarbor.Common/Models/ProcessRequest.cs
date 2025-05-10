@@ -11,8 +11,6 @@ namespace DataHarbor.Common.Models
 
         public string Name { get; set; }
 
-        public string FilePath { get; set; }
-
         public string Description { get; set; }
 
         public ProcessStatus Status { get; set; }
@@ -22,6 +20,8 @@ namespace DataHarbor.Common.Models
         public DataTable RawData { get; set; }
 
         public DataTable Transactions { get; set; }
+
+        public List<Attachment> Attachments { get; set; } = [];
 
         public List<ProcessingLogEntry> ProcessingLogs { get; set; } = [];
         public string Id { get => UniqueId.ToString(); set => UniqueId = new Guid(value); }

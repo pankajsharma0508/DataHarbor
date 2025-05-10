@@ -1,4 +1,5 @@
-﻿using DataHarbor.Common.Repository;
+﻿using DataHarbor.Common.Models;
+using DataHarbor.Common.Repository;
 
 namespace DataHarbor.Common.Configuration
 {
@@ -20,12 +21,14 @@ namespace DataHarbor.Common.Configuration
 
         public DateTime ModifiedOn { get; set; }
 
-        public FilesConfigurations OperatorFilesConfigurations { get; set; }
-
-        public List<LayoutMapping> LayoutMappings { get; set; }
-
         public string MailboxFileName { get; set; }
 
         public string MailboxFilePath { get; set; }
+
+        public FilesConfigurations OperatorFilesConfigurations { get; set; }
+
+        public List<LayoutMapping> LayoutMappings { get; set; }
+   
+        public List<Attachment> Attachments { get; set; }
     }
 }
