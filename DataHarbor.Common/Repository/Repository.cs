@@ -13,15 +13,18 @@ namespace DataHarbor.Common.Repository
             {
                 await session.StoreAsync(document);
 
-                foreach (var attachment in document.Attachments)
+                if (document.Attachments != null)
                 {
-                    if (attachment != null && attachment.FileStream != null && attachment.FileContentType != null)
+                    foreach (var attachment in document.Attachments)
                     {
-                        session.Advanced.Attachments.Store(
-                                entity: document,
-                                name: attachment.FileName,
-                                stream: attachment.FileStream,
-                                contentType: attachment.FileContentType);
+                        if (attachment != null && attachment.FileStream != null && attachment.FileContentType != null)
+                        {
+                            session.Advanced.Attachments.Store(
+                                    entity: document,
+                                    name: attachment.FileName,
+                                    stream: attachment.FileStream,
+                                    contentType: attachment.FileContentType);
+                        }
                     }
                 }
                 await session.SaveChangesAsync();
@@ -58,17 +61,19 @@ namespace DataHarbor.Common.Repository
             if (document != null)
             {
                 var attachments = session.Advanced.Attachments.GetNames(document);
-                foreach (var attachment in attachments)
-                {
-                    if (attachment?.Name != null)
+                if (attachments != null) {
+                    foreach (var attachment in attachments)
                     {
-                        var result = await session.Advanced.Attachments.GetAsync(document.Id, attachment.Name);
-                        var file = new Attachment();
-                        file.FileName = attachment.Name;
-                        file.FileContentType   = attachment.ContentType;
-                        file.FileStream = result.Stream;
+                        if (attachment?.Name != null)
+                        {
+                            var result = await session.Advanced.Attachments.GetAsync(document.Id, attachment.Name);
+                            var file = new Attachment();
+                            file.FileName = attachment.Name;
+                            file.FileContentType = attachment.ContentType;
+                            file.FileStream = result.Stream;
 
-                        document.Attachments.Add(file);
+                            document.Attachments.Add(file);
+                        }
                     }
                 }
             }
