@@ -50,6 +50,7 @@ export class ConfigurationComponent {
 
   async saveConfiguration() {
     try {
+      this.configuration.attachments = [];
       await this.store.put(this.configuration);
       this.notification.showSuccess(`Saved Successfully.`);
     } catch (ex) {

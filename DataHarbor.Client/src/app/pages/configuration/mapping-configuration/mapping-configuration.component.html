@@ -8,7 +8,7 @@
         <dxo-export [enabled]="true" [formats]="['csv', 'xlsx']"></dxo-export>
         <dxi-column dataField="sourceColumn" minWidth="300" width="auto"></dxi-column>
         <dxi-column dataField="fieldName" minWidth="300" width="auto"></dxi-column>
-        <dxi-column dataField="fieldType" width="100">
+        <dxi-column dataField="fieldType" width="200">
             <dxo-lookup [dataSource]="fieldTypes" displayExpr="text" valueExpr="value"></dxo-lookup>
         </dxi-column>
         <dxi-column dataField="formatPattern" width="150"></dxi-column>
