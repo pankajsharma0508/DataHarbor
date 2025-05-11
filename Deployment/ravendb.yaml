@@ -1,5 +1,17 @@
 # ravendb-pvc.yaml
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ravendb-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/ravendb  # This is on Minikube VM's disk
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ravendb-pvc

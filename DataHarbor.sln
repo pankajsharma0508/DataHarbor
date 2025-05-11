@@ -18,11 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		Deployment\api.yaml = Deployment\api.yaml
 		Deployment\client.yaml = Deployment\client.yaml
 		Deployment\extractors.yaml = Deployment\extractors.yaml
+		Deployment\grafana.yaml = Deployment\grafana.yaml
 		Deployment\ingress.yaml = Deployment\ingress.yaml
 		Deployment\keycloak.yaml = Deployment\keycloak.yaml
 		Deployment\loaders.yaml = Deployment\loaders.yaml
-		Deployment\monitoring.yaml = Deployment\monitoring.yaml
 		Deployment\ravendb.yaml = Deployment\ravendb.yaml
+		Deployment\prometheus.yaml = Deployment\prometheus.yaml
 		Deployment\transformers.yaml = Deployment\transformers.yaml
 	EndProjectSection
 EndProject

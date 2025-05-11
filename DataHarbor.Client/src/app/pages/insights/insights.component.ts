@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class InsightsComponent {
-
+  protected grafanaUrl ='http://grafana.local/d/WZhXkZaHk/data-harbor?orgId=1&kiosk'
 }
