@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Http.Json;
+using Prometheus;
 
 namespace DataHarbor.WebAPI
 {
@@ -15,6 +16,7 @@ namespace DataHarbor.WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.UseHttpClientMetrics();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", builder =>
@@ -26,10 +28,10 @@ namespace DataHarbor.WebAPI
                                            //.AllowCredentials();
                 });
             });
-
+            builder.Services.AddHttpClient();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-
+           
             builder.Services.AddSwaggerGen(o =>
             {
                 o.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme
@@ -103,7 +105,7 @@ namespace DataHarbor.WebAPI
             });
 
             var app = builder.Build();
-
+           
             // Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())
             //{
@@ -126,6 +128,9 @@ namespace DataHarbor.WebAPI
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseHttpMetrics(); // Captures HTTP request metrics
+            app.UseMetricServer(); // Exposes the /metrics endpoint
 
             app.Run();
         }
