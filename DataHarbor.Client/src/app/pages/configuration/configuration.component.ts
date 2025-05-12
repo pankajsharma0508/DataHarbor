@@ -5,6 +5,7 @@ import { Categories } from './configuration-constants';
 import { ConfigurationStore } from '../services/configuration.service';
 import { Tab } from '../tabs/tabs.component';
 import { NotificationService } from '../services/notification.service';
+import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-configuration',
@@ -57,6 +58,11 @@ export class ConfigurationComponent {
     }
   }
 
+  exportConfiguration() {
+    const blob = new Blob([JSON.stringify(this.configuration, null, 2)], { type: 'application/json' });
+    FileSaver.saveAs(blob, `${this.configuration.name}-configuration.json`);
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -103,8 +109,13 @@ export class ConfigurationComponent {
         this.configuration.mailboxFilePath = snri?.mailboxFilePath;
         this.configuration.mailboxFileName = snri?.mailboxFileName;
       }
+    } else {
+      configuration.name = this.configuration.name;
+      configuration.id = this.configuration.id;
+      configuration.description = this.configuration.description;
+      configuration.uniqueId = this.configuration.uniqueId;
+      this.configuration = configuration;
     }
-
     this.saveConfiguration();
   }
 }
